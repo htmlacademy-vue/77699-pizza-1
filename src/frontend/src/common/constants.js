@@ -27,7 +27,7 @@ export const PizzaSizes = [
 ];
 
 // Возможные типы соуса
-export const SouceTypes = [
+export const SauceTypes = [
   {
     label: "Томатный",
     value: "tomato",

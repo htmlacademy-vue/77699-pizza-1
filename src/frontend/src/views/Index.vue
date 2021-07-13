@@ -30,17 +30,18 @@
 
               <div class="sheet__content dough">
                 <label
-                  v-for="{ value, label } in DoughTypes"
-                  v-bind:key="value"
-                  v-bind:class="'dough__input dough__input--' + value"
+                  v-for="(dough, index) in Doughs"
+                  v-bind:key="dough.value"
+                  v-bind:class="'dough__input dough__input--' + dough.value"
+                  v-bind:checked="index === 0"
                 >
                   <input
                     type="radio"
                     name="dought"
-                    v-bind:value="value"
+                    v-bind:value="dough.value"
                     class="visually-hidden"
                   />
-                  <b>{{ label }}</b>
+                  <b>{{ dough.name }}</b>
                   <span>Из твердых сортов пшеницы</span>
                 </label>
               </div>
@@ -53,17 +54,20 @@
 
               <div class="sheet__content diameter">
                 <label
-                  v-for="{ value, label } in PizzaSizes"
-                  v-bind:key="value"
-                  v-bind:class="'diameter__input diameter__input--' + value"
+                  v-for="(size, index) in Sizes"
+                  v-bind:key="size.value"
+                  v-bind:class="
+                    'diameter__input diameter__input--' + size.value
+                  "
+                  v-bind:checked="index === 1"
                 >
                   <input
                     type="radio"
                     name="diameter"
-                    v-bind:value="value"
+                    v-bind:value="size.value"
                     class="visually-hidden"
                   />
-                  <span>{{ label }}</span>
+                  <span>{{ size.name }}</span>
                 </label>
               </div>
             </div>
@@ -80,17 +84,17 @@
                   <p>Основной соус:</p>
 
                   <label
-                    v-for="{ value, label } in SouceTypes"
-                    v-bind:key="value"
+                    v-for="(sauce, index) in Sauces"
+                    v-bind:key="sauce.value"
                     class="radio ingridients__input"
                   >
                     <input
                       type="radio"
                       name="sauce"
-                      v-bind:value="value"
-                      checked
+                      v-bind:value="sauce.value"
+                      v-bind:checked="index === 0"
                     />
-                    <span>{{ label }}</span>
+                    <span>{{ sauce.name }}</span>
                   </label>
                 </div>
 
@@ -99,13 +103,14 @@
 
                   <ul class="ingridients__list">
                     <li
-                      v-for="{ value, label } in FillingTypes"
-                      v-bind:key="value"
+                      v-for="(filling, index) in Fillings"
+                      v-bind:key="index"
                       class="ingridients__item"
                     >
-                      <span v-bind:class="'filling filling--' + value">{{
-                        label
-                      }}</span>
+                      <span
+                        v-bind:class="'filling filling--' + filling.value"
+                        >{{ filling.name }}</span
+                      >
 
                       <div class="counter counter--orange ingridients__counter">
                         <button
@@ -176,9 +181,10 @@ import misc from "@/static/misc.json";
 import pizza from "@/static/pizza.json";
 import users from "@/static/users.json";
 import { DoughTypes } from "@/common/constants";
-import { SouceTypes } from "@/common/constants";
+import { SauceTypes } from "@/common/constants";
 import { FillingTypes } from "@/common/constants";
 import { PizzaSizes } from "@/common/constants";
+import { normalizePizza } from "@/common/helpers";
 
 export default {
   name: "IndexHome",
@@ -188,10 +194,24 @@ export default {
       pizza,
       users,
       DoughTypes,
-      SouceTypes,
+      SauceTypes,
       FillingTypes,
       PizzaSizes,
     };
+  },
+  computed: {
+    Doughs() {
+      return normalizePizza(pizza.dough, DoughTypes);
+    },
+    Sauces() {
+      return normalizePizza(pizza.sauces, SauceTypes);
+    },
+    Fillings() {
+      return normalizePizza(pizza.ingredients, FillingTypes);
+    },
+    Sizes() {
+      return normalizePizza(pizza.sizes, PizzaSizes);
+    },
   },
 };
 </script>
