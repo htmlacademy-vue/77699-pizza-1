@@ -13,7 +13,9 @@
           v-bind:value="size.value"
           inputClass="visually-hidden"
           v-bind:itemDesc="size.name"
-          v-on:change="$emit('change-size', size.value)"
+          v-on:change="
+            $emit('change-size', { name: size.value, price: size.multiplier })
+          "
         />
       </div>
     </div>

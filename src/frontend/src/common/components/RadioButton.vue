@@ -6,7 +6,7 @@
       v-bind:value="value"
       v-bind:class="inputClass"
       v-bind:checked="checked"
-      v-on:change="$emit('change', picked)"
+      v-on:change="$emit('change', checked)"
     />
     <b v-if="itemName">{{ itemName }}</b>
     <span>{{ itemDesc }}</span>

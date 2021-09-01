@@ -10,7 +10,7 @@
       />
     </label>
 
-    <SelectorItem
+    <PizzaFoundation
       v-bind:doughChecked="doughChecked"
       v-bind:sizeChecked="sizeChecked"
       v-bind:sauceChecked="sauceChecked"
@@ -21,17 +21,18 @@
     <BuilderPriceCounter
       v-bind:priceTotal="priceTotal"
       v-bind:pizzaName="pizzaName"
+      v-bind:fillingsCount="fillingsCount"
     />
   </div>
 </template>
 
 <script>
 import BuilderPriceCounter from "@/modules/builder/components/BuilderPriceCounter";
-import SelectorItem from "@/common/components/SelectorItem";
+import PizzaFoundation from "@/common/components/PizzaFoundation";
 
 export default {
   name: "BuilderPizzaView",
-  components: { BuilderPriceCounter, SelectorItem },
+  components: { BuilderPriceCounter, PizzaFoundation },
   props: {
     doughChecked: {
       type: String,
@@ -57,6 +58,7 @@ export default {
   data() {
     return {
       pizzaName: "",
+      fillingsCount: 0,
       //priceTotal: 0,
     };
   },
@@ -70,6 +72,7 @@ export default {
           number: this.getNumber(value.count),
         });
       }
+      this.fillingsCount = Fillings.length;
       return arr.flat();
     },
 
@@ -100,16 +103,7 @@ export default {
     },
 
     addFilling(value) {
-      if (this.Fillings.some((val) => val.filling === value.value)) {
-        this.Fillings = this.Fillings.filter(function (obj) {
-          return obj.filling !== value.value;
-        });
-        this.Fillings.push(value);
-      } else {
-        this.Fillings.push(value);
-      }
-      console.log(this.Fillings);
-      //this.recountFillings();
+      this.$emit("add-fillings", value);
     },
   },
 };

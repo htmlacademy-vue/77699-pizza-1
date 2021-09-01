@@ -29,10 +29,14 @@ export default {
       type: String,
       required: true,
     },
+    fillingsCount: {
+      type: Number,
+      required: true,
+    },
   },
   methods: {
     getStatus() {
-      if (this.priceTotal > 350 && this.pizzaName.length > 0) {
+      if (this.fillingsCount > 0 && this.pizzaName.length > 0) {
         this.disabled = false;
       }
       return this.disabled;

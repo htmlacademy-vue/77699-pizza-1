@@ -24,7 +24,7 @@ import AppDrop from "@/common/components/AppDrop";
 import EventBus from "@/eventBus";
 
 export default {
-  name: "SelectorItem",
+  name: "PizzaFoundation",
   components: { AppDrop },
   props: {
     doughChecked: {
@@ -50,9 +50,9 @@ export default {
   methods: {
     moveFilling(value) {
       EventBus.$emit("add-filling", {
-        filling: value.value,
+        value: value.value,
         count: 1,
-        fillingPrice: value.price,
+        price: value.price,
       });
     },
   },

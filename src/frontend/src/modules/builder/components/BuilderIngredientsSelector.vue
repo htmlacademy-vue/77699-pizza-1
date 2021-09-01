@@ -22,24 +22,13 @@
           <p>Начинка:</p>
 
           <ul class="ingridients__list">
-            <li
+            <BuilderIngredientsItem
               v-for="(filling, index) in Fillings"
               v-bind:key="index"
-              class="ingridients__item"
+              v-bind:filling="filling"
+              v-on:change-fillings="changeFillings"
             >
-              <AppDrop v-on:drop="$emit('drop', $event)">
-                <AppDrag v-bind:transfer-data="filling">
-                  <span v-bind:class="'filling filling--' + filling.value">{{
-                    filling.name
-                  }}</span>
-                </AppDrag>
-              </AppDrop>
-              <ItemCounter
-                v-bind:fillingName="filling.value"
-                v-bind:fillingPrice="filling.price"
-                v-on:change-counter="changeCounter"
-              />
-            </li>
+            </BuilderIngredientsItem>
           </ul>
         </div>
       </div>
@@ -53,29 +42,26 @@ import pizza from "@/static/pizza.json";
 import { FillingTypes } from "@/common/constants";
 import { SauceTypes } from "@/common/constants";
 import { normalizePizza } from "@/common/helpers";
-import ItemCounter from "@/common/components/ItemCounter";
-
-import AppDrag from "@/common/components/AppDrag";
-import AppDrop from "@/common/components/AppDrop";
+import BuilderIngredientsItem from "@/modules/builder/components/BuilderIngredientsItem";
 
 export default {
   name: "BuilderIngredientsSelector",
-  components: { RadioButton, ItemCounter, AppDrag, AppDrop },
+  components: { RadioButton, BuilderIngredientsItem },
   data() {
     return {
       pizza,
       FillingTypes,
       SauceTypes,
-      counter: 0,
+      fillingCounter: 0,
       ingridient: "ananas",
       ingridientPrice: 0,
     };
   },
   methods: {
-    changeCounter(value) {
-      this.counter = value.count;
+    changeFillings(value) {
+      this.fillingCounter = value.count;
       this.ingridient = value.filling;
-      this.ingridientPrice = value.price;
+      this.ingridientPrice = value.fillingPrice;
       this.$emit("change-fillings", value);
     },
   },

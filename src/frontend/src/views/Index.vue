@@ -9,7 +9,7 @@
 
           <BuilderDoughSelector v-on:change-dough="changeDough" />
 
-          <BuilderSizeSelector v-on:change-size="sizeChecked = $event" />
+          <BuilderSizeSelector v-on:change-size="changeSize" />
 
           <BuilderIngredientsSelector
             v-on:change-sauce="sauceChecked = $event"
@@ -21,7 +21,8 @@
             v-bind:sizeChecked="sizeChecked"
             v-bind:sauceChecked="sauceChecked"
             v-bind:Fillings="Fillings"
-            v-bind:priceTotal="Price()"
+            v-bind:priceTotal="Price"
+            v-on:add-fillings="addFillings"
           />
         </div>
       </form>
@@ -52,20 +53,22 @@ export default {
       sauceChecked: "tomato",
       saucePrice: 50,
       sizeChecked: "normal",
+      sizePrice: 2,
       Fillings: [],
       fillingsPrice: 0,
       priceTotal: 0,
     };
   },
   methods: {
-    Price() {
-      this.priceTotal = this.doughPrice + this.saucePrice + this.fillingsPrice;
-      return this.priceTotal;
-    },
     changeDough({ name, price }) {
       this.doughChecked = name;
       this.doughPrice = price;
     },
+    changeSize({ name, price }) {
+      this.sizeChecked = name;
+      this.sizePrice = price;
+    },
+
     changeFillings(value) {
       if (value.count > 0) {
         if (this.Fillings.some((val) => val.filling === value.filling)) {
@@ -83,15 +86,35 @@ export default {
           });
         }
       }
-      //console.log(value);
-      this.recountFillings();
+      this.fillingsPrice = this.recountFillings;
+      this.priceTotal = this.Price;
+    },
+
+    addFillings(value) {
+      if (this.Fillings.some((val) => val.filling === value.value)) {
+        this.Fillings = this.Fillings.filter(function (obj) {
+          return obj.filling !== value.value;
+        });
+        this.Fillings.push(value);
+      } else {
+        this.Fillings.push(value);
+      }
+    },
+  },
+  computed: {
+    Price() {
+      let price =
+        (this.doughPrice + this.saucePrice + this.fillingsPrice) *
+        this.sizePrice;
+      return price;
     },
 
     recountFillings() {
-      this.fillingsPrice = 0;
+      let ingridientPrice = 0;
       for (let value of this.Fillings) {
-        this.fillingsPrice += value.fillingPrice * value.count;
+        ingridientPrice += value.fillingPrice * value.count;
       }
+      return ingridientPrice;
     },
   },
 };
