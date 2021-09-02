@@ -52,16 +52,10 @@ export default {
       pizza,
       FillingTypes,
       SauceTypes,
-      fillingCounter: 0,
-      ingridient: "ananas",
-      ingridientPrice: 0,
     };
   },
   methods: {
     changeFillings(value) {
-      this.fillingCounter = value.count;
-      this.ingridient = value.filling;
-      this.ingridientPrice = value.fillingPrice;
       this.$emit("change-fillings", value);
     },
   },

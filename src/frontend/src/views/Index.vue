@@ -55,7 +55,6 @@ export default {
       sizeChecked: "normal",
       sizePrice: 2,
       Fillings: [],
-      fillingsPrice: 0,
       priceTotal: 0,
     };
   },
@@ -86,8 +85,6 @@ export default {
           });
         }
       }
-      this.fillingsPrice = this.recountFillings;
-      this.priceTotal = this.Price;
     },
 
     addFillings(value) {
@@ -109,7 +106,7 @@ export default {
       return price;
     },
 
-    recountFillings() {
+    fillingsPrice() {
       let ingridientPrice = 0;
       for (let value of this.Fillings) {
         ingridientPrice += value.fillingPrice * value.count;

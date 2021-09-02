@@ -14,7 +14,7 @@
       v-bind:doughChecked="doughChecked"
       v-bind:sizeChecked="sizeChecked"
       v-bind:sauceChecked="sauceChecked"
-      v-bind:Fillings="countFillings(Fillings)"
+      v-bind:Fillings="fillingsArr"
       v-on:add-filling="addFilling"
     />
 
@@ -58,24 +58,9 @@ export default {
   data() {
     return {
       pizzaName: "",
-      fillingsCount: 0,
-      //priceTotal: 0,
     };
   },
   methods: {
-    countFillings(Fillings) {
-      let arr = [];
-      for (let value of Fillings) {
-        //arr.push(this.fillArray(value.filling, value.count));
-        arr.push({
-          filling: value.filling,
-          number: this.getNumber(value.count),
-        });
-      }
-      this.fillingsCount = Fillings.length;
-      return arr.flat();
-    },
-
     fillArray: function (ingidient, count) {
       let a = [];
       for (var i = 1; i <= count; i++) {
@@ -104,6 +89,21 @@ export default {
 
     addFilling(value) {
       this.$emit("add-fillings", value);
+    },
+  },
+  computed: {
+    fillingsArr() {
+      let arr = [];
+      for (let value of this.Fillings) {
+        arr.push({
+          filling: value.filling,
+          number: this.getNumber(value.count),
+        });
+      }
+      return arr.flat();
+    },
+    fillingsCount() {
+      return this.Fillings.length;
     },
   },
 };

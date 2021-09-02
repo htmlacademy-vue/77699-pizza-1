@@ -41,7 +41,6 @@ export default {
   },
   computed: {
     isDraggable() {
-      console.log(this.counterValue);
       return this.counterValue < 3;
     },
   },
