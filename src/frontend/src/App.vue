@@ -1,20 +1,17 @@
 <template>
   <div id="app">
-    <index />
+    <AppLayout>
+      <router-view />
+    </AppLayout>
   </div>
 </template>
 <script>
-import index from "@/views/Index";
+import AppLayout from "@/layouts/AppLayout";
 
 export default {
   name: "App",
   components: {
-    index,
+    AppLayout,
   },
 };
 </script>
-
-// Импортируем глобальные стили для приложения
-<style lang="scss">
-@import "~@/assets/scss/app";
-</style>

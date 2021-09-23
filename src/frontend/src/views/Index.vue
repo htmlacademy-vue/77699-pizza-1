@@ -1,33 +1,29 @@
 <template>
-  <body>
-    <AppLayout />
+  <main class="content">
+    <form action="#" method="post">
+      <div class="content__wrapper">
+        <h1 class="title title--big">Конструктор пиццы</h1>
 
-    <main class="content">
-      <form action="#" method="post">
-        <div class="content__wrapper">
-          <h1 class="title title--big">Конструктор пиццы</h1>
+        <BuilderDoughSelector v-on:change-dough="changeDough" />
 
-          <BuilderDoughSelector v-on:change-dough="changeDough" />
+        <BuilderSizeSelector v-on:change-size="changeSize" />
 
-          <BuilderSizeSelector v-on:change-size="changeSize" />
+        <BuilderIngredientsSelector
+          v-on:change-sauce="sauceChecked = $event"
+          v-on:change-fillings="changeFillings"
+        />
 
-          <BuilderIngredientsSelector
-            v-on:change-sauce="sauceChecked = $event"
-            v-on:change-fillings="changeFillings"
-          />
-
-          <BuilderPizzaView
-            v-bind:doughChecked="doughChecked"
-            v-bind:sizeChecked="sizeChecked"
-            v-bind:sauceChecked="sauceChecked"
-            v-bind:Fillings="Fillings"
-            v-bind:priceTotal="Price"
-            v-on:add-fillings="addFillings"
-          />
-        </div>
-      </form>
-    </main>
-  </body>
+        <BuilderPizzaView
+          v-bind:doughChecked="doughChecked"
+          v-bind:sizeChecked="sizeChecked"
+          v-bind:sauceChecked="sauceChecked"
+          v-bind:Fillings="Fillings"
+          v-bind:priceTotal="Price"
+          v-on:add-fillings="addFillings"
+        />
+      </div>
+    </form>
+  </main>
 </template>
 <script>
 // Импортируем JSON данные и статусы для фильтров.
@@ -35,7 +31,6 @@ import BuilderDoughSelector from "@/modules/builder/components/BuilderDoughSelec
 import BuilderSizeSelector from "@/modules/builder/components/BuilderSizeSelector";
 import BuilderIngredientsSelector from "@/modules/builder/components/BuilderIngredientsSelector";
 import BuilderPizzaView from "@/modules/builder/components/BuilderPizzaView";
-import AppLayout from "@/layouts/AppLayout";
 
 export default {
   name: "IndexHome",
@@ -44,7 +39,6 @@ export default {
     BuilderSizeSelector,
     BuilderIngredientsSelector,
     BuilderPizzaView,
-    AppLayout,
   },
   data() {
     return {
