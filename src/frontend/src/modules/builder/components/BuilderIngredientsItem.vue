@@ -36,7 +36,11 @@ export default {
     changeCounter(count, value) {
       const filling = value.value;
       const fillingPrice = value.price;
-      this.$emit("change-fillings", { filling, count, fillingPrice });
+      this.$store.commit("Builder/CHANGE_FILLINGS", {
+        filling,
+        count,
+        fillingPrice,
+      });
     },
   },
   computed: {

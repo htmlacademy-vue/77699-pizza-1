@@ -6,3 +6,8 @@ export const normalizePizza = (pizzas, constants) =>
       value: constants.find((item) => item.label === pizza.name).value,
     };
   });
+
+export const getNameForCart = (value, types) =>
+  types.find((item) => {
+    return item.value === value;
+  });

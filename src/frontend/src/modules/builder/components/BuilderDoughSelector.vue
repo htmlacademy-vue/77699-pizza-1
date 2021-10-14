@@ -14,12 +14,7 @@
           inputClass="visually-hidden"
           v-bind:itemName="dough.name"
           v-bind:itemDesc="dough.description"
-          v-on:change="
-            $emit('change-dough', {
-              name: getFoundation(dough.value),
-              price: dough.price,
-            })
-          "
+          v-on:change="changeDough(dough)"
         />
       </div>
     </div>
@@ -28,21 +23,20 @@
 
 <script>
 import RadioButton from "@/common/components/RadioButton";
-import pizza from "@/static/pizza.json";
-import { DoughTypes } from "@/common/constants";
-import { normalizePizza } from "@/common/helpers";
 
 export default {
   name: "BuilderDoughSelector",
   components: { RadioButton },
   data() {
-    return {
-      pizza,
-      DoughTypes,
-      doughChecked: "small",
-    };
+    return {};
   },
   methods: {
+    changeDough(dough) {
+      this.$store.commit("Builder/CHANGE_DOUGH", {
+        name: this.getFoundation(dough.value),
+        price: dough.price,
+      });
+    },
     getFoundation(value) {
       if (value === "light") {
         this.doughChecked = "small";
@@ -52,7 +46,7 @@ export default {
   },
   computed: {
     Doughs() {
-      return normalizePizza(pizza.dough, DoughTypes);
+      return this.$store.state.Builder.Doughs;
     },
   },
 };

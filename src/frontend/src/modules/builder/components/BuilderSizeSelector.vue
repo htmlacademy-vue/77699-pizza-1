@@ -13,9 +13,7 @@
           v-bind:value="size.value"
           inputClass="visually-hidden"
           v-bind:itemDesc="size.name"
-          v-on:change="
-            $emit('change-size', { name: size.value, price: size.multiplier })
-          "
+          v-on:change="changeSize(size)"
         />
       </div>
     </div>
@@ -24,24 +22,26 @@
 
 <script>
 import RadioButton from "@/common/components/RadioButton";
-import pizza from "@/static/pizza.json";
-import { PizzaSizes } from "@/common/constants";
-import { normalizePizza } from "@/common/helpers";
 
 export default {
   name: "BuilderSizeSelector",
   components: { RadioButton },
   data() {
     return {
-      pizza,
-      PizzaSizes,
       checked: true,
     };
   },
-  methods: {},
+  methods: {
+    changeSize(size) {
+      this.$store.commit("Builder/CHANGE_SIZE", {
+        name: size.value,
+        price: size.multiplier,
+      });
+    },
+  },
   computed: {
     Sizes() {
-      return normalizePizza(pizza.sizes, PizzaSizes);
+      return this.$store.state.Builder.Sizes;
     },
   },
 };

@@ -14,7 +14,7 @@
             name="sauce"
             v-bind:value="sauce.value"
             v-bind:itemDesc="sauce.name"
-            v-on:change="$emit('change-sauce', sauce.value)"
+            v-on:change="changeSauce(sauce.value)"
           />
         </div>
 
@@ -23,10 +23,9 @@
 
           <ul class="ingridients__list">
             <BuilderIngredientsItem
-              v-for="(filling, index) in Fillings"
+              v-for="(filling, index) in Ingredients"
               v-bind:key="index"
               v-bind:filling="filling"
-              v-on:change-fillings="changeFillings"
             >
             </BuilderIngredientsItem>
           </ul>
@@ -38,33 +37,25 @@
 
 <script>
 import RadioButton from "@/common/components/RadioButton";
-import pizza from "@/static/pizza.json";
-import { FillingTypes } from "@/common/constants";
-import { SauceTypes } from "@/common/constants";
-import { normalizePizza } from "@/common/helpers";
 import BuilderIngredientsItem from "@/modules/builder/components/BuilderIngredientsItem";
 
 export default {
   name: "BuilderIngredientsSelector",
   components: { RadioButton, BuilderIngredientsItem },
   data() {
-    return {
-      pizza,
-      FillingTypes,
-      SauceTypes,
-    };
+    return {};
   },
   methods: {
-    changeFillings(value) {
-      this.$emit("change-fillings", value);
+    changeSauce(name) {
+      this.$store.commit("Builder/CHANGE_SAUCE", name);
     },
   },
   computed: {
-    Fillings() {
-      return normalizePizza(pizza.ingredients, FillingTypes);
+    Ingredients() {
+      return this.$store.state.Builder.Ingredients;
     },
     Sauces() {
-      return normalizePizza(pizza.sauces, SauceTypes);
+      return this.$store.state.Builder.Sauces;
     },
   },
 };
