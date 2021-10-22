@@ -7,14 +7,14 @@
         <div class="ingridients__sauce">
           <p>Основной соус:</p>
           <RadioButton
-            v-for="(sauce, index) in Sauces"
+            v-for="sauce in Sauces"
             v-bind:key="sauce.value"
             labelClass="radio ingridients__input"
-            v-bind:checked="index === 0"
+            v-bind:checked="sauceChecked == sauce.value"
             name="sauce"
             v-bind:value="sauce.value"
             v-bind:itemDesc="sauce.name"
-            v-on:change="changeSauce(sauce.value)"
+            v-on:change="changeSauce(sauce)"
           />
         </div>
 
@@ -38,6 +38,7 @@
 <script>
 import RadioButton from "@/common/components/RadioButton";
 import BuilderIngredientsItem from "@/modules/builder/components/BuilderIngredientsItem";
+import { mapState } from "vuex";
 
 export default {
   name: "BuilderIngredientsSelector",
@@ -46,8 +47,11 @@ export default {
     return {};
   },
   methods: {
-    changeSauce(name) {
-      this.$store.commit("Builder/CHANGE_SAUCE", name);
+    changeSauce(sauce) {
+      this.$store.commit("Builder/CHANGE_SAUCE", {
+        name: sauce.value,
+        price: sauce.price,
+      });
     },
   },
   computed: {
@@ -57,6 +61,7 @@ export default {
     Sauces() {
       return this.$store.state.Builder.Sauces;
     },
+    ...mapState("Builder", ["sauceChecked"]),
   },
 };
 </script>

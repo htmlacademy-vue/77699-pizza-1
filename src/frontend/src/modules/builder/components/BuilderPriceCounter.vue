@@ -30,8 +30,12 @@ export default {
         size: this.sizeChecked,
         dough: dough,
         sauce: this.sauceChecked,
+        fillings: this.Fillings.map((x) => x.filling),
         price: this.Price,
+        pizzaFillings: this.Fillings,
+        indx: this.pizzaIndex,
       });
+      this.$router.push({ name: "Cart" });
     },
   },
   computed: {
@@ -42,6 +46,7 @@ export default {
       "doughChecked",
       "sauceChecked",
       "Fillings",
+      "pizzaIndex",
     ]),
   },
 };

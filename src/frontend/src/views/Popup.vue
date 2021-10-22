@@ -1,15 +1,19 @@
 <template>
   <div>
     <div class="popup">
-      <a href="#" class="close">
-        <span class="visually-hidden">Закрыть попап</span>
-      </a>
+      <router-link :to="{ name: 'IndexHome' }">
+        <a @click="closeModal" class="close">
+          <span class="visually-hidden">Закрыть попап</span>
+        </a>
+      </router-link>
       <div class="popup__title">
         <h2 class="title">Спасибо за заказ</h2>
       </div>
       <p>Мы начали готовить Ваш заказ, скоро привезём его вам ;)</p>
       <div class="popup__button">
-        <a href="#" class="button">Отлично, я жду!</a>
+        <router-link :to="{ name: 'IndexHome' }">
+          <a @click="closeModal" class="button">Отлично, я жду!</a>
+        </router-link>
       </div>
     </div>
   </div>
@@ -18,6 +22,12 @@
 <script>
 export default {
   name: "Popup",
+  methods: {
+    closeModal() {
+      this.$store.commit("Cart/RESET_CART", []);
+      this.$store.commit("Builder/RESET_PIZZA", []);
+    },
+  },
 };
 </script>
 

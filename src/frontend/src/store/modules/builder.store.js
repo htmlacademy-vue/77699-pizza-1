@@ -10,6 +10,8 @@ import {
   CHANGE_SAUCE,
   CHANGE_FILLINGS,
   CHANGE_PIZZA_NAME,
+  RESET_PIZZA,
+  SET_PIZZA,
 } from "@/store/mutation-types.js";
 
 export default {
@@ -20,6 +22,7 @@ export default {
     Sauces: normalizePizza(pizza.sauces, SauceTypes),
     Ingredients: normalizePizza(pizza.ingredients, FillingTypes),
     doughChecked: "small",
+    pizzaDough: "light",
     doughPrice: 300,
     sauceChecked: "tomato",
     saucePrice: 50,
@@ -27,16 +30,20 @@ export default {
     sizePrice: 2,
     Fillings: [],
     pizzaName: "",
+    pizzaIndex: -1,
   },
   getters: {
     Price(state) {
       let ingridientPrice = 0;
-      for (let value of state.Fillings) {
-        ingridientPrice += value.fillingPrice * value.count;
+      let price = 0;
+      if (state.Fillings.length > 0) {
+        for (let value of state.Fillings) {
+          ingridientPrice += value.fillingPrice * value.count;
+        }
+        price =
+          (state.doughPrice + state.saucePrice + ingridientPrice) *
+          state.sizePrice;
       }
-      let price =
-        (state.doughPrice + state.saucePrice + ingridientPrice) *
-        state.sizePrice;
       return price;
     },
     ButtonStatus(state) {
@@ -81,7 +88,8 @@ export default {
       state.sizePrice = newSize.price;
     },
     [CHANGE_SAUCE](state, newSauce) {
-      state.sauceChecked = newSauce;
+      state.sauceChecked = newSauce.name;
+      state.saucePrice = newSauce.price;
     },
     [CHANGE_FILLINGS](state, newFilling) {
       if (newFilling.count > 0) {
@@ -103,6 +111,28 @@ export default {
     },
     [CHANGE_PIZZA_NAME](state, newPizzaName) {
       state.pizzaName = newPizzaName;
+    },
+    [RESET_PIZZA](state) {
+      (state.doughChecked = "small"),
+        (state.doughPrice = 300),
+        (state.sauceChecked = "tomato"),
+        (state.saucePrice = 50),
+        (state.sizeChecked = "normal"),
+        (state.sizePrice = 2),
+        (state.Fillings = []),
+        (state.pizzaIndex = -1),
+        (state.pizzaName = "");
+    },
+    [SET_PIZZA](state, newPizza) {
+      if (newPizza.pizza.pizzaDough === "light") {
+        state.doughChecked = "small";
+      } else state.doughChecked = "big";
+      state.pizzaDough = newPizza.pizza.pizzaDough;
+      state.sauceChecked = newPizza.pizza.pizzaSauce;
+      state.sizeChecked = newPizza.pizza.pizzaSize;
+      state.pizzaName = newPizza.pizza.name;
+      state.Fillings = newPizza.pizza.pizzaFillings;
+      state.pizzaIndex = newPizza.indx;
     },
   },
 };

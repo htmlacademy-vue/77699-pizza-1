@@ -1,6 +1,6 @@
 <template>
   <body>
-    <form action="test.html" method="post" class="layout-form">
+    <form method="post" class="layout-form" @submit.prevent="showModal = true">
       <main class="content cart">
         <div class="container">
           <div class="cart__title">
@@ -14,10 +14,14 @@
               <label class="cart-form__select">
                 <span class="cart-form__label">Получение заказа:</span>
 
-                <select name="test" class="select">
-                  <option value="1">Заберу сам</option>
-                  <option value="2">Новый адрес</option>
-                  <option value="3">Дом</option>
+                <select name="test" class="select" v-model="selected">
+                  <option
+                    v-for="item in deliveryItems"
+                    v-bind:value="item.value"
+                    v-bind:key="item.value"
+                  >
+                    {{ item.name }}
+                  </option>
                 </select>
               </label>
 
@@ -26,7 +30,7 @@
                 <input type="text" name="tel" placeholder="+7 999-999-99-99" />
               </label>
 
-              <div class="cart-form__address">
+              <div class="cart-form__address" v-if="selected !== 1">
                 <span class="cart-form__label">Новый адрес:</span>
 
                 <div class="cart-form__input">
@@ -56,11 +60,11 @@
       </main>
       <section class="footer">
         <div class="footer__more">
-          <router-link
-            :to="{ name: 'IndexHome' }"
-            class="button button--border button--arrow"
-            >Хочу еще одну</router-link
-          >
+          <router-link :to="{ name: 'IndexHome' }">
+            <a @click="resetPizza" class="button button--border button--arrow">
+              Хочу еще одну
+            </a>
+          </router-link>
         </div>
         <p class="footer__text">
           Перейти к конструктору<br />чтоб собрать ещё одну пиццу
@@ -70,13 +74,13 @@
         </div>
 
         <div class="footer__submit">
-          <button type="submit" class="button" v-on:click="showModal">
+          <button type="submit" class="button" v-on:click="showModal = true">
             Оформить заказ
           </button>
         </div>
       </section>
     </form>
-    <Popup v-if="isShow" v-on:closeModal="closeModal" />
+    <Popup v-if="showModal" v-on:close="showModal = false" />
   </body>
 </template>
 
@@ -84,25 +88,31 @@
 import Popup from "@/views/Popup";
 import CartPizzaView from "@/modules/cart/components/CartPizzaView";
 import CartOtherView from "@/modules/cart/components/CartOtherView";
-import { mapGetters } from "vuex";
+import { mapGetters, mapState } from "vuex";
 
 export default {
   name: "Cart",
   components: { Popup, CartPizzaView, CartOtherView },
   data() {
     return {
+      selected: 1,
       isShow: false,
+      showModal: false,
     };
   },
   methods: {
-    showModal() {
+    showModals() {
       this.isShow = true;
     },
-    closeModal() {
+    closeModals() {
       this.isShow = false;
+    },
+    resetPizza() {
+      this.$store.commit("Builder/RESET_PIZZA", []);
     },
   },
   computed: {
+    ...mapState("Cart", ["deliveryItems"]),
     ...mapGetters("Cart", ["CartPrice"]),
   },
 };

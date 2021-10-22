@@ -5,10 +5,10 @@
 
       <div class="sheet__content dough">
         <RadioButton
-          v-for="(dough, index) in Doughs"
+          v-for="dough in Doughs"
           v-bind:key="dough.value"
           v-bind:labelClass="'dough__input dough__input--' + dough.value"
-          v-bind:checked="index === 0"
+          v-bind:checked="pizzaDough == dough.value"
           name="dought"
           v-bind:value="dough.value"
           inputClass="visually-hidden"
@@ -23,6 +23,7 @@
 
 <script>
 import RadioButton from "@/common/components/RadioButton";
+import { mapState } from "vuex";
 
 export default {
   name: "BuilderDoughSelector",
@@ -39,15 +40,15 @@ export default {
     },
     getFoundation(value) {
       if (value === "light") {
-        this.doughChecked = "small";
-      } else this.doughChecked = "big";
-      return this.doughChecked;
+        return "small";
+      } else return "big";
     },
   },
   computed: {
     Doughs() {
       return this.$store.state.Builder.Doughs;
     },
+    ...mapState("Builder", ["pizzaDough"]),
   },
 };
 </script>

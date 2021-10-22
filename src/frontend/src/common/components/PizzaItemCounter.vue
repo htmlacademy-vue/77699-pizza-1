@@ -1,10 +1,10 @@
 <template>
-  <div class="additional-list__wrapper">
-    <div class="counter additional-list__counter">
+  <div class="car-list__price_block">
+    <div class="counter cart-list__counter">
       <button
         type="button"
         class="counter__button counter__button--minus"
-        v-bind:disabled="counterValue === 0"
+        v-bind:disabled="counterValue === 1"
         v-on:click="changeCount(0)"
       >
         <span class="visually-hidden">Меньше</span>
@@ -25,7 +25,7 @@
       </button>
     </div>
 
-    <div class="additional-list__price">
+    <div class="cart-list__price">
       <b>{{ Price }} ₽</b>
     </div>
   </div>
@@ -33,7 +33,7 @@
 
 <script>
 export default {
-  name: "CartItemCounter",
+  name: "PizzaItemCounter",
   data() {
     return {};
   },
@@ -42,13 +42,9 @@ export default {
       type: Number,
       required: true,
     },
-    itemPrice: {
+    pizzaPrice: {
       type: Number,
       required: true,
-    },
-    itemType: {
-      type: Number,
-      required: false,
     },
   },
   methods: {
@@ -57,16 +53,12 @@ export default {
       if (event === 0) count = this.counterValue - 1;
       else if (event === 1) count = this.counterValue + 1;
       this.$emit("change-count", count);
-      this.$store.commit("Cart/CHANGE_CART_ITEM", {
-        type: this.itemType,
-        price: count * this.itemPrice,
-      });
     },
   },
   computed: {
     Price() {
       let price = 0;
-      price = this.counterValue * this.itemPrice;
+      price = this.counterValue * this.pizzaPrice;
       return price;
     },
   },

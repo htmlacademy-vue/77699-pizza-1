@@ -5,10 +5,10 @@
 
       <div class="sheet__content diameter">
         <RadioButton
-          v-for="(size, index) in Sizes"
+          v-for="size in Sizes"
           v-bind:key="size.value"
           v-bind:labelClass="'diameter__input diameter__input--' + size.value"
-          v-bind:checked="index === 1"
+          v-bind:checked="sizeChecked == size.value"
           name="diameter"
           v-bind:value="size.value"
           inputClass="visually-hidden"
@@ -22,6 +22,7 @@
 
 <script>
 import RadioButton from "@/common/components/RadioButton";
+import { mapState } from "vuex";
 
 export default {
   name: "BuilderSizeSelector",
@@ -43,6 +44,7 @@ export default {
     Sizes() {
       return this.$store.state.Builder.Sizes;
     },
+    ...mapState("Builder", ["sizeChecked"]),
   },
 };
 </script>

@@ -11,44 +11,33 @@
       <div class="product__text">
         <h2>{{ pizza.name }}</h2>
         <ul>
-          <li>{{ pizza.size }}, на тонком тесте</li>
+          <li>{{ pizza.size }}, на {{ doughName }} тесте</li>
           <li>Соус: {{ pizza.sauce }}</li>
-          <li>
-            Начинка: грибы, лук, ветчина, пармезан, ананас, бекон, блю чиз
-          </li>
+          <li>Начинка: {{ pizza.fillings }}</li>
         </ul>
       </div>
     </div>
 
-    <div class="counter cart-list__counter">
-      <button type="button" class="counter__button counter__button--minus">
-        <span class="visually-hidden">Меньше</span>
-      </button>
-      <input type="text" name="counter" class="counter__input" value="1" />
-      <button
-        type="button"
-        class="counter__button counter__button--plus counter__button--orange"
-      >
-        <span class="visually-hidden">Больше</span>
-      </button>
-    </div>
-
-    <div class="cart-list__price">
-      <b>{{ pizza.price }} ₽</b>
-    </div>
-
+    <PizzaItemCounter
+      v-bind:counterValue="pizza.count"
+      v-bind:pizzaPrice="pizza.price"
+      v-on:change-count="getCounterValue"
+    />
     <div class="cart-list__button">
-      <button type="button" class="cart-list__edit">Изменить</button>
+      <button type="button" class="cart-list__edit" v-on:click="changePizza">
+        Изменить
+      </button>
     </div>
   </li>
 </template>
 
 <script>
 import { mapState } from "vuex";
+import PizzaItemCounter from "@/common/components/PizzaItemCounter";
 
 export default {
   name: "CartPizzaItem",
-  components: {},
+  components: { PizzaItemCounter },
   props: {
     pizza: {
       type: Object,
@@ -58,9 +47,32 @@ export default {
   data() {
     return {};
   },
-  methods: {},
+  methods: {
+    getCounterValue(count) {
+      let indx = this.pizzas.indexOf(this.pizza);
+      this.$store.commit("Cart/CHANGE_PIZZA_COUNT", {
+        indx: indx,
+        count: count,
+      });
+    },
+    changePizza() {
+      this.$router.push({ name: "IndexHome" });
+      this.$store.commit("Builder/SET_PIZZA", {
+        pizza: this.pizza,
+        indx: this.pizzas.indexOf(this.pizza),
+      });
+    },
+  },
   computed: {
     ...mapState("Cart", ["pizzas"]),
+    doughName() {
+      let doughName;
+      doughName = this.pizza.dough
+        .toLowerCase()
+        .substring(0, this.pizza.dough.length - 2);
+      doughName += "ом";
+      return doughName;
+    },
   },
 };
 </script>

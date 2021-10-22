@@ -6,6 +6,7 @@
         type="text"
         name="pizza_name"
         placeholder="Введите название пиццы"
+        v-bind:value="pizzaName"
         v-on:input="changePizzaName($event.target.value)"
       />
     </label>
