@@ -10,6 +10,13 @@ export default [
     name: "Cart",
     component: () => import("@/views/Cart.vue"),
     meta: { layout: "AppLayoutLogin" },
+    children: [
+      {
+        path: "/popup",
+        name: "Popup",
+        component: () => import("@/views/Popup.vue"),
+      },
+    ],
   },
   {
     path: "/login",

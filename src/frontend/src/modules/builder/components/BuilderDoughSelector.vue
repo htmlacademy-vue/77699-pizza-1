@@ -5,21 +5,16 @@
 
       <div class="sheet__content dough">
         <RadioButton
-          v-for="(dough, index) in Doughs"
+          v-for="dough in Doughs"
           v-bind:key="dough.value"
           v-bind:labelClass="'dough__input dough__input--' + dough.value"
-          v-bind:checked="index === 0"
+          v-bind:checked="pizzaDough == dough.value"
           name="dought"
           v-bind:value="dough.value"
           inputClass="visually-hidden"
           v-bind:itemName="dough.name"
           v-bind:itemDesc="dough.description"
-          v-on:change="
-            $emit('change-dough', {
-              name: getFoundation(dough.value),
-              price: dough.price,
-            })
-          "
+          v-on:change="changeDough(dough)"
         />
       </div>
     </div>
@@ -28,32 +23,32 @@
 
 <script>
 import RadioButton from "@/common/components/RadioButton";
-import pizza from "@/static/pizza.json";
-import { DoughTypes } from "@/common/constants";
-import { normalizePizza } from "@/common/helpers";
+import { mapState } from "vuex";
 
 export default {
   name: "BuilderDoughSelector",
   components: { RadioButton },
   data() {
-    return {
-      pizza,
-      DoughTypes,
-      doughChecked: "small",
-    };
+    return {};
   },
   methods: {
+    changeDough(dough) {
+      this.$store.commit("Builder/CHANGE_DOUGH", {
+        name: this.getFoundation(dough.value),
+        price: dough.price,
+      });
+    },
     getFoundation(value) {
       if (value === "light") {
-        this.doughChecked = "small";
-      } else this.doughChecked = "big";
-      return this.doughChecked;
+        return "small";
+      } else return "big";
     },
   },
   computed: {
     Doughs() {
-      return normalizePizza(pizza.dough, DoughTypes);
+      return this.$store.state.Builder.Doughs;
     },
+    ...mapState("Builder", ["pizzaDough"]),
   },
 };
 </script>

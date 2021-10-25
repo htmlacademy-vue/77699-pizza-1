@@ -12,7 +12,7 @@
         </router-link>
       </div>
       <div class="header__cart">
-        <router-link :to="{ name: 'Cart' }">0 ₽</router-link>
+        <router-link :to="{ name: 'Cart' }">{{ CartPrice }} ₽</router-link>
       </div>
       <div class="header__user">
         <router-link :to="{ name: 'Login' }" class="header__login"
@@ -25,8 +25,13 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   name: "AppLayoutDefault",
+  computed: {
+    ...mapGetters("Cart", ["CartPrice"]),
+  },
 };
 </script>
 

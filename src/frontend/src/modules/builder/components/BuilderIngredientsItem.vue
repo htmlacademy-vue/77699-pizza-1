@@ -6,7 +6,7 @@
       }}</span>
     </AppDrag>
     <ItemCounter
-      v-bind:counterValue="counterValue"
+      v-bind:counterValue="(counterValue = getFillingCount())"
       v-on:change-count="counterValue = $event"
     />
   </li>
@@ -16,6 +16,7 @@
 import EventBus from "@/eventBus";
 import AppDrag from "@/common/components/AppDrag";
 import ItemCounter from "@/common/components/ItemCounter";
+import { mapState } from "vuex";
 
 export default {
   name: "BuilderIngridientsItem",
@@ -36,13 +37,26 @@ export default {
     changeCounter(count, value) {
       const filling = value.value;
       const fillingPrice = value.price;
-      this.$emit("change-fillings", { filling, count, fillingPrice });
+      this.$store.commit("Builder/CHANGE_FILLINGS", {
+        filling,
+        count,
+        fillingPrice,
+      });
+    },
+    getFillingCount() {
+      let res = this.Fillings.filter((x) => x.filling == this.filling.value);
+      if (res.length > 0)
+        return this.Fillings.filter((x) => x.filling == this.filling.value).map(
+          (x) => x.count
+        )[0];
+      else return 0;
     },
   },
   computed: {
     isDraggable() {
       return this.counterValue < 3;
     },
+    ...mapState("Builder", ["Fillings"]),
   },
   watch: {
     counterValue(newValue) {

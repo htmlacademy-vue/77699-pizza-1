@@ -1,0 +1,11 @@
+export const CHANGE_DOUGH = "CHANGE_DOUGH";
+export const CHANGE_SIZE = "CHANGE_SIZE";
+export const CHANGE_SAUCE = "CHANGE_SAUCE";
+export const CHANGE_FILLINGS = "CHANGE_FILLINGS";
+export const CHANGE_PIZZA_NAME = "CHANGE_PIZZA_NAME";
+export const CHANGE_CART_PIZZA = "CHANGE_CART_PIZZA";
+export const CHANGE_CART_ITEM = "CHANGE_CART_ITEM";
+export const CHANGE_PIZZA_COUNT = "CHANGE_PIZZA_COUNT";
+export const SET_PIZZA = "SET_PIZZA";
+export const RESET_PIZZA = "RESET_PIZZA";
+export const RESET_CART = "RESET_CART";

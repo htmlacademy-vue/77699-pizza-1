@@ -7,7 +7,7 @@
     >
       <AppDrop class="pizza__wrapper" v-on:drop="moveFilling">
         <div
-          v-for="{ filling, number } in Fillings"
+          v-for="{ filling, number } in FillingsArr"
           v-bind:key="filling"
           class="pizza__filling"
           v-bind:class="[
@@ -22,28 +22,11 @@
 <script>
 import AppDrop from "@/common/components/AppDrop";
 import EventBus from "@/eventBus";
+import { mapState, mapGetters } from "vuex";
 
 export default {
   name: "PizzaFoundation",
   components: { AppDrop },
-  props: {
-    doughChecked: {
-      type: String,
-      required: true,
-    },
-    sizeChecked: {
-      type: String,
-      required: true,
-    },
-    sauceChecked: {
-      type: String,
-      required: true,
-    },
-    Fillings: {
-      type: Array,
-      default: () => [],
-    },
-  },
   data() {
     return {};
   },
@@ -55,6 +38,15 @@ export default {
         price: value.price,
       });
     },
+  },
+  computed: {
+    ...mapGetters("Builder", ["FillingsArr"]),
+    ...mapState("Builder", [
+      "doughChecked",
+      "sizeChecked",
+      "sauceChecked",
+      "Fillings",
+    ]),
   },
 };
 </script>

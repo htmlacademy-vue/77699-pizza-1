@@ -7,14 +7,14 @@
         <div class="ingridients__sauce">
           <p>Основной соус:</p>
           <RadioButton
-            v-for="(sauce, index) in Sauces"
+            v-for="sauce in Sauces"
             v-bind:key="sauce.value"
             labelClass="radio ingridients__input"
-            v-bind:checked="index === 0"
+            v-bind:checked="sauceChecked == sauce.value"
             name="sauce"
             v-bind:value="sauce.value"
             v-bind:itemDesc="sauce.name"
-            v-on:change="$emit('change-sauce', sauce.value)"
+            v-on:change="changeSauce(sauce)"
           />
         </div>
 
@@ -23,10 +23,9 @@
 
           <ul class="ingridients__list">
             <BuilderIngredientsItem
-              v-for="(filling, index) in Fillings"
+              v-for="(filling, index) in Ingredients"
               v-bind:key="index"
               v-bind:filling="filling"
-              v-on:change-fillings="changeFillings"
             >
             </BuilderIngredientsItem>
           </ul>
@@ -38,34 +37,31 @@
 
 <script>
 import RadioButton from "@/common/components/RadioButton";
-import pizza from "@/static/pizza.json";
-import { FillingTypes } from "@/common/constants";
-import { SauceTypes } from "@/common/constants";
-import { normalizePizza } from "@/common/helpers";
 import BuilderIngredientsItem from "@/modules/builder/components/BuilderIngredientsItem";
+import { mapState } from "vuex";
 
 export default {
   name: "BuilderIngredientsSelector",
   components: { RadioButton, BuilderIngredientsItem },
   data() {
-    return {
-      pizza,
-      FillingTypes,
-      SauceTypes,
-    };
+    return {};
   },
   methods: {
-    changeFillings(value) {
-      this.$emit("change-fillings", value);
+    changeSauce(sauce) {
+      this.$store.commit("Builder/CHANGE_SAUCE", {
+        name: sauce.value,
+        price: sauce.price,
+      });
     },
   },
   computed: {
-    Fillings() {
-      return normalizePizza(pizza.ingredients, FillingTypes);
+    Ingredients() {
+      return this.$store.state.Builder.Ingredients;
     },
     Sauces() {
-      return normalizePizza(pizza.sauces, SauceTypes);
+      return this.$store.state.Builder.Sauces;
     },
+    ...mapState("Builder", ["sauceChecked"]),
   },
 };
 </script>
