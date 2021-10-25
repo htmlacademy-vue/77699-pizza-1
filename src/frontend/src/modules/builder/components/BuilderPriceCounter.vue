@@ -28,6 +28,7 @@ export default {
       this.$store.commit("Cart/CHANGE_CART_PIZZA", {
         name: this.pizzaName,
         size: this.sizeChecked,
+        sizePrice: this.sizePrice,
         dough: dough,
         sauce: this.sauceChecked,
         fillings: this.Fillings.map((x) => x.filling),
@@ -43,6 +44,7 @@ export default {
     ...mapState("Builder", [
       "pizzaName",
       "sizeChecked",
+      "sizePrice",
       "doughChecked",
       "sauceChecked",
       "Fillings",

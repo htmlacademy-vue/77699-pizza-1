@@ -51,6 +51,7 @@ export default {
         state.pizzas.push({
           name: newPizza.name,
           size: getNameForCart(newPizza.size, PizzaSizes).label,
+          sizePrice: newPizza.sizePrice,
           pizzaSize: newPizza.size,
           dough: getNameForCart(newPizza.dough, DoughTypes).label,
           pizzaDough: newPizza.dough,

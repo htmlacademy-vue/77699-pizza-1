@@ -130,6 +130,7 @@ export default {
       state.pizzaDough = newPizza.pizza.pizzaDough;
       state.sauceChecked = newPizza.pizza.pizzaSauce;
       state.sizeChecked = newPizza.pizza.pizzaSize;
+      state.sizePrice = newPizza.pizza.sizePrice;
       state.pizzaName = newPizza.pizza.name;
       state.Fillings = newPizza.pizza.pizzaFillings;
       state.pizzaIndex = newPizza.indx;
