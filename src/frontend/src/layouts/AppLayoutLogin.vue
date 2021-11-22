@@ -17,24 +17,13 @@
       <div class="header__user">
         <router-link :to="{ name: 'Profile' }">
           <picture>
-            <source
-              type="image/webp"
-              srcset="
-                ~@/assets/img/users/user5.webp 1x,
-                img/users/user5@2x.webp        2x
-              "
-            />
-            <img
-              src="~@/assets/img/users/user5.jpg"
-              srcset="img/users/user5@2x.jpg"
-              alt="Василий Ложкин"
-              width="32"
-              height="32"
-            />
+            <img :src="user.avatar" :alt="user.name" width="32" height="32" />
           </picture>
-          <span>Василий Ложкин</span>
+          <span>{{ user.name }}</span>
         </router-link>
-        <a href="#" class="header__logout"><span>Выйти</span></a>
+        <a href="#" @click.prevent="$logout" class="header__logout">
+          <span>Выйти</span></a
+        >
       </div>
     </header>
     <slot />
@@ -42,13 +31,16 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapState, mapGetters } from "vuex";
+import { logout } from "@/common/mixins";
 
 export default {
   name: "AppLayoutLogin",
   computed: {
     ...mapGetters("Cart", ["CartPrice"]),
+    ...mapState("Auth", ["user"]),
   },
+  mixins: [logout],
 };
 </script>
 

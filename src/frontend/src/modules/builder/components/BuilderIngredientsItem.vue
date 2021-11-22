@@ -37,13 +37,16 @@ export default {
     changeCounter(count, value) {
       const filling = value.value;
       const fillingPrice = value.price;
+      const id = value.id;
       this.$store.commit("Builder/CHANGE_FILLINGS", {
         filling,
         count,
+        id,
         fillingPrice,
       });
     },
     getFillingCount() {
+      //console.log(this.Fillings);
       let res = this.Fillings.filter((x) => x.filling == this.filling.value);
       if (res.length > 0)
         return this.Fillings.filter((x) => x.filling == this.filling.value).map(

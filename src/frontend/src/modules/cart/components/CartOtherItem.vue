@@ -5,9 +5,9 @@
       <span>{{ item.name }}</span>
     </p>
     <CartItemCounter
-      v-bind:counterValue="counterValue"
+      v-bind:counterValue="miscCount(item.id)"
       v-bind:itemPrice="item.price"
-      v-bind:itemType="itemType"
+      v-bind:id="item.id"
       v-on:change-count="counterValue = $event"
     />
   </li>
@@ -15,6 +15,7 @@
 
 <script>
 import CartItemCounter from "@/common/components/CartItemCounter";
+import { mapState } from "vuex";
 
 export default {
   name: "CartOtherItem",
@@ -30,14 +31,18 @@ export default {
       counterValue: 0,
     };
   },
-  computed: {
-    itemType() {
-      let type = 0;
-      if (this.item.image.includes("cola")) type = 1;
-      else if (this.item.image.includes("sauce")) type = 2;
-      else if (this.item.image.includes("potato")) type = 3;
-      return type;
+  methods: {
+    miscCount(id) {
+      if (this.misc.filter((item) => item.miscId == id).length > 0) {
+        this.counterValue = this.misc.filter(
+          (item) => item.miscId == id
+        )[0].count;
+      } else this.counterValue = 0;
+      return this.counterValue;
     },
+  },
+  computed: {
+    ...mapState("Cart", ["misc"]),
   },
 };
 </script>

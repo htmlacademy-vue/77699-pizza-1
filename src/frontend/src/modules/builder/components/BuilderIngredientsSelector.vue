@@ -8,9 +8,9 @@
           <p>Основной соус:</p>
           <RadioButton
             v-for="sauce in Sauces"
-            v-bind:key="sauce.value"
+            v-bind:key="sauce.id"
             labelClass="radio ingridients__input"
-            v-bind:checked="sauceChecked == sauce.value"
+            v-bind:checked="sauceId == sauce.id"
             name="sauce"
             v-bind:value="sauce.value"
             v-bind:itemDesc="sauce.name"
@@ -51,6 +51,7 @@ export default {
       this.$store.commit("Builder/CHANGE_SAUCE", {
         name: sauce.value,
         price: sauce.price,
+        Id: sauce.id,
       });
     },
   },
@@ -61,7 +62,7 @@ export default {
     Sauces() {
       return this.$store.state.Builder.Sauces;
     },
-    ...mapState("Builder", ["sauceChecked"]),
+    ...mapState("Builder", ["sauceId"]),
   },
 };
 </script>

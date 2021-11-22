@@ -1,10 +1,13 @@
-import pizza from "@/static/pizza.json";
-import { DoughTypes } from "@/common/constants";
 import { PizzaSizes } from "@/common/constants";
 import { normalizePizza } from "@/common/helpers";
 import { SauceTypes } from "@/common/constants";
+import { DoughTypes } from "@/common/constants";
 import { FillingTypes } from "@/common/constants";
 import {
+  GET_DOUGH,
+  GET_SIZE,
+  GET_SAUCE,
+  GET_INGREDIENTS,
   CHANGE_DOUGH,
   CHANGE_SIZE,
   CHANGE_SAUCE,
@@ -17,15 +20,17 @@ import {
 export default {
   namespaced: true, // у модуля будет свой префикс
   state: {
-    Doughs: normalizePizza(pizza.dough, DoughTypes),
-    Sizes: normalizePizza(pizza.sizes, PizzaSizes),
-    Sauces: normalizePizza(pizza.sauces, SauceTypes),
-    Ingredients: normalizePizza(pizza.ingredients, FillingTypes),
-    doughChecked: "small",
+    Doughs: [],
+    Sizes: [],
+    Sauces: [],
+    Ingredients: [],
+    doughId: 1,
     pizzaDough: "light",
     doughPrice: 300,
+    sauceId: 1,
     sauceChecked: "tomato",
     saucePrice: 50,
+    sizeId: 2,
     sizeChecked: "normal",
     sizePrice: 2,
     Fillings: [],
@@ -33,6 +38,18 @@ export default {
     pizzaIndex: -1,
   },
   getters: {
+    getDoughById: (state) => (id) => {
+      return state.Doughs.find((item) => item.id === id);
+    },
+    getSauceById: (state) => (id) => {
+      return state.Sauces.find((item) => item.id === id);
+    },
+    getSizeById: (state) => (id) => {
+      return state.Sizes.find((item) => item.id === id);
+    },
+    getIngredientById: (state) => (id) => {
+      return state.Ingredients.find((item) => item.id === id);
+    },
     Price(state) {
       let ingridientPrice = 0;
       let price = 0;
@@ -42,7 +59,7 @@ export default {
         }
         price =
           (state.doughPrice + state.saucePrice + ingridientPrice) *
-          state.sizePrice;
+          state.Sizes.find((item) => item.id === state.sizeId).multiplier;
       }
       return price;
     },
@@ -79,16 +96,28 @@ export default {
     },
   },
   mutations: {
+    [GET_DOUGH](state, doughs) {
+      state.Doughs = doughs;
+    },
+    [GET_SIZE](state, sizes) {
+      state.Sizes = sizes;
+    },
+    [GET_SAUCE](state, sauces) {
+      state.Sauces = sauces;
+    },
+    [GET_INGREDIENTS](state, ingredients) {
+      state.Ingredients = ingredients;
+    },
     [CHANGE_DOUGH](state, newDough) {
-      state.doughChecked = newDough.name;
+      state.doughId = newDough.Id;
       state.doughPrice = newDough.price;
     },
     [CHANGE_SIZE](state, newSize) {
-      state.sizeChecked = newSize.name;
+      state.sizeId = newSize.Id;
       state.sizePrice = newSize.price;
     },
     [CHANGE_SAUCE](state, newSauce) {
-      state.sauceChecked = newSauce.name;
+      state.sauceId = newSauce.Id;
       state.saucePrice = newSauce.price;
     },
     [CHANGE_FILLINGS](state, newFilling) {
@@ -113,11 +142,11 @@ export default {
       state.pizzaName = newPizzaName;
     },
     [RESET_PIZZA](state) {
-      (state.doughChecked = "small"),
+      (state.doughId = 1),
         (state.doughPrice = 300),
-        (state.sauceChecked = "tomato"),
+        (state.sauceId = 1),
         (state.saucePrice = 50),
-        (state.sizeChecked = "normal"),
+        (state.sizeId = 2),
         (state.sizePrice = 2),
         (state.Fillings = []),
         (state.pizzaIndex = -1),
@@ -127,13 +156,34 @@ export default {
       if (newPizza.pizza.pizzaDough === "light") {
         state.doughChecked = "small";
       } else state.doughChecked = "big";
-      state.pizzaDough = newPizza.pizza.pizzaDough;
-      state.sauceChecked = newPizza.pizza.pizzaSauce;
-      state.sizeChecked = newPizza.pizza.pizzaSize;
-      state.sizePrice = newPizza.pizza.sizePrice;
+      state.doughId = newPizza.pizza.doughId;
+      state.sauceId = newPizza.pizza.sauceId;
+      state.sizeId = newPizza.pizza.sizeId;
       state.pizzaName = newPizza.pizza.name;
-      state.Fillings = newPizza.pizza.pizzaFillings;
+      state.Fillings = newPizza.pizza.ingredients;
       state.pizzaIndex = newPizza.indx;
+    },
+  },
+  actions: {
+    async getDoughs({ commit }, config) {
+      const data = await this.$api.dough.query(config);
+      const doughs = normalizePizza(data, DoughTypes);
+      commit("GET_DOUGH", doughs);
+    },
+    async getSizes({ commit }, config) {
+      const data = await this.$api.sizes.query(config);
+      const sizes = normalizePizza(data, PizzaSizes);
+      commit("GET_SIZE", sizes);
+    },
+    async getSauces({ commit }, config) {
+      const data = await this.$api.sauces.query(config);
+      const sauces = normalizePizza(data, SauceTypes);
+      commit("GET_SAUCE", sauces);
+    },
+    async getIngredients({ commit }, config) {
+      const data = await this.$api.ingredients.query(config);
+      const ingredients = normalizePizza(data, FillingTypes);
+      commit("GET_INGREDIENTS", ingredients);
     },
   },
 };

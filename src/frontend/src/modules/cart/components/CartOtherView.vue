@@ -2,8 +2,8 @@
   <div class="cart__additional">
     <ul class="additional-list">
       <CartOtherItem
-        v-for="(item, index) in items"
-        v-bind:key="index"
+        v-for="item in items"
+        v-bind:key="item.id"
         v-bind:item="item"
       >
       </CartOtherItem>

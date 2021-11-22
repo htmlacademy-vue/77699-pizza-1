@@ -14,13 +14,20 @@
               <label class="cart-form__select">
                 <span class="cart-form__label">Получение заказа:</span>
 
-                <select name="test" class="select" v-model="selected">
+                <select
+                  name="test"
+                  class="select"
+                  v-model="selected"
+                  @change="onChange($event)"
+                >
+                  <option value="-1">Заберу сам</option>
+                  <option value="0">Новый адрес</option>
                   <option
-                    v-for="item in deliveryItems"
-                    v-bind:value="item.value"
-                    v-bind:key="item.value"
+                    v-for="address in Addresses"
+                    v-bind:value="address.id"
+                    v-bind:key="address.id"
                   >
-                    {{ item.name }}
+                    Адрес: {{ address.name }}
                   </option>
                 </select>
               </label>
@@ -30,27 +37,47 @@
                 <input type="text" name="tel" placeholder="+7 999-999-99-99" />
               </label>
 
-              <div class="cart-form__address" v-if="selected !== 1">
+              <div class="cart-form__address" v-if="selected >= 0">
                 <span class="cart-form__label">Новый адрес:</span>
 
                 <div class="cart-form__input">
                   <label class="input">
                     <span>Улица*</span>
-                    <input type="text" name="street" />
+                    <AppInput
+                      v-model="street"
+                      ref="street"
+                      type="text"
+                      name="street"
+                      class="input"
+                      required="required"
+                    />
                   </label>
                 </div>
 
                 <div class="cart-form__input cart-form__input--small">
                   <label class="input">
                     <span>Дом*</span>
-                    <input type="text" name="house" />
+                    <AppInput
+                      v-model="building"
+                      ref="building"
+                      type="text"
+                      name="house"
+                      class="input"
+                      required="required"
+                    />
                   </label>
                 </div>
 
                 <div class="cart-form__input cart-form__input--small">
                   <label class="input">
                     <span>Квартира</span>
-                    <input type="text" name="apartment" />
+                    <AppInput
+                      v-model="flat"
+                      ref="flat"
+                      type="text"
+                      name="apartment"
+                      class="input"
+                    />
                   </label>
                 </div>
               </div>
@@ -74,7 +101,15 @@
         </div>
 
         <div class="footer__submit">
-          <button type="submit" class="button" v-on:click="showModal = true">
+          <button
+            type="submit"
+            class="button"
+            v-on:click="addOrder"
+            v-bind:disabled="pizzas.length == 0 && misc.length == 0"
+            v-bind:class="[
+              pizzas.length == 0 && misc.length == 0 ? 'button--disabled' : '',
+            ]"
+          >
             Оформить заказ
           </button>
         </div>
@@ -89,15 +124,17 @@ import Popup from "@/views/Popup";
 import CartPizzaView from "@/modules/cart/components/CartPizzaView";
 import CartOtherView from "@/modules/cart/components/CartOtherView";
 import { mapGetters, mapState } from "vuex";
+import AppInput from "@/common/components/AppInput";
 
 export default {
   name: "Cart",
-  components: { Popup, CartPizzaView, CartOtherView },
+  components: { Popup, CartPizzaView, CartOtherView, AppInput },
   data() {
     return {
-      selected: 1,
       isShow: false,
       showModal: false,
+      btnOrderDisabled: true,
+      selected: -1,
     };
   },
   methods: {
@@ -110,10 +147,92 @@ export default {
     resetPizza() {
       this.$store.commit("Builder/RESET_PIZZA", []);
     },
+    onChange(event) {
+      this.selected = event.target.value;
+      if (event.target.value > 0) {
+        let addr = this.Addresses.find((item) => item.id == event.target.value);
+        this.flat = addr.flat;
+        this.street = addr.street;
+        this.building = addr.building;
+      } else if (event.target.value == 0) {
+        this.flat = null;
+        this.street = null;
+        this.building = null;
+      }
+    },
+    async addOrder() {
+      const userId = this.isAuthenticated ? this.user.id : null;
+      let pizzaObj = [];
+      this.pizzas.map(function (pizza) {
+        pizzaObj.push({
+          name: pizza.name,
+          sauceId: pizza.sauceId,
+          doughId: pizza.doughId,
+          sizeId: pizza.sizeId,
+          quantity: pizza.count,
+          ingredients: pizza.ingredients.map((filling) => ({
+            ingredientId: filling.id,
+            quantity: filling.count,
+          })),
+        });
+      });
+
+      let miscObj = [];
+      this.misc.map(function (item) {
+        miscObj.push({
+          miscId: item.miscId,
+          quantity: item.count,
+        });
+      });
+      let address = null;
+      if (this.selected > 0) {
+        const objIndex = this.Addresses.findIndex((e) => e.id == this.selected);
+        address = {
+          name: this.Addresses[objIndex].name,
+          street: this.Addresses[objIndex].street,
+          building: this.Addresses[objIndex].building,
+          flat: this.Addresses[objIndex].flat,
+          comment: this.Addresses[objIndex].comment,
+        };
+      } else if (this.selected == 0) {
+        address = {
+          name: this.name,
+          street: this.street,
+          building: this.building,
+          flat: this.flat,
+          comment: this.comment,
+        };
+      }
+      await this.$api.orders.post({
+        userId: userId,
+        pizzas: pizzaObj,
+        misc: miscObj,
+        address: address,
+      });
+    },
   },
   computed: {
-    ...mapState("Cart", ["deliveryItems"]),
+    ...mapState("Profile", ["Addresses"]),
     ...mapGetters("Cart", ["CartPrice"]),
+    ...mapState("Cart", ["pizzas", "misc", "addressId"]),
+    ...mapState(["Auth"]),
+    ...mapState("Auth", ["user"]),
+    isAuthenticated() {
+      return this.Auth.isAuthenticated;
+    },
+  },
+  created() {
+    this.selected = this.addressId;
+    if (this.selected > 0) {
+      let addr = this.Addresses.find((item) => item.id == this.selected);
+      this.flat = addr.flat;
+      this.street = addr.street;
+      this.building = addr.building;
+    } else if (this.selected == 0) {
+      this.flat = "";
+      this.street = "";
+      this.building = "";
+    }
   },
 };
 </script>

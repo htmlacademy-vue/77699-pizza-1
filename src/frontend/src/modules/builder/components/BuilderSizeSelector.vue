@@ -6,9 +6,9 @@
       <div class="sheet__content diameter">
         <RadioButton
           v-for="size in Sizes"
-          v-bind:key="size.value"
+          v-bind:key="size.id"
           v-bind:labelClass="'diameter__input diameter__input--' + size.value"
-          v-bind:checked="sizeChecked == size.value"
+          v-bind:checked="size.id == sizeId"
           name="diameter"
           v-bind:value="size.value"
           inputClass="visually-hidden"
@@ -37,6 +37,7 @@ export default {
       this.$store.commit("Builder/CHANGE_SIZE", {
         name: size.value,
         price: size.multiplier,
+        Id: size.id,
       });
     },
   },
@@ -44,7 +45,7 @@ export default {
     Sizes() {
       return this.$store.state.Builder.Sizes;
     },
-    ...mapState("Builder", ["sizeChecked"]),
+    ...mapState("Builder", ["sizeId"]),
   },
 };
 </script>

@@ -2,7 +2,10 @@
   <div class="content__constructor">
     <div
       v-bind:class="
-        'pizza pizza--foundation--' + doughChecked + '-' + sauceChecked
+        'pizza pizza--foundation--' +
+        getDoughValue(getDoughById(doughId).value) +
+        '-' +
+        getSauceById(sauceId).value
       "
     >
       <AppDrop class="pizza__wrapper" v-on:drop="moveFilling">
@@ -38,15 +41,20 @@ export default {
         price: value.price,
       });
     },
+    getDoughValue(value) {
+      if (value == "light") return "small";
+      else return "big";
+    },
   },
   computed: {
     ...mapGetters("Builder", ["FillingsArr"]),
-    ...mapState("Builder", [
-      "doughChecked",
-      "sizeChecked",
-      "sauceChecked",
-      "Fillings",
+    ...mapGetters("Builder", [
+      "getDoughById",
+      "getSauceById",
+      "getSizeById",
+      "getIngredientById",
     ]),
+    ...mapState("Builder", ["doughId", "sizeId", "sauceId", "Fillings"]),
   },
 };
 </script>
