@@ -18,7 +18,6 @@
       <button
         type="button"
         class="counter__button counter__button--plus counter__button--orange"
-        v-bind:disabled="counterValue === 3"
         v-on:click="changeCount(1)"
       >
         <span class="visually-hidden">Больше</span>

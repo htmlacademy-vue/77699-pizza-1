@@ -4,14 +4,7 @@
       <div class="address-form__header">
         <b>{{ address.name }}</b>
         <div class="address-form__edit">
-          <button
-            type="button"
-            class="icon"
-            v-on:click="
-              showAddressForm = !showAddressForm;
-              newAddress = false;
-            "
-          >
+          <button type="button" class="icon" v-on:click="addressForm">
             <span class="visually-hidden">Изменить адрес</span>
           </button>
         </div>
@@ -47,6 +40,12 @@ export default {
   data: () => ({
     showAddressForm: false,
   }),
+  methods: {
+    addressForm() {
+      this.showAddressForm = !this.showAddressForm;
+      this.newAddress = false;
+    },
+  },
 };
 </script>
 

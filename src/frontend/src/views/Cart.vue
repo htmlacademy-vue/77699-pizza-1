@@ -135,6 +135,9 @@ export default {
       showModal: false,
       btnOrderDisabled: true,
       selected: -1,
+      flat: "",
+      street: "",
+      building: "",
     };
   },
   methods: {
@@ -155,9 +158,9 @@ export default {
         this.street = addr.street;
         this.building = addr.building;
       } else if (event.target.value == 0) {
-        this.flat = null;
-        this.street = null;
-        this.building = null;
+        this.flat = "";
+        this.street = "";
+        this.building = "";
       }
     },
     async addOrder() {

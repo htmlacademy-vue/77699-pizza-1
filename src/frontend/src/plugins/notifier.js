@@ -7,30 +7,18 @@ export default class Notifier {
   }
 
   info(text) {
-    this.#store.dispatch("createNotification", {
-      text,
-      type: notificationTypes.INFO,
-    });
+    alert("[" + notificationTypes.INFO + "] " + text);
   }
 
   success(text) {
-    this.#store.dispatch("createNotification", {
-      text,
-      type: notificationTypes.SUCCESS,
-    });
+    alert("[" + notificationTypes.SUCCESS + "] " + text);
   }
 
   error(text) {
-    this.#store.dispatch("createNotification", {
-      text,
-      type: notificationTypes.ERROR,
-    });
+    alert("[" + notificationTypes.ERROR + "] " + text);
   }
 
   warning(text) {
-    this.#store.dispatch("createNotification", {
-      text,
-      type: notificationTypes.WARNING,
-    });
+    alert("[" + notificationTypes.WARNING + "] " + text);
   }
 }

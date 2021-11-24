@@ -57,6 +57,9 @@ export default {
   computed: {
     ...mapState("Auth", ["user"]),
   },
+  created() {
+    this.$store.dispatch("Profile/getAddresses");
+  },
 };
 </script>
 

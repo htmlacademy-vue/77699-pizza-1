@@ -1,25 +1,15 @@
 <template>
-  <component :is="layout">
+  <div>
+    <AppLayoutDefault />
     <slot />
-  </component>
+  </div>
 </template>
 <script>
-import { mapState } from "vuex";
+import AppLayoutDefault from "@/layouts/AppLayoutDefault.vue";
 
 export default {
   name: "AppLayout",
-  computed: {
-    ...mapState(["Auth"]),
-    isAuthenticated() {
-      return this.Auth.isAuthenticated;
-    },
-    layout() {
-      const layout = this.isAuthenticated
-        ? "AppLayoutLogin"
-        : "AppLayoutDefault";
-      return () => import(`@/layouts/${layout}.vue`);
-    },
-  },
+  components: { AppLayoutDefault },
 };
 </script>
 

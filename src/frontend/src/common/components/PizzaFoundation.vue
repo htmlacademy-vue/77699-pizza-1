@@ -1,13 +1,6 @@
 <template>
   <div class="content__constructor">
-    <div
-      v-bind:class="
-        'pizza pizza--foundation--' +
-        getDoughValue(getDoughById(doughId).value) +
-        '-' +
-        getSauceById(sauceId).value
-      "
-    >
+    <div v-bind:class="pizzaContent">
       <AppDrop class="pizza__wrapper" v-on:drop="moveFilling">
         <div
           v-for="{ filling, number } in FillingsArr"
@@ -41,10 +34,6 @@ export default {
         price: value.price,
       });
     },
-    getDoughValue(value) {
-      if (value == "light") return "small";
-      else return "big";
-    },
   },
   computed: {
     ...mapGetters("Builder", ["FillingsArr"]),
@@ -55,6 +44,20 @@ export default {
       "getIngredientById",
     ]),
     ...mapState("Builder", ["doughId", "sizeId", "sauceId", "Fillings"]),
+    pizzaContent() {
+      let doughChecked = "";
+      let dough = this.getDoughById(this.doughId).value;
+      if (dough == "light") doughChecked = "small";
+      else doughChecked = "big";
+      let sauceChecked = this.getSauceById(this.sauceId).value;
+      let pizzaFoundation = "pizza pizza--foundation--";
+      let pizzaContent = pizzaFoundation.concat(
+        doughChecked,
+        "-",
+        sauceChecked
+      );
+      return pizzaContent;
+    },
   },
 };
 </script>

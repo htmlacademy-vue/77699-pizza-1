@@ -13,8 +13,8 @@
           <label class="input">
             <span>Название адреса*</span>
             <AppInput
-              v-model="name"
-              ref="name"
+              v-model="addressName"
+              ref="addressName"
               type="text"
               name="addr-name"
               class="input"
@@ -27,8 +27,8 @@
           <label class="input">
             <span>Улица*</span>
             <AppInput
-              v-model="street"
-              ref="street"
+              v-model="addressStreet"
+              ref="addressStreet"
               type="text"
               name="addr-street"
               class="input"
@@ -41,8 +41,8 @@
           <label class="input">
             <span>Дом*</span>
             <AppInput
-              v-model="building"
-              ref="building"
+              v-model="addressBuilding"
+              ref="addressBuilding"
               type="text"
               name="addr-house"
               class="input"
@@ -55,8 +55,8 @@
           <label class="input">
             <span>Квартира*</span>
             <AppInput
-              v-model="flat"
-              ref="flat"
+              v-model="addressFlat"
+              ref="addressFlat"
               type="text"
               name="addr-apartment"
               class="input"
@@ -69,8 +69,8 @@
           <label class="input">
             <span>Комментарий</span>
             <AppInput
-              v-model="comment"
-              ref="comment"
+              v-model="addressComment"
+              ref="addressComment"
               type="text"
               name="addr-comment"
               class="input"
@@ -88,9 +88,7 @@
         >
           Удалить
         </button>
-        <button type="submit" class="button" v-on:click="addAddress">
-          Сохранить
-        </button>
+        <button type="submit" class="button">Сохранить</button>
       </div>
     </form>
   </div>
@@ -100,7 +98,6 @@
 import { mapState } from "vuex";
 import AppInput from "@/common/components/AppInput";
 //import CartPizzaItem from "@/modules/cart/components/CartPizzaItem";
-import validator from "@/common/mixins/validator";
 
 export default {
   name: "ProfileNewAddress",
@@ -144,66 +141,37 @@ export default {
       required: false,
     },
   },
-  mixins: [validator],
-  data: () => ({
-    // и добавляем объект validations. Поля cо списком правил валидации
-    // и параметром error для присвоения текста ошибки в миксине.
-    validations: {
-      street: {
-        error: "",
-        rules: ["required"],
-      },
-      building: {
-        error: "",
-        rules: ["required"],
-      },
-      flat: {
-        error: "",
-        rules: ["required"],
-      },
-    },
-  }),
-  watch: {
-    street() {
-      this.$clearValidationErrors();
-    },
-    building() {
-      this.$clearValidationErrors();
-    },
-    flat() {
-      this.$clearValidationErrors();
-    },
+  data() {
+    return {
+      addressName: this.name,
+      addressStreet: this.street,
+      addressBuilding: this.building,
+      addressFlat: this.flat,
+      addressComment: this.comment,
+    };
   },
   methods: {
     async addAddress() {
-      if (
-        !this.$validateFields(
-          { street: this.street, building: this.building, flat: this.flat },
-          this.validations
-        )
-      ) {
-        return;
-      }
       if (this.newAddress) {
         // Если поля валидны - отправляем запрос на сервер.
         await this.$api.addresses.post({
-          name: this.name,
+          name: this.addressName,
           userId: this.user.id,
-          street: this.street,
-          building: this.building,
-          flat: this.flat,
-          comment: this.comment,
+          street: this.addressStreet,
+          building: this.addressBuilding,
+          flat: this.addressFlat,
+          comment: this.addressComment,
         });
       } else {
         // Если поля валидны - отправляем запрос на сервер.
         await this.$api.addresses.put({
           id: this.id,
-          name: this.name,
+          name: this.addressName,
           userId: this.user.id,
-          street: this.street,
-          building: this.building,
-          flat: this.flat,
-          comment: this.comment,
+          street: this.addressStreet,
+          building: this.addressBuilding,
+          flat: this.addressFlat,
+          comment: this.addressComment,
         });
       }
       await this.$router.go();

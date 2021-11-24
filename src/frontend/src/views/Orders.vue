@@ -211,7 +211,7 @@ export default {
       let price = 0;
       if (order.orderPizzas != null) {
         for (let value of order.orderPizzas) {
-          price += this.pizzaPrice(value);
+          price += this.pizzaPrice(value) * value.quantity;
         }
       }
       if (order.orderMisc != null) {

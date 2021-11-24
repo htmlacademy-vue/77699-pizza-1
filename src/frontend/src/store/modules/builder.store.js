@@ -28,10 +28,8 @@ export default {
     pizzaDough: "light",
     doughPrice: 300,
     sauceId: 1,
-    sauceChecked: "tomato",
     saucePrice: 50,
     sizeId: 2,
-    sizeChecked: "normal",
     sizePrice: 2,
     Fillings: [],
     pizzaName: "",
@@ -165,24 +163,21 @@ export default {
     },
   },
   actions: {
-    async getDoughs({ commit }, config) {
-      const data = await this.$api.dough.query(config);
-      const doughs = normalizePizza(data, DoughTypes);
+    async getPizzaData({ commit }, config) {
+      const doughsData = await this.$api.dough.query(config);
+      const doughs = normalizePizza(doughsData, DoughTypes);
       commit("GET_DOUGH", doughs);
-    },
-    async getSizes({ commit }, config) {
-      const data = await this.$api.sizes.query(config);
-      const sizes = normalizePizza(data, PizzaSizes);
+
+      const sizesData = await this.$api.sizes.query(config);
+      const sizes = normalizePizza(sizesData, PizzaSizes);
       commit("GET_SIZE", sizes);
-    },
-    async getSauces({ commit }, config) {
-      const data = await this.$api.sauces.query(config);
-      const sauces = normalizePizza(data, SauceTypes);
+
+      const saucesData = await this.$api.sauces.query(config);
+      const sauces = normalizePizza(saucesData, SauceTypes);
       commit("GET_SAUCE", sauces);
-    },
-    async getIngredients({ commit }, config) {
-      const data = await this.$api.ingredients.query(config);
-      const ingredients = normalizePizza(data, FillingTypes);
+
+      const ingredientsData = await this.$api.ingredients.query(config);
+      const ingredients = normalizePizza(ingredientsData, FillingTypes);
       commit("GET_INGREDIENTS", ingredients);
     },
   },
