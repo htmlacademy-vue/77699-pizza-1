@@ -6,9 +6,9 @@
       <div class="sheet__content dough">
         <RadioButton
           v-for="dough in Doughs"
-          v-bind:key="dough.value"
+          v-bind:key="dough.id"
           v-bind:labelClass="'dough__input dough__input--' + dough.value"
-          v-bind:checked="pizzaDough == dough.value"
+          v-bind:checked="dough.id == doughId"
           name="dought"
           v-bind:value="dough.value"
           inputClass="visually-hidden"
@@ -36,6 +36,7 @@ export default {
       this.$store.commit("Builder/CHANGE_DOUGH", {
         name: this.getFoundation(dough.value),
         price: dough.price,
+        Id: dough.id,
       });
     },
     getFoundation(value) {
@@ -45,10 +46,7 @@ export default {
     },
   },
   computed: {
-    Doughs() {
-      return this.$store.state.Builder.Doughs;
-    },
-    ...mapState("Builder", ["pizzaDough"]),
+    ...mapState("Builder", ["Doughs", "doughId"]),
   },
 };
 </script>

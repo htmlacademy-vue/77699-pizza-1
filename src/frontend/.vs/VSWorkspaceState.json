@@ -1,0 +1,14 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\src",
+    "\\src\\common\\components",
+    "\\src\\modules",
+    "\\src\\modules\\builder",
+    "\\src\\modules\\builder\\components",
+    "\\src\\store",
+    "\\src\\store\\modules",
+    "\\src\\views"
+  ],
+  "PreviewInSolutionExplorer": false
+}

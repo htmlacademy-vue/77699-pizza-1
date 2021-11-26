@@ -1,4 +1,5 @@
 import Vue from "vue";
+import VuexPlugins from "@/plugins/vuexPlugins";
 import Vuex from "vuex";
 // импорт модулей
 import modules from "@/modules/index";
@@ -9,6 +10,7 @@ export default new Vuex.Store({
   state: {},
   getters: {},
   mutations: {},
+  plugins: [VuexPlugins],
   actions: {},
   modules,
 });

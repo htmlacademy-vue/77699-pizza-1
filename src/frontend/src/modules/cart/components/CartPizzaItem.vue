@@ -11,9 +11,12 @@
       <div class="product__text">
         <h2>{{ pizza.name }}</h2>
         <ul>
-          <li>{{ pizza.size }}, на {{ doughName }} тесте</li>
-          <li>Соус: {{ pizza.sauce }}</li>
-          <li>Начинка: {{ pizza.fillings }}</li>
+          <li>
+            {{ getSizeById(pizza.sizeId).name }}, на
+            {{ doughName(getDoughById(pizza.doughId)) }} тесте
+          </li>
+          <li>Соус: {{ getSauceById(pizza.sauceId).name.toLowerCase() }}</li>
+          <li>Начинка: {{ getFillings(pizza) }}</li>
         </ul>
       </div>
     </div>
@@ -32,7 +35,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
 import PizzaItemCounter from "@/common/components/PizzaItemCounter";
 
 export default {
@@ -62,17 +65,33 @@ export default {
         indx: this.pizzas.indexOf(this.pizza),
       });
     },
+    doughName(dough) {
+      if (dough != null) {
+        let doughName;
+        doughName = dough.name
+          .toLowerCase()
+          .substring(0, dough.name.length - 2);
+        doughName += "ом";
+        return doughName;
+      }
+    },
+    getFillings(pizza) {
+      let fillings = [];
+      for (let value of pizza.ingredients) {
+        fillings.push(this.getIngredientById(value.id).name.toLowerCase());
+      }
+      return fillings.toString();
+    },
   },
   computed: {
     ...mapState("Cart", ["pizzas"]),
-    doughName() {
-      let doughName;
-      doughName = this.pizza.dough
-        .toLowerCase()
-        .substring(0, this.pizza.dough.length - 2);
-      doughName += "ом";
-      return doughName;
-    },
+    ...mapGetters("Cart", ["getMiscById"]),
+    ...mapGetters("Builder", [
+      "getDoughById",
+      "getSauceById",
+      "getSizeById",
+      "getIngredientById",
+    ]),
   },
 };
 </script>
