@@ -5,11 +5,13 @@ export default [
     path: "/",
     name: "IndexHome",
     component: () => import("@/views/Index.vue"),
+    meta: { layout: "Header" },
   },
   {
     path: "/cart",
     name: "Cart",
     component: () => import("@/views/Cart.vue"),
+    meta: { layout: "Header" },
     children: [
       {
         path: "/popup",
@@ -23,6 +25,7 @@ export default [
     name: "Login",
     component: () => import("@/views/Login.vue"),
     meta: {
+      layout: "Header",
       middlewares: [isLoggedIn],
     },
   },
@@ -31,6 +34,7 @@ export default [
     name: "Profile",
     component: () => import("@/views/Profile.vue"),
     meta: {
+      layout: "AppLayoutProfile",
       middlewares: [auth],
     },
   },
@@ -39,6 +43,7 @@ export default [
     name: "Orders",
     component: () => import("@/views/Orders.vue"),
     meta: {
+      layout: "AppLayoutProfile",
       middlewares: [auth],
     },
   },

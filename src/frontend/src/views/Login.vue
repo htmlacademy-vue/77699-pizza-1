@@ -18,6 +18,7 @@
               name="email"
               class="input"
               placeholder="example@mail.ru"
+              :autofocus="true"
               :error-text="validations.email.error"
             />
           </label>
@@ -74,10 +75,6 @@ export default {
     password() {
       this.$clearValidationErrors();
     },
-  },
-  // при входе на страницу ставим фокус на email-инпуте
-  mounted() {
-    this.$refs.email.$refs.input.focus();
   },
   methods: {
     async login() {

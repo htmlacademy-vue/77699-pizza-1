@@ -1,118 +1,91 @@
 <template>
   <body>
-    <main class="layout">
-      <div class="layout__sidebar sidebar">
-        <router-link :to="{ name: 'IndexHome' }" class="logo layout__logo">
-          <img
-            src="~@/assets/img/logo.svg"
-            alt="V!U!E! Pizza logo"
-            width="90"
-            height="40"
-          />
-        </router-link>
-
-        <a class="layout__link layout__link--active" href="#"
-          >История заказов</a
-        >
-        <router-link :to="{ name: 'Profile' }" class="layout__link"
-          >Мои данные</router-link
-        >
+    <div class="layout__content">
+      <div class="layout__title">
+        <h1 class="title title--big">История заказов</h1>
       </div>
-
-      <div class="layout__content">
-        <div class="layout__title">
-          <h1 class="title title--big">История заказов</h1>
-        </div>
-
-        <section
-          class="sheet order"
-          v-for="order in orders"
-          v-bind:key="order.id"
-        >
-          <div class="order__wrapper">
-            <div class="order__number">
-              <b>Заказ #{{ order.id }}</b>
-            </div>
-
-            <div class="order__sum">
-              <span>Сумма заказа: {{ totalPrice(order) }} ₽</span>
-            </div>
-
-            <div class="order__button">
-              <button
-                type="button"
-                class="button button--border"
-                v-on:click="deleteOrder(order.id)"
-              >
-                Удалить
-              </button>
-            </div>
-            <div class="order__button">
-              <button
-                type="button"
-                class="button"
-                v-on:click="addPizzaToCart(order)"
-              >
-                Повторить
-              </button>
-            </div>
+      <section
+        class="sheet order"
+        v-for="order in orders"
+        v-bind:key="order.id"
+      >
+        <div class="order__wrapper">
+          <div class="order__number">
+            <b>Заказ #{{ order.id }}</b>
           </div>
-
-          <ul class="order__list">
-            <li
-              class="order__item"
-              v-for="pizza in order.orderPizzas"
-              v-bind:key="pizza.id"
+          <div class="order__sum">
+            <span>Сумма заказа: {{ totalPrice(order) }} ₽</span>
+          </div>
+          <div class="order__button">
+            <button
+              type="button"
+              class="button button--border"
+              v-on:click="deleteOrder(order.id)"
             >
-              <div class="product">
-                <img
-                  src="~@/assets/img/product.svg"
-                  class="product__img"
-                  width="56"
-                  height="56"
-                  alt="pizza.name"
-                />
-                <div class="product__text">
-                  <h2>{{ pizza.name }}</h2>
-                  <ul>
-                    <li>
-                      {{ getSizeById(pizza.sizeId).name }} см, на
-                      {{ doughName(getDoughById(pizza.doughId)) }} тесте
-                    </li>
-                    <li>
-                      Соус: {{ getSauceById(pizza.sauceId).name.toLowerCase() }}
-                    </li>
-                    <li>Начинка: {{ getFillings(pizza) }}</li>
-                  </ul>
-                </div>
-              </div>
-
-              <p class="order__price">
-                {{ pizza.quantity > 1 ? pizza.quantity + "x" : "" }}
-                {{ pizzaPrice(pizza) }} ₽
-              </p>
-            </li>
-          </ul>
-
-          <ul class="order__additional">
-            <li v-for="misc in order.orderMisc" v-bind:key="misc.id">
+              Удалить
+            </button>
+          </div>
+          <div class="order__button">
+            <button
+              type="button"
+              class="button"
+              v-on:click="addPizzaToCart(order)"
+            >
+              Повторить
+            </button>
+          </div>
+        </div>
+        <ul class="order__list">
+          <li
+            class="order__item"
+            v-for="pizza in order.orderPizzas"
+            v-bind:key="pizza.id"
+          >
+            <div class="product">
               <img
-                :src="getMiscById(misc.miscId).image"
-                width="20"
-                height="30"
-                :alt="getMiscById(misc.miscId).name"
+                src="~@/assets/img/product.svg"
+                class="product__img"
+                width="56"
+                height="56"
+                alt="pizza.name"
               />
-              <p>
-                <span>{{ getMiscById(misc.miscId).name }}</span>
-                <b>{{ getMiscById(misc.miscId).price }} ₽</b>
-              </p>
-            </li>
-          </ul>
-
-          <p class="order__address">{{ getAddress(order) }}</p>
-        </section>
-      </div>
-    </main>
+              <div class="product__text">
+                <h2>{{ pizza.name }}</h2>
+                <ul>
+                  <li>
+                    {{ getSizeById(pizza.sizeId).name }} см, на
+                    {{ doughName(getDoughById(pizza.doughId)) }} тесте
+                  </li>
+                  <li>
+                    Соус: {{ getSauceById(pizza.sauceId).name.toLowerCase() }}
+                  </li>
+                  <li>Начинка: {{ getFillings(pizza) }}</li>
+                </ul>
+              </div>
+            </div>
+            <p class="order__price">
+              {{ pizza.quantity > 1 ? pizza.quantity + "x" : "" }}
+              {{ pizzaPrice(pizza) }} ₽
+            </p>
+          </li>
+        </ul>
+        <ul class="order__additional">
+          <li v-for="misc in order.orderMisc" v-bind:key="misc.id">
+            <img
+              :src="getMiscById(misc.miscId).image"
+              width="20"
+              height="30"
+              :alt="getMiscById(misc.miscId).name"
+            />
+            <p>
+              <span>{{ getMiscById(misc.miscId).name }}</span>
+              <b>{{ getMiscById(misc.miscId).price }} ₽</b>
+            </p>
+          </li>
+        </ul>
+        <p class="order__address">{{ getAddress(order) }}</p>
+      </section>
+    </div>
   </body>
 </template>
 
@@ -121,7 +94,6 @@ import { mapState, mapGetters } from "vuex";
 
 export default {
   name: "Orders",
-  components: {},
   data: () => ({}),
   methods: {
     getAddress(order) {
@@ -234,6 +206,8 @@ export default {
   },
   created() {
     this.$store.dispatch("Profile/getOrders");
+    this.$store.dispatch("Cart/getItems");
+    this.$store.dispatch("Builder/init");
   },
 };
 </script>

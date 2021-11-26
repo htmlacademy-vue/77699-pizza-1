@@ -166,7 +166,7 @@ export default {
     async addOrder() {
       const userId = this.isAuthenticated ? this.user.id : null;
       let pizzaObj = [];
-      this.pizzas.map(function (pizza) {
+      this.pizzas.forEach(function (pizza) {
         pizzaObj.push({
           name: pizza.name,
           sauceId: pizza.sauceId,
@@ -181,7 +181,7 @@ export default {
       });
 
       let miscObj = [];
-      this.misc.map(function (item) {
+      this.misc.forEach(function (item) {
         miscObj.push({
           miscId: item.miscId,
           quantity: item.count,
@@ -225,6 +225,10 @@ export default {
     },
   },
   created() {
+    this.$store.dispatch("Cart/getItems");
+    if (this.isAuthenticated) {
+      this.$store.dispatch("Profile/getAddresses");
+    }
     this.selected = this.addressId;
     if (this.selected > 0) {
       let addr = this.Addresses.find((item) => item.id == this.selected);

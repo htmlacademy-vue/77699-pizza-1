@@ -163,19 +163,31 @@ export default {
     },
   },
   actions: {
-    async getPizzaData({ commit }, config) {
+    async init({ dispatch }) {
+      dispatch("getDoughs");
+      dispatch("getSizes");
+      dispatch("getSauces");
+      dispatch("getIngredients");
+    },
+
+    async getDoughs({ commit }, config) {
       const doughsData = await this.$api.dough.query(config);
       const doughs = normalizePizza(doughsData, DoughTypes);
       commit("GET_DOUGH", doughs);
-
+    },
+    async getSizes({ commit }, config) {
       const sizesData = await this.$api.sizes.query(config);
       const sizes = normalizePizza(sizesData, PizzaSizes);
       commit("GET_SIZE", sizes);
+    },
 
+    async getSauces({ commit }, config) {
       const saucesData = await this.$api.sauces.query(config);
       const sauces = normalizePizza(saucesData, SauceTypes);
       commit("GET_SAUCE", sauces);
+    },
 
+    async getIngredients({ commit }, config) {
       const ingredientsData = await this.$api.ingredients.query(config);
       const ingredients = normalizePizza(ingredientsData, FillingTypes);
       commit("GET_INGREDIENTS", ingredients);
