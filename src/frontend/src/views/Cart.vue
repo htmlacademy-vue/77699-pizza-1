@@ -115,7 +115,9 @@
         </div>
       </section>
     </form>
-    <Popup v-if="showModal" v-on:close="showModal = false" />
+    <transition name="fade" mode="out-in">
+      <Popup v-if="showModal" v-on:close="showModal = false" />
+    </transition>
   </body>
 </template>
 
@@ -244,4 +246,13 @@ export default {
 };
 </script>
 
-<style scoped lang="scss"></style>
+<style lang="scss" scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+</style>
