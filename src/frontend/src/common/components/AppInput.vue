@@ -49,11 +49,18 @@ export default {
       type: Boolean,
       default: false,
     },
+    autofocus: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     showError() {
       return !!this.errorText;
     },
+  },
+  mounted() {
+    if (this.autofocus) this.$refs.input.focus();
   },
 };
 </script>

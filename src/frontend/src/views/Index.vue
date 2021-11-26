@@ -38,6 +38,9 @@ export default {
       "Fillings",
     ]),
   },
+  created() {
+    this.$store.dispatch("Builder/init");
+  },
 };
 </script>
 

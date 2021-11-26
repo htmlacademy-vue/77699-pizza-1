@@ -3,26 +3,22 @@ import {
   CHANGE_CART_ITEM,
   RESET_CART,
   CHANGE_PIZZA_COUNT,
+  GET_ITEMS,
+  SET_CART_ORDER,
 } from "@/store/mutation-types.js";
-import { PizzaSizes } from "@/common/constants";
-import { getNameForCart, getFillingsForCart } from "@/common/helpers";
-import { DoughTypes } from "@/common/constants";
-import { FillingTypes } from "@/common/constants";
-import { SauceTypes } from "@/common/constants";
-import items from "@/static/misc.json";
-import deliveryItems from "@/static/delivery.json";
 
 export default {
   namespaced: true,
   state: {
     pizzas: [],
-    items: items,
-    deliveryItems: deliveryItems,
-    colaPrice: 0,
-    saucePrice: 0,
-    potatoPrice: 0,
+    items: [],
+    misc: [],
+    addressId: -1,
   },
   getters: {
+    getMiscById: (state) => (id) => {
+      return state.items.find((item) => item.id === id);
+    },
     Price(state) {
       let ingridientPrice = 0;
       for (let value of state.Fillings) {
@@ -40,68 +36,89 @@ export default {
           accumulator + currentValue.price * currentValue.count,
         orderFullPrice
       );
-      orderFullPrice =
-        pizzaTotal + state.colaPrice + state.saucePrice + state.potatoPrice;
+      let miscTotal = 0;
+      for (let value of state.misc) {
+        miscTotal +=
+          state.items.find((item) => item.id === value.miscId).price *
+          value.count;
+      }
+      orderFullPrice = pizzaTotal + miscTotal;
       return orderFullPrice;
     },
   },
   mutations: {
+    [GET_ITEMS](state, items) {
+      state.items = items;
+    },
     [CHANGE_CART_PIZZA](state, newPizza) {
       if (newPizza.indx == -1) {
         state.pizzas.push({
           name: newPizza.name,
-          size: getNameForCart(newPizza.size, PizzaSizes).label,
-          sizePrice: newPizza.sizePrice,
-          pizzaSize: newPizza.size,
-          dough: getNameForCart(newPizza.dough, DoughTypes).label,
-          pizzaDough: newPizza.dough,
-          sauce: getNameForCart(newPizza.sauce, SauceTypes).label.toLowerCase(),
-          pizzaSauce: newPizza.sauce,
+          sizeId: newPizza.sizeId,
+          doughId: newPizza.doughId,
+          sauceId: newPizza.sauceId,
           count: 1,
-          fillings: getFillingsForCart(newPizza.fillings, FillingTypes).join(
-            ", "
-          ),
-          pizzaFillings: newPizza.pizzaFillings,
+          ingredients: newPizza.pizzaFillings,
           price: newPizza.price,
         });
       } else {
         state.pizzas[newPizza.indx].name = newPizza.name;
-        state.pizzas[newPizza.indx].size = getNameForCart(
-          newPizza.size,
-          PizzaSizes
-        ).label;
-        state.pizzas[newPizza.indx].pizzaSize = newPizza.size;
-        state.pizzas[newPizza.indx].dough = getNameForCart(
-          newPizza.dough,
-          DoughTypes
-        ).label;
-        state.pizzas[newPizza.indx].pizzaDough = newPizza.dough;
-        state.pizzas[newPizza.indx].sauce = getNameForCart(
-          newPizza.sauce,
-          SauceTypes
-        ).label.toLowerCase();
-        state.pizzas[newPizza.indx].pizzaSauce = newPizza.sauce;
-        state.pizzas[newPizza.indx].fillings = getFillingsForCart(
-          newPizza.fillings,
-          FillingTypes
-        ).join(", ");
-        state.pizzas[newPizza.indx].pizzaFillings = newPizza.pizzaFillings;
+        state.pizzas[newPizza.indx].sizeId = newPizza.sizeId;
+        state.pizzas[newPizza.indx].doughId = newPizza.doughId;
+        state.pizzas[newPizza.indx].sauceId = newPizza.sauceId;
+        state.pizzas[newPizza.indx].ingredients = newPizza.pizzaFillings;
         state.pizzas[newPizza.indx].price = newPizza.price;
       }
     },
-    [CHANGE_CART_ITEM](state, newPrice) {
-      if (newPrice.type == 1) state.colaPrice = newPrice.price;
-      if (newPrice.type == 2) state.saucePrice = newPrice.price;
-      if (newPrice.type == 3) state.potatoPrice = newPrice.price;
+    [SET_CART_ORDER](state, newOrder) {
+      if (newOrder.pizzas != null && newOrder.pizzas.length > 0) {
+        for (let pizza of newOrder.pizzas) {
+          state.pizzas.push({
+            name: pizza.pizza.name,
+            sizeId: pizza.pizza.sizeId,
+            doughId: pizza.pizza.doughId,
+            sauceId: pizza.pizza.sauceId,
+            ingredients: pizza.pizza.fillings,
+            count: pizza.pizza.quantity,
+            price: pizza.price,
+          });
+        }
+      }
+      if (newOrder.misc != null && newOrder.misc.length > 0) {
+        for (let misc of newOrder.misc) {
+          state.misc.push({
+            miscId: misc.miscId,
+            count: misc.quantity,
+            price: misc.price,
+          });
+        }
+      }
+      if (newOrder.addressId != null) state.addressId = newOrder.addressId;
+    },
+    [CHANGE_CART_ITEM](state, newMisc) {
+      if (state.misc.filter((e) => e.miscId === newMisc.id).length > 0) {
+        const objIndex = state.misc.findIndex((e) => e.miscId === newMisc.id);
+        if (newMisc.count > 0) state.misc[objIndex].count = newMisc.count;
+        else state.misc.splice(objIndex, 1);
+      } else {
+        state.misc.push({
+          miscId: newMisc.id,
+          count: newMisc.count,
+          price: newMisc.price,
+        });
+      }
     },
     [CHANGE_PIZZA_COUNT](state, newCount) {
       state.pizzas[newCount.indx].count = newCount.count;
     },
     [RESET_CART](state) {
-      (state.pizzas = []),
-        (state.colaPrice = 0),
-        (state.saucePrice = 0),
-        (state.potatoPrice = 0);
+      (state.pizzas = []), (state.misc = []);
+    },
+  },
+  actions: {
+    async getItems({ commit }, config) {
+      const data = await this.$api.misc.query(config);
+      commit("GET_ITEMS", data);
     },
   },
 };

@@ -23,17 +23,13 @@ export default {
   },
   methods: {
     addPizzaToCart() {
-      let dough = "light";
-      if (this.doughChecked == "big") dough = "large";
       this.$store.commit("Cart/CHANGE_CART_PIZZA", {
         name: this.pizzaName,
-        size: this.sizeChecked,
-        sizePrice: this.sizePrice,
-        dough: dough,
-        sauce: this.sauceChecked,
-        fillings: this.Fillings.map((x) => x.filling),
-        price: this.Price,
+        sizeId: this.sizeId,
+        doughId: this.doughId,
+        sauceId: this.sauceId,
         pizzaFillings: this.Fillings,
+        price: this.Price,
         indx: this.pizzaIndex,
       });
       this.$router.push({ name: "Cart" });
@@ -43,10 +39,9 @@ export default {
     ...mapGetters("Builder", ["Price", "ButtonStatus"]),
     ...mapState("Builder", [
       "pizzaName",
-      "sizeChecked",
-      "sizePrice",
-      "doughChecked",
-      "sauceChecked",
+      "sizeId",
+      "doughId",
+      "sauceId",
       "Fillings",
       "pizzaIndex",
     ]),

@@ -18,7 +18,6 @@
       <button
         type="button"
         class="counter__button counter__button--plus counter__button--orange"
-        v-bind:disabled="counterValue === 3"
         v-on:click="changeCount(1)"
       >
         <span class="visually-hidden">Больше</span>
@@ -46,7 +45,7 @@ export default {
       type: Number,
       required: true,
     },
-    itemType: {
+    id: {
       type: Number,
       required: false,
     },
@@ -58,8 +57,9 @@ export default {
       else if (event === 1) count = this.counterValue + 1;
       this.$emit("change-count", count);
       this.$store.commit("Cart/CHANGE_CART_ITEM", {
-        type: this.itemType,
-        price: count * this.itemPrice,
+        id: this.id,
+        price: this.itemPrice,
+        count: count,
       });
     },
   },
