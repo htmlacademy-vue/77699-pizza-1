@@ -2,7 +2,9 @@
   <main class="layout">
     <Header />
     <Sidebar />
-    <slot />
+    <div class="layout__content">
+      <slot />
+    </div>
   </main>
 </template>
 
@@ -16,4 +18,10 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.layout__content {
+  overflow: hidden;
+  padding-left: unset;
+  margin-left: 200px;
+}
+</style>

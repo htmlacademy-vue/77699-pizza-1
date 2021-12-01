@@ -48,10 +48,10 @@ export default {
     ...mapState("Builder", ["doughId", "sizeId", "sauceId", "Fillings"]),
     pizzaContent() {
       let doughChecked = "";
-      let dough = this.getDoughById(this.doughId).value;
+      let dough = this.getDoughById(this.doughId)?.value;
       if (dough == "light") doughChecked = "small";
       else doughChecked = "big";
-      let sauceChecked = this.getSauceById(this.sauceId).value;
+      let sauceChecked = this.getSauceById(this.sauceId)?.value;
       let pizzaFoundation = "pizza pizza--foundation--";
       let pizzaContent = pizzaFoundation.concat(
         doughChecked,

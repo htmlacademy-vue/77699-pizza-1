@@ -1,30 +1,28 @@
 <template>
-  <body>
-    <div class="layout__content">
-      <div class="layout__title">
-        <h1 class="title title--big">Мои данные</h1>
-      </div>
-      <div class="user">
-        <picture>
-          <source
-            type="image/webp"
-            srcset="
-              ~@/assets/img/users/user5@2x.webp 1x,
-              img/users/user5@4x.webp           2x
-            "
-          />
-          <img :src="user.avatar" :alt="user.name" width="72" height="72" />
-        </picture>
-        <div class="user__name">
-          <span>{{ user.name }}</span>
-        </div>
-        <p class="user__phone">
-          Контактный телефон: <span>{{ user.phone }}</span>
-        </p>
-      </div>
-      <ProfileAddressView />
+  <div>
+    <div class="layout__title">
+      <h1 class="title title--big">Мои данные</h1>
     </div>
-  </body>
+    <div class="user">
+      <picture>
+        <source
+          type="image/webp"
+          srcset="
+            ~@/assets/img/users/user5@2x.webp 1x,
+            img/users/user5@4x.webp           2x
+          "
+        />
+        <img :src="user.avatar" :alt="user.name" width="72" height="72" />
+      </picture>
+      <div class="user__name">
+        <span>{{ user.name }}</span>
+      </div>
+      <p class="user__phone">
+        Контактный телефон: <span>{{ user.phone }}</span>
+      </p>
+    </div>
+    <ProfileAddressView />
+  </div>
 </template>
 
 <script>
