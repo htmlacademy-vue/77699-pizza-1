@@ -6,16 +6,17 @@
     <section class="sheet order" v-for="order in orders" v-bind:key="order.id">
       <div class="order__wrapper">
         <div class="order__number">
-          <b>Заказ #{{ order.id }}</b>
+          <b data-test="orderId">Заказ #{{ order.id }}</b>
         </div>
         <div class="order__sum">
-          <span>Сумма заказа: {{ totalPrice(order) }} ₽</span>
+          <span data-test="price">Сумма заказа: {{ totalPrice(order) }} ₽</span>
         </div>
         <div class="order__button">
           <button
             type="button"
             class="button button--border"
-            v-on:click="deleteOrder(order.id)"
+            data-test="delBtn"
+            v-on:click="delOrder(order.id)"
           >
             Удалить
           </button>
@@ -24,6 +25,7 @@
           <button
             type="button"
             class="button"
+            data-test="addBtn"
             v-on:click="addPizzaToCart(order)"
           >
             Повторить
@@ -45,14 +47,18 @@
               alt="pizza.name"
             />
             <div class="product__text">
-              <h2>{{ pizza.name }}</h2>
+              <h2 data-test="pizzaName">{{ pizza.name }}</h2>
               <ul>
-                <li>
+                <li data-test="pizzaDough">
                   {{ sizeName(pizza.sizeId) }} см, на
                   {{ doughName(getDoughById(pizza.doughId)) }} тесте
                 </li>
-                <li>Соус: {{ sauceName(pizza.sauceId) }}</li>
-                <li>Начинка: {{ getFillings(pizza) }}</li>
+                <li data-test="pizzaSauce">
+                  Соус: {{ sauceName(pizza.sauceId) }}
+                </li>
+                <li data-test="pizzaFillings">
+                  Начинка: {{ getFillings(pizza) }}
+                </li>
               </ul>
             </div>
           </div>
@@ -71,8 +77,10 @@
             :alt="getMiscById(misc.miscId).name"
           />
           <p>
-            <span>{{ getMiscById(misc.miscId).name }}</span>
-            <b>{{ getMiscById(misc.miscId).price }} ₽</b>
+            <span data-test="miscName">{{
+              getMiscById(misc.miscId).name
+            }}</span>
+            <b data-test="miscPrice">{{ getMiscById(misc.miscId).price }} ₽</b>
           </p>
         </li>
       </ul>
@@ -82,7 +90,7 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from "vuex";
+import { mapState, mapGetters, mapActions } from "vuex";
 
 export default {
   name: "Orders",
@@ -123,8 +131,9 @@ export default {
       }
       return fillings.toString();
     },
-    async deleteOrder(orderId) {
-      await this.$api.orders.delete(orderId);
+    ...mapActions("Profile", ["deleteOrder"]),
+    async delOrder(orderId) {
+      await this.deleteOrder(orderId);
       await this.$router.go();
     },
     addPizzaToCart(order) {

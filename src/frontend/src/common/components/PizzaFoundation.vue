@@ -1,11 +1,12 @@
 <template>
   <div class="content__constructor">
-    <div v-bind:class="pizzaContent">
+    <div data-test="pizzaContent" v-bind:class="pizzaContent">
       <AppDrop class="pizza__wrapper" v-on:drop="moveFilling">
         <transition-group name="fillings">
           <div
             v-for="{ filling, number } in FillingsArr"
             v-bind:key="filling"
+            data-test="pizzaFilling"
             class="pizza__filling"
             v-bind:class="[
               'pizza__filling--' + filling + ' pizza__filling--' + number,
@@ -38,14 +39,8 @@ export default {
     },
   },
   computed: {
-    ...mapGetters("Builder", ["FillingsArr"]),
-    ...mapGetters("Builder", [
-      "getDoughById",
-      "getSauceById",
-      "getSizeById",
-      "getIngredientById",
-    ]),
-    ...mapState("Builder", ["doughId", "sizeId", "sauceId", "Fillings"]),
+    ...mapGetters("Builder", ["getDoughById", "getSauceById", "FillingsArr"]),
+    ...mapState("Builder", ["doughId", "sauceId"]),
     pizzaContent() {
       let doughChecked = "";
       let dough = this.getDoughById(this.doughId)?.value;

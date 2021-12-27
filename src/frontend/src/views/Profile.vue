@@ -15,10 +15,10 @@
         <img :src="user.avatar" :alt="user.name" width="72" height="72" />
       </picture>
       <div class="user__name">
-        <span>{{ user.name }}</span>
+        <span data-test="userName">{{ user.name }}</span>
       </div>
       <p class="user__phone">
-        Контактный телефон: <span>{{ user.phone }}</span>
+        Контактный телефон: <span data-test="userPhone">{{ user.phone }}</span>
       </p>
     </div>
     <ProfileAddressView />

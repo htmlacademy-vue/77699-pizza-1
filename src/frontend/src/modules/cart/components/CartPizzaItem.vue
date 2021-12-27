@@ -9,14 +9,16 @@
         alt="pizza.name"
       />
       <div class="product__text">
-        <h2>{{ pizza.name }}</h2>
+        <h2 data-test="pizzaName">{{ pizza.name }}</h2>
         <ul>
-          <li>
+          <li data-test="dough">
             {{ getSizeById(pizza.sizeId).name }}, на
             {{ doughName(getDoughById(pizza.doughId)) }} тесте
           </li>
-          <li>Соус: {{ getSauceById(pizza.sauceId).name.toLowerCase() }}</li>
-          <li>Начинка: {{ getFillings(pizza) }}</li>
+          <li data-test="sauce">
+            Соус: {{ getSauceById(pizza.sauceId).name.toLowerCase() }}
+          </li>
+          <li data-test="fillings">Начинка: {{ getFillings(pizza) }}</li>
         </ul>
       </div>
     </div>
@@ -85,7 +87,6 @@ export default {
   },
   computed: {
     ...mapState("Cart", ["pizzas"]),
-    ...mapGetters("Cart", ["getMiscById"]),
     ...mapGetters("Builder", [
       "getDoughById",
       "getSauceById",

@@ -1,6 +1,10 @@
 <template>
   <div class="layout__sidebar sidebar">
-    <router-link :to="{ name: 'IndexHome' }" class="logo layout__logo">
+    <router-link
+      :to="{ name: 'IndexHome' }"
+      class="logo layout__logo"
+      data-test="index"
+    >
       <img
         src="~@/assets/img/logo.svg"
         alt="V!U!E! Pizza logo"
@@ -8,11 +12,19 @@
         height="40"
       />
     </router-link>
-    <router-link :to="{ name: 'Orders' }" class="layout__link"
-      >История заказов</router-link
+    <router-link
+      :to="{ name: 'Orders' }"
+      class="layout__link"
+      data-test="orders"
     >
-    <router-link :to="{ name: 'Profile' }" class="layout__link"
-      >Мои данные</router-link
+      История заказов</router-link
+    >
+    <router-link
+      :to="{ name: 'Profile' }"
+      class="layout__link"
+      data-test="profile"
+    >
+      Мои данные</router-link
     >
   </div>
 </template>
