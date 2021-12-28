@@ -17,7 +17,6 @@ import BuilderDoughSelector from "@/modules/builder/components/BuilderDoughSelec
 import BuilderSizeSelector from "@/modules/builder/components/BuilderSizeSelector";
 import BuilderIngredientsSelector from "@/modules/builder/components/BuilderIngredientsSelector";
 import BuilderPizzaView from "@/modules/builder/components/BuilderPizzaView";
-import { mapState } from "vuex";
 
 export default {
   name: "IndexHome",
@@ -29,14 +28,6 @@ export default {
   },
   data() {
     return {};
-  },
-  computed: {
-    ...mapState("Builder", [
-      "sizePrice",
-      "saucePrice",
-      "doughPrice",
-      "Fillings",
-    ]),
   },
   created() {
     this.$store.dispatch("Builder/init");

@@ -14,6 +14,7 @@
             <AppInput
               ref="email"
               v-model="email"
+              data-test="email"
               type="email"
               name="email"
               class="input"
@@ -29,6 +30,7 @@
             <span>Пароль</span>
             <AppInput
               v-model="password"
+              data-test="password"
               type="password"
               name="pass"
               class="input"

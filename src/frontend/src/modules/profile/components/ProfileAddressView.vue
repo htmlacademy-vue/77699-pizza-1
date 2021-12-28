@@ -25,7 +25,6 @@
 
 <script>
 import { mapState } from "vuex";
-//import AppInput from "@/common/components/AppInput";
 import ProfileNewAddress from "@/modules/profile/components/ProfileNewAddress";
 import ProfileAddressItem from "@/modules/profile/components/ProfileAddressItem";
 import validator from "@/common/mixins/validator";

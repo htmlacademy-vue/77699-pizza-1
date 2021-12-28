@@ -45,6 +45,7 @@
                     <span>Улица*</span>
                     <AppInput
                       v-model="street"
+                      data-test="street"
                       ref="street"
                       type="text"
                       name="street"
@@ -59,6 +60,7 @@
                     <span>Дом*</span>
                     <AppInput
                       v-model="building"
+                      data-test="building"
                       ref="building"
                       type="text"
                       name="house"
@@ -73,6 +75,7 @@
                     <span>Квартира</span>
                     <AppInput
                       v-model="flat"
+                      data-test="flat"
                       ref="flat"
                       type="text"
                       name="apartment"
@@ -88,7 +91,11 @@
       <section class="footer">
         <div class="footer__more">
           <router-link :to="{ name: 'IndexHome' }">
-            <a @click="resetPizza" class="button button--border button--arrow">
+            <a
+              @click="resetPizza"
+              data-test="reset"
+              class="button button--border button--arrow"
+            >
               Хочу еще одну
             </a>
           </router-link>
@@ -97,13 +104,14 @@
           Перейти к конструктору<br />чтоб собрать ещё одну пиццу
         </p>
         <div class="footer__price">
-          <b>Итого: {{ CartPrice }} ₽</b>
+          <b data-test="price">Итого: {{ CartPrice }} ₽</b>
         </div>
 
         <div class="footer__submit">
           <button
             type="submit"
             class="button"
+            data-test="addOrder"
             v-on:click="addOrder"
             v-bind:disabled="pizzas.length == 0 && misc.length == 0"
             v-bind:class="[
@@ -125,7 +133,7 @@
 import Popup from "@/views/Popup";
 import CartPizzaView from "@/modules/cart/components/CartPizzaView";
 import CartOtherView from "@/modules/cart/components/CartOtherView";
-import { mapGetters, mapState } from "vuex";
+import { mapGetters, mapState, mapActions } from "vuex";
 import AppInput from "@/common/components/AppInput";
 
 export default {
@@ -165,6 +173,7 @@ export default {
         this.building = "";
       }
     },
+    ...mapActions("Profile", ["postOrder"]),
     async addOrder() {
       const userId = this.isAuthenticated ? this.user.id : null;
       let pizzaObj = [];
@@ -208,7 +217,7 @@ export default {
           comment: this.comment,
         };
       }
-      await this.$api.orders.post({
+      await this.postOrder({
         userId: userId,
         pizzas: pizzaObj,
         misc: miscObj,

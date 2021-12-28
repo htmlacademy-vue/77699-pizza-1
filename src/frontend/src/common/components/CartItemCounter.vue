@@ -4,6 +4,7 @@
       <button
         type="button"
         class="counter__button counter__button--minus"
+        data-test="button--minus"
         v-bind:disabled="counterValue === 0"
         v-on:click="changeCount(0)"
       >
@@ -18,6 +19,7 @@
       <button
         type="button"
         class="counter__button counter__button--plus counter__button--orange"
+        data-test="button--plus"
         v-on:click="changeCount(1)"
       >
         <span class="visually-hidden">Больше</span>
@@ -25,7 +27,7 @@
     </div>
 
     <div class="additional-list__price">
-      <b>{{ Price }} ₽</b>
+      <b data-test="price">{{ Price }} ₽</b>
     </div>
   </div>
 </template>

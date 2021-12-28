@@ -2,15 +2,17 @@
   <div>
     <div class="sheet address-form">
       <div class="address-form__header">
-        <b>{{ address.name }}</b>
+        <b data-test="addressName">{{ address.name }}</b>
         <div class="address-form__edit">
           <button type="button" class="icon" v-on:click="addressForm">
             <span class="visually-hidden">Изменить адрес</span>
           </button>
         </div>
       </div>
-      <p>{{ address.street }}, {{ address.building }}, {{ address.flat }}</p>
-      <small>{{ address.comment }}</small>
+      <p data-test="address">
+        {{ address.street }}, {{ address.building }}, {{ address.flat }}
+      </p>
+      <small data-test="addressComment">{{ address.comment }}</small>
     </div>
     <ProfileNewAddress
       v-bind:newAddress="false"

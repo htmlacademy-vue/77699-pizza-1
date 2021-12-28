@@ -14,6 +14,7 @@
             <span>Название адреса*</span>
             <AppInput
               v-model="addressName"
+              data-test="addressName"
               ref="addressName"
               type="text"
               name="addr-name"
@@ -28,6 +29,7 @@
             <span>Улица*</span>
             <AppInput
               v-model="addressStreet"
+              data-test="addressStreet"
               ref="addressStreet"
               type="text"
               name="addr-street"
@@ -42,6 +44,7 @@
             <span>Дом*</span>
             <AppInput
               v-model="addressBuilding"
+              data-test="addressBuilding"
               ref="addressBuilding"
               type="text"
               name="addr-house"
@@ -56,6 +59,7 @@
             <span>Квартира*</span>
             <AppInput
               v-model="addressFlat"
+              data-test="addressFlat"
               ref="addressFlat"
               type="text"
               name="addr-apartment"
@@ -70,6 +74,7 @@
             <span>Комментарий</span>
             <AppInput
               v-model="addressComment"
+              data-test="addressComment"
               ref="addressComment"
               type="text"
               name="addr-comment"
@@ -82,9 +87,10 @@
       <div class="address-form__buttons">
         <button
           type="button"
+          data-test="delBtn"
           class="button button--transparent"
           v-if="!newAddress"
-          v-on:click="deleteAddress"
+          v-on:click="delAddress"
         >
           Удалить
         </button>
@@ -95,9 +101,8 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapActions } from "vuex";
 import AppInput from "@/common/components/AppInput";
-//import CartPizzaItem from "@/modules/cart/components/CartPizzaItem";
 
 export default {
   name: "ProfileNewAddress",
@@ -151,10 +156,11 @@ export default {
     };
   },
   methods: {
+    ...mapActions("Profile", ["deleteAddress", "postAddress", "putAddress"]),
     async addAddress() {
       if (this.newAddress) {
         // Если поля валидны - отправляем запрос на сервер.
-        await this.$api.addresses.post({
+        await this.postAddress({
           name: this.addressName,
           userId: this.user.id,
           street: this.addressStreet,
@@ -164,7 +170,7 @@ export default {
         });
       } else {
         // Если поля валидны - отправляем запрос на сервер.
-        await this.$api.addresses.put({
+        await this.putAddress({
           id: this.id,
           name: this.addressName,
           userId: this.user.id,
@@ -176,8 +182,8 @@ export default {
       }
       await this.$router.go();
     },
-    async deleteAddress() {
-      await this.$api.addresses.delete(this.id);
+    async delAddress() {
+      await this.deleteAddress(this.id);
       await this.$router.go();
     },
   },

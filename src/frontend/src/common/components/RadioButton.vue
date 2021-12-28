@@ -35,7 +35,7 @@ export default {
     },
     labelClass: {
       type: String,
-      required: true,
+      required: false,
     },
     itemName: {
       type: String,

@@ -3,6 +3,7 @@
     <button
       type="button"
       class="counter__button counter__button--disabled counter__button--minus"
+      data-test="button--minus"
       v-bind:disabled="counterValue === 0"
       v-on:click="changeCount(0)"
     >
@@ -17,6 +18,7 @@
     <button
       type="button"
       class="counter__button counter__button--plus"
+      data-test="button--plus"
       v-bind:disabled="counterValue === 3"
       v-on:click="changeCount(1)"
     >
