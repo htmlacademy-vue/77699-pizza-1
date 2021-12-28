@@ -5,7 +5,6 @@ import Profile from "@/views/Profile";
 import ProfileAddressView from "@/modules/profile/components/ProfileAddressView";
 
 const localVue = createLocalVue();
-localVue.component('ProfileAddressView', ProfileAddressView);
 localVue.use(Vuex);
 
 describe("Profile", () => {

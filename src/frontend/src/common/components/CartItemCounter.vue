@@ -27,7 +27,7 @@
     </div>
 
     <div class="additional-list__price">
-      <b>{{ Price }} ₽</b>
+      <b data-test="price">{{ Price }} ₽</b>
     </div>
   </div>
 </template>

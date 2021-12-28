@@ -14,7 +14,7 @@ describe("ProfileNewAddress", () => {
   let wrapper;
   let store;
   const listeners = { click: null };
-  const propsData = { newAddress: false, showAddressForm: true, id: 1, name: "testName", street: "testStreet", building: "testBuilding", flat: "testFlat", comment: "testComment" };
+  let propsData;
   const mocks = {
     $router: {
       go: jest.fn(),
@@ -31,6 +31,7 @@ describe("ProfileNewAddress", () => {
   };
 
   beforeEach(() => {
+	propsData = { newAddress: false, showAddressForm: true, id: 1, name: "testName", street: "testStreet", building: "testBuilding", flat: "testFlat", comment: "testComment" };
     listeners.click = jest.fn();
     actions = {
       Profile: {

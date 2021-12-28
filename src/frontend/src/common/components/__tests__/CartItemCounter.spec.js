@@ -55,7 +55,7 @@ describe("CartItemCounter", () => {
   it("calculates price", () => {
 	propsData.counterValue = 2;
     createComponent({ localVue, store, propsData });
-    expect(wrapper.vm.Price).toEqual(60);
+    expect(wrapper.find("[data-test='price']").text()).toBe("60 ₽");
   });
   
   it("raises the changeCount event on plus click", async () => {
