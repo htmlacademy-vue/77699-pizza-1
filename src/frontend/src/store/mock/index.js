@@ -1,18 +1,18 @@
-import { cloneDeep } from 'lodash';
+import { cloneDeep } from "lodash";
 
-import { mutations } from '@/store';
+import { mutations } from "@/store";
 import modules from "@/modules";
-import Vuex from 'vuex';
+import Vuex from "vuex";
 
-import users from '@/static/users';
-import VuexPlugins from '@/plugins/vuexPlugins';
+import users from "@/static/users";
+import VuexPlugins from "@/plugins/vuexPlugins";
 
 const state = () => ({
   notifications: [],
-  users
+  users,
 });
 
-export const generateMockStore = actions => {
+export const generateMockStore = (actions) => {
   const modulesCopy = cloneDeep(modules);
   if (actions) {
     Object.entries(actions).forEach(([module, actions]) => {
@@ -24,6 +24,6 @@ export const generateMockStore = actions => {
     state,
     mutations,
     modules: modulesCopy,
-    plugins: [VuexPlugins]
+    plugins: [VuexPlugins],
   });
 };

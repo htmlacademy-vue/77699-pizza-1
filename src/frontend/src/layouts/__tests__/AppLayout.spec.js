@@ -5,7 +5,6 @@ import AppLayout from "@/layouts/AppLayout.vue";
 import AppLayoutDefault from "@/layouts/AppLayoutDefault.vue";
 
 describe("AppLayout", () => {
-
   let wrapper;
 
   const mocks = {
@@ -15,15 +14,15 @@ describe("AppLayout", () => {
       },
     },
   };
-  
-  const createComponent = options => {
+
+  const createComponent = (options) => {
     wrapper = shallowMount(AppLayout, options);
   };
 
   afterEach(() => {
     wrapper.destroy();
   });
-  
+
   it("is rendered", () => {
     createComponent({ mocks });
     expect(wrapper.exists()).toBeTruthy();

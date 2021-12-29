@@ -5,20 +5,22 @@ import BuilderDoughSelector from "@/modules/builder/components/BuilderDoughSelec
 import RadioButton from "@/common/components/RadioButton";
 
 const localVue = createLocalVue();
-localVue.component('RadioButton', RadioButton);
+localVue.component("RadioButton", RadioButton);
 localVue.use(Vuex);
 
 describe("BuilderDoughSelector", () => {
-
   let wrapper;
   const listeners = { change: null };
   let store;
-	
+
   const getData = () => {
-    store.commit("Builder/GET_DOUGH", [{ id: 1, value: "light" }, { id: 2, value: "large" }]);
+    store.commit("Builder/GET_DOUGH", [
+      { id: 1, value: "light" },
+      { id: 2, value: "large" },
+    ]);
   };
-  
-  const createComponent = options => {
+
+  const createComponent = (options) => {
     wrapper = mount(BuilderDoughSelector, options);
   };
 
@@ -30,29 +32,35 @@ describe("BuilderDoughSelector", () => {
   afterEach(() => {
     wrapper.destroy();
   });
-  
+
   it("renders RadioButton", () => {
-	getData();
+    getData();
     createComponent({ localVue, store, listeners });
-    expect(wrapper.findAllComponents(RadioButton).length).toBe(2)
+    expect(wrapper.findAllComponents(RadioButton).length).toBe(2);
   });
-  
+
   it("RadioButton labelClass contains dough.value", () => {
-	getData();
+    getData();
     createComponent({ localVue, store, listeners });
-    expect(wrapper.findAllComponents(RadioButton).at(0).props("labelClass")).toContain("dough__input--light");
+    expect(
+      wrapper.findAllComponents(RadioButton).at(0).props("labelClass")
+    ).toContain("dough__input--light");
   });
-  
+
   it("RadioButton value is dough.value", () => {
-	getData();
+    getData();
     createComponent({ localVue, store, listeners });
-    expect(wrapper.findAllComponents(RadioButton).at(0).props("value")).toEqual("light");
+    expect(wrapper.findAllComponents(RadioButton).at(0).props("value")).toEqual(
+      "light"
+    );
   });
-  
+
   it("RadioButton checked if dough.id == doughId", () => {
-	getData();
+    getData();
     createComponent({ localVue, store, listeners });
-    expect(wrapper.findAllComponents(RadioButton).at(0).props("checked")).toBeTruthy();
+    expect(
+      wrapper.findAllComponents(RadioButton).at(0).props("checked")
+    ).toBeTruthy();
   });
 
   it("calls the vuex mutation on change", async () => {

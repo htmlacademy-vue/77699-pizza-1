@@ -8,27 +8,26 @@ import BuilderIngredientsSelector from "@/modules/builder/components/BuilderIngr
 import BuilderPizzaView from "@/modules/builder/components/BuilderPizzaView";
 
 const localVue = createLocalVue();
-localVue.component('BuilderDoughSelector', BuilderDoughSelector);
-localVue.component('BuilderSizeSelector', BuilderSizeSelector);
-localVue.component('BuilderIngredientsSelector', BuilderIngredientsSelector);
-localVue.component('BuilderPizzaView', BuilderPizzaView);
+localVue.component("BuilderDoughSelector", BuilderDoughSelector);
+localVue.component("BuilderSizeSelector", BuilderSizeSelector);
+localVue.component("BuilderIngredientsSelector", BuilderIngredientsSelector);
+localVue.component("BuilderPizzaView", BuilderPizzaView);
 localVue.use(Vuex);
 
 describe("Index", () => {
-
   let actions;
   let wrapper;
   let store;
-  
-  const createComponent = options => {
+
+  const createComponent = (options) => {
     wrapper = mount(Index, options);
   };
 
   beforeEach(() => {
-	actions = {
+    actions = {
       Builder: {
         init: jest.fn(),
-      }
+      },
     };
     store = generateMockStore(actions);
   });
@@ -36,27 +35,29 @@ describe("Index", () => {
   afterEach(() => {
     wrapper.destroy();
   });
-  
+
   it("renders BuilderDoughSelector", () => {
     createComponent({ localVue, store });
     expect(wrapper.findComponent(BuilderDoughSelector).exists()).toBeTruthy();
   });
-  
+
   it("renders BuilderSizeSelector", () => {
     createComponent({ localVue, store });
     expect(wrapper.findComponent(BuilderSizeSelector).exists()).toBeTruthy();
   });
-  
+
   it("renders BuilderIngredientsSelector", () => {
     createComponent({ localVue, store });
-    expect(wrapper.findComponent(BuilderIngredientsSelector).exists()).toBeTruthy();
+    expect(
+      wrapper.findComponent(BuilderIngredientsSelector).exists()
+    ).toBeTruthy();
   });
-  
+
   it("renders BuilderPizzaView", () => {
     createComponent({ localVue, store });
     expect(wrapper.findComponent(BuilderPizzaView).exists()).toBeTruthy();
   });
-  
+
   it("calls init when created", () => {
     createComponent({ localVue, store });
     expect(actions.Builder.init).toHaveBeenCalled();

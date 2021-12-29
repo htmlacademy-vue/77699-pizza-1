@@ -20,6 +20,7 @@ import BuilderPizzaView from "@/modules/builder/components/BuilderPizzaView";
 
 export default {
   name: "IndexHome",
+  layout: "Header",
   components: {
     BuilderDoughSelector,
     BuilderSizeSelector,

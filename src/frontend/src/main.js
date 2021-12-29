@@ -1,12 +1,17 @@
 import Vue from "vue";
-import App from "./App.vue";
-import router from "@/router";
-import store from "@/store"; // добавляем store
+import App from "@/App.vue";
+import store from "@/store";
 
 Vue.config.productionTip = false;
 
-new Vue({
-  router,
-  store, // добавляем store
-  render: (h) => h(App),
-}).$mount("#app");
+const init = async () => {
+  const module = await import("@/router");
+  const router = await module.default;
+  new Vue({
+    router,
+    store,
+    render: (h) => h(App),
+  }).$mount("#app");
+};
+
+init();

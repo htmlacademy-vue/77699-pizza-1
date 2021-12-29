@@ -91,9 +91,12 @@
 
 <script>
 import { mapState, mapGetters, mapActions } from "vuex";
+import auth from "@/middlewares/auth";
 
 export default {
   name: "Orders",
+  middlewares: { auth },
+  layout: "AppLayoutProfile",
   data: () => ({}),
   methods: {
     sauceName(sauceId) {
