@@ -2,7 +2,7 @@ import Vue from "vue";
 import VuexPlugins from "@/plugins/vuexPlugins";
 import Vuex from "vuex";
 // импорт модулей
-import modules from "@/modules/index";
+import modules from "@/store/modules/index.js";
 
 Vue.use(Vuex);
 

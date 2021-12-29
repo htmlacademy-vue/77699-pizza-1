@@ -1,7 +1,6 @@
 import { cloneDeep } from "lodash";
 
-import { mutations } from "@/store";
-import modules from "@/modules";
+import modules from "@/modules/index.js";
 import Vuex from "vuex";
 
 import users from "@/static/users";
@@ -22,7 +21,6 @@ export const generateMockStore = (actions) => {
 
   return new Vuex.Store({
     state,
-    mutations,
     modules: modulesCopy,
     plugins: [VuexPlugins],
   });
