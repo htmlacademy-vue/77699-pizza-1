@@ -13,7 +13,7 @@ describe("RadioButton", () => {
 
   let wrapper;
 
-  const createComponent = options => {
+  const createComponent = (options) => {
     wrapper = shallowMount(RadioButton, options);
   };
 
@@ -24,7 +24,7 @@ describe("RadioButton", () => {
   afterEach(() => {
     wrapper.destroy();
   });
-  
+
   it("button name is testName", () => {
     createComponent({ propsData });
     expect(wrapper.find("input").attributes("name")).toBe(propsData.name);
@@ -34,23 +34,22 @@ describe("RadioButton", () => {
     createComponent({ propsData });
     expect(wrapper.find("input").attributes("value")).toBe(propsData.value);
   });
-   
+
   it("button checked is unchecked", async () => {
     propsData.checked = false;
     createComponent({ propsData });
     expect(wrapper.find("input").element.checked).toBeFalsy();
   });
-  
+
   it("raises the checked event on change", async () => {
     createComponent({ propsData, listeners });
     await wrapper.find("input").trigger("change");
     expect(listeners.change).toHaveBeenCalled();
   });
-  
+
   it("raises the emit event on change", async () => {
     createComponent({ propsData, listeners });
     await wrapper.find("input").trigger("change");
     expect(wrapper.emitted().change).toBeTruthy();
   });
 });
-

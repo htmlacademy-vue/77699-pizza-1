@@ -54,11 +54,7 @@ export default {
   name: "Header",
   computed: {
     ...mapGetters("Cart", ["CartPrice"]),
-    ...mapState("Auth", ["user"]),
-    ...mapState(["Auth"]),
-    isAuthenticated() {
-      return this.Auth.isAuthenticated;
-    },
+    ...mapState("Auth", ["user", "isAuthenticated"]),
   },
   mixins: [logout],
 };

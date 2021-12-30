@@ -91,9 +91,12 @@
 
 <script>
 import { mapState, mapGetters, mapActions } from "vuex";
+import auth from "@/middlewares/auth";
 
 export default {
   name: "Orders",
+  middlewares: { auth },
+  layout: "AppLayoutProfile",
   data: () => ({}),
   methods: {
     sauceName(sauceId) {
@@ -133,6 +136,7 @@ export default {
     },
     ...mapActions("Profile", ["deleteOrder"]),
     async delOrder(orderId) {
+      console.log(orderId);
       await this.deleteOrder(orderId);
       await this.$router.go();
     },

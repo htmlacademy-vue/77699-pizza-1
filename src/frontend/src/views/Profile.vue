@@ -28,9 +28,12 @@
 <script>
 import { mapState } from "vuex";
 import ProfileAddressView from "@/modules/profile/components/ProfileAddressView";
+import auth from "@/middlewares/auth";
 
 export default {
   name: "Profile",
+  middlewares: { auth },
+  layout: "AppLayoutProfile",
   components: { ProfileAddressView },
   data: () => ({}),
   computed: {

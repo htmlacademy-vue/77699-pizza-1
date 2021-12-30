@@ -139,6 +139,7 @@ import AppInput from "@/common/components/AppInput";
 export default {
   name: "Cart",
   components: { Popup, CartPizzaView, CartOtherView, AppInput },
+  layout: "Header",
   data() {
     return {
       isShow: false,
