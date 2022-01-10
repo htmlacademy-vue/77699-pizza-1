@@ -124,21 +124,21 @@
       </section>
     </form>
     <transition name="fade" mode="out-in">
-      <Popup v-if="showModal" v-on:close="showModal = false" />
+      <PopupView v-if="showModal" v-on:close="showModal = false" />
     </transition>
   </body>
 </template>
 
 <script>
-import Popup from "@/views/Popup";
+import PopupView from "@/views/PopupView";
 import CartPizzaView from "@/modules/cart/components/CartPizzaView";
 import CartOtherView from "@/modules/cart/components/CartOtherView";
 import { mapGetters, mapState, mapActions } from "vuex";
 import AppInput from "@/common/components/AppInput";
 
 export default {
-  name: "Cart",
-  components: { Popup, CartPizzaView, CartOtherView, AppInput },
+  name: "CartView",
+  components: { PopupView, CartPizzaView, CartOtherView, AppInput },
   layout: "Header",
   data() {
     return {

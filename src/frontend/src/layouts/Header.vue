@@ -12,12 +12,12 @@
         </router-link>
       </div>
       <div class="header__cart">
-        <router-link :to="{ name: 'Cart' }" data-test="cartPrice"
+        <router-link :to="{ name: 'CartView' }" data-test="cartPrice"
           >{{ CartPrice }} ₽
         </router-link>
       </div>
       <div class="header__user" data-test="auth" v-if="isAuthenticated">
-        <router-link :to="{ name: 'Profile' }" data-test="profile">
+        <router-link :to="{ name: 'ProfileView' }" data-test="profile">
           <picture>
             <img
               :src="user.avatar"
@@ -35,7 +35,7 @@
       </div>
       <div class="header__user" data-test="withoutAuth" v-else>
         <router-link
-          :to="{ name: 'Login' }"
+          :to="{ name: 'LoginView' }"
           class="header__login"
           data-test="login"
           ><span>Войти</span></router-link

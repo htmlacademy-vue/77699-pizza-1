@@ -32,7 +32,7 @@ export default {
         price: this.Price,
         indx: this.pizzaIndex,
       });
-      this.$router.push({ name: "Cart" });
+      this.$router.push({ name: "CartView" });
     },
   },
   computed: {
@@ -48,5 +48,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped></style>
