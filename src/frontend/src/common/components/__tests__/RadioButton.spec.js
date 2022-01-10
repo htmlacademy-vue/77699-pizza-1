@@ -3,7 +3,6 @@ import { shallowMount } from "@vue/test-utils";
 import RadioButton from "@/common/components/RadioButton";
 
 describe("RadioButton", () => {
-  const defaultBtnType = "radio";
   const propsData = {
     name: "testName",
     value: "testValue",

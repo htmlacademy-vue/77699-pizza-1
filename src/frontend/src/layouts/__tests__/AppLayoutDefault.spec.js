@@ -1,5 +1,4 @@
 import { shallowMount } from "@vue/test-utils";
-import Vuex from "vuex";
 import AppLayoutDefault from "@/layouts/AppLayoutDefault.vue";
 import Header from "@/layouts/Header.vue";
 
