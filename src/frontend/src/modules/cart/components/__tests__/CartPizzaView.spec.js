@@ -23,7 +23,6 @@ const pizzas = [
 describe("CartPizzaView", () => {
   let wrapper;
   let store;
-  let getters;
 
   const propsData = { pizzas };
 
