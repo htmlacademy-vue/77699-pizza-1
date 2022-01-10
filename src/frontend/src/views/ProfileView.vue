@@ -31,8 +31,8 @@ import ProfileAddressView from "@/modules/profile/components/ProfileAddressView"
 import auth from "@/middlewares/auth";
 
 export default {
-  name: "Profile",
-  middlewares: { auth },
+  name: "ProfileView",
+  middlewares: [auth],
   layout: "AppLayoutProfile",
   components: { ProfileAddressView },
   data: () => ({}),

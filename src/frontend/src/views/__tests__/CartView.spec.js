@@ -1,8 +1,8 @@
 import { mount, createLocalVue } from "@vue/test-utils";
 import Vuex from "vuex";
 import { generateMockStore } from "@/store/mock";
-import Cart from "@/views/Cart";
-import Popup from "@/views/Popup";
+import CartView from "@/views/CartView";
+import PopupView from "@/views/PopupView";
 import CartPizzaView from "@/modules/cart/components/CartPizzaView";
 import CartOtherView from "@/modules/cart/components/CartOtherView";
 import AppInput from "@/common/components/AppInput";
@@ -11,7 +11,7 @@ const localVue = createLocalVue();
 localVue.component("CartPizzaView", CartPizzaView);
 localVue.component("CartOtherView", CartOtherView);
 localVue.component("AppInput", AppInput);
-localVue.component("Popup", Popup);
+localVue.component("PopupView", PopupView);
 localVue.use(Vuex);
 
 const pizzas = [
@@ -26,7 +26,7 @@ const pizzas = [
   },
 ];
 
-describe("Cart", () => {
+describe("CartView", () => {
   let wrapper;
   let store;
   let actions;
@@ -74,7 +74,7 @@ describe("Cart", () => {
   };
 
   const createComponent = (options) => {
-    wrapper = mount(Cart, options);
+    wrapper = mount(CartView, options);
   };
 
   beforeEach(() => {
@@ -143,7 +143,7 @@ describe("Cart", () => {
 
   it("renders Popup", () => {
     createComponent({ localVue, store, stubs });
-    expect(wrapper.findComponent(Popup).exists()).toBeFalsy();
+    expect(wrapper.findComponent(PopupView).exists()).toBeFalsy();
   });
 
   it("raises the resetPizza event on click", async () => {

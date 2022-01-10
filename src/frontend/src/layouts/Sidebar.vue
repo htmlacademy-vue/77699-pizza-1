@@ -13,14 +13,14 @@
       />
     </router-link>
     <router-link
-      :to="{ name: 'Orders' }"
+      :to="{ name: 'OrdersView' }"
       class="layout__link"
       data-test="orders"
     >
       История заказов</router-link
     >
     <router-link
-      :to="{ name: 'Profile' }"
+      :to="{ name: 'ProfileView' }"
       class="layout__link"
       data-test="profile"
     >

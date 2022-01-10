@@ -1,14 +1,14 @@
 import { mount, createLocalVue } from "@vue/test-utils";
 import Vuex from "vuex";
 import { generateMockStore } from "@/store/mock";
-import Login from "@/views/Login";
+import LoginView from "@/views/LoginView";
 import AppInput from "@/common/components/AppInput";
 
 const localVue = createLocalVue();
 localVue.component("AppInput", AppInput);
 localVue.use(Vuex);
 
-describe("Login", () => {
+describe("LoginView", () => {
   let store;
   let actions;
   const listeners = { submit: null };
@@ -21,7 +21,7 @@ describe("Login", () => {
 
   let wrapper;
   const createComponent = (options) => {
-    wrapper = mount(Login, options);
+    wrapper = mount(LoginView, options);
   };
 
   beforeEach(() => {

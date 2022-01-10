@@ -94,8 +94,8 @@ import { mapState, mapGetters, mapActions } from "vuex";
 import auth from "@/middlewares/auth";
 
 export default {
-  name: "Orders",
-  middlewares: { auth },
+  name: "OrdersView",
+  middlewares: [auth],
   layout: "AppLayoutProfile",
   data: () => ({}),
   methods: {
@@ -166,7 +166,7 @@ export default {
         misc: order.orderMisc,
         addressId: order.addressId,
       });
-      this.$router.push({ name: "Cart" });
+      this.$router.push({ name: "CartView" });
     },
     doughName(dough) {
       if (dough != null) {

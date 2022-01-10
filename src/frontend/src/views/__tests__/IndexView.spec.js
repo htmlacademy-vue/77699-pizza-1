@@ -1,7 +1,7 @@
 import { mount, createLocalVue } from "@vue/test-utils";
 import Vuex from "vuex";
 import { generateMockStore } from "@/store/mock";
-import Index from "@/views/Index.vue";
+import IndexView from "@/views/IndexView.vue";
 import BuilderDoughSelector from "@/modules/builder/components/BuilderDoughSelector";
 import BuilderSizeSelector from "@/modules/builder/components/BuilderSizeSelector";
 import BuilderIngredientsSelector from "@/modules/builder/components/BuilderIngredientsSelector";
@@ -14,13 +14,13 @@ localVue.component("BuilderIngredientsSelector", BuilderIngredientsSelector);
 localVue.component("BuilderPizzaView", BuilderPizzaView);
 localVue.use(Vuex);
 
-describe("Index", () => {
+describe("IndexView", () => {
   let actions;
   let wrapper;
   let store;
 
   const createComponent = (options) => {
-    wrapper = mount(Index, options);
+    wrapper = mount(IndexView, options);
   };
 
   beforeEach(() => {

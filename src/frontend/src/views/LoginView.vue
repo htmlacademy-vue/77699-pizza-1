@@ -51,7 +51,7 @@ import AppInput from "@/common/components/AppInput";
 import isLoggedIn from "@/middlewares/isLoggedIn";
 
 export default {
-  name: "Login",
+  name: "LoginView",
   middlewares: [isLoggedIn],
   layout: "Header",
   mixins: [validator],

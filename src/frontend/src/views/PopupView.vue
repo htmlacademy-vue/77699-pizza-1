@@ -19,7 +19,7 @@
 import { mapState } from "vuex";
 
 export default {
-  name: "Popup",
+  name: "PopupView",
   methods: {
     closeModal() {
       this.$store.commit("Cart/RESET_CART", []);

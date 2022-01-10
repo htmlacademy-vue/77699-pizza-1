@@ -1,12 +1,12 @@
 import { mount, createLocalVue } from "@vue/test-utils";
 import Vuex from "vuex";
 import { generateMockStore } from "@/store/mock";
-import Popup from "@/views/Popup";
+import PopupView from "@/views/PopupView";
 
 const localVue = createLocalVue();
 localVue.use(Vuex);
 
-describe("Popup", () => {
+describe("PopupView", () => {
   let wrapper;
   const listeners = { click: null };
   let store;
@@ -39,7 +39,7 @@ describe("Popup", () => {
   };
 
   const createComponent = (options) => {
-    wrapper = mount(Popup, options);
+    wrapper = mount(PopupView, options);
   };
 
   beforeEach(() => {

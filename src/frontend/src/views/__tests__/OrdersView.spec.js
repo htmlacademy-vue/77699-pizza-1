@@ -1,12 +1,12 @@
 import { mount, createLocalVue } from "@vue/test-utils";
 import Vuex from "vuex";
 import { generateMockStore } from "@/store/mock";
-import Orders from "@/views/Orders";
+import OrdersView from "@/views/OrdersView";
 
 const localVue = createLocalVue();
 localVue.use(Vuex);
 
-describe("Orders", () => {
+describe("OrdersView", () => {
   let store;
   let actions;
   const mocks = {
@@ -93,7 +93,7 @@ describe("Orders", () => {
 
   let wrapper;
   const createComponent = (options) => {
-    wrapper = mount(Orders, options);
+    wrapper = mount(OrdersView, options);
   };
 
   beforeEach(() => {

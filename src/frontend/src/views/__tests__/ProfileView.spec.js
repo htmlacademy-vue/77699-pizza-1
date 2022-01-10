@@ -1,13 +1,13 @@
 import { mount, createLocalVue } from "@vue/test-utils";
 import Vuex from "vuex";
 import { generateMockStore } from "@/store/mock";
-import Profile from "@/views/Profile";
+import ProfileView from "@/views/ProfileView";
 import ProfileAddressView from "@/modules/profile/components/ProfileAddressView";
 
 const localVue = createLocalVue();
 localVue.use(Vuex);
 
-describe("Profile", () => {
+describe("ProfileView", () => {
   let store;
 
   const getData = () => {
@@ -33,7 +33,7 @@ describe("Profile", () => {
 
   let wrapper;
   const createComponent = (options) => {
-    wrapper = mount(Profile, options);
+    wrapper = mount(ProfileView, options);
   };
 
   beforeEach(() => {
