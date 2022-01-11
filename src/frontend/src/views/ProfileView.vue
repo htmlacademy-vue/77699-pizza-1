@@ -37,11 +37,7 @@ export default {
   components: { ProfileAddressView },
   data: () => ({}),
   computed: {
-    ...mapState("Auth", ["user"]),
-    ...mapState(["Auth"]),
-    isAuthenticated() {
-      return this.Auth.isAuthenticated;
-    },
+    ...mapState("Auth", ["user", "isAuthenticated"]),
   },
   created() {
     if (this.isAuthenticated) {

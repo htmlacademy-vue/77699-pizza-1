@@ -23,6 +23,7 @@
       v-bind:flat="address.flat"
       v-bind:comment="address.comment"
       v-bind:id="address.id"
+      v-on:submit="closeForm"
     />
   </div>
 </template>
@@ -46,6 +47,9 @@ export default {
     addressForm() {
       this.showAddressForm = !this.showAddressForm;
       this.newAddress = false;
+    },
+    closeForm() {
+      this.showAddressForm = false;
     },
   },
 };

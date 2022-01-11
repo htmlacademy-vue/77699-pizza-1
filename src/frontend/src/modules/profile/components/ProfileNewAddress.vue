@@ -180,11 +180,10 @@ export default {
           comment: this.addressComment,
         });
       }
-      await this.$router.go();
+      this.$emit("submit");
     },
     async delAddress() {
       await this.deleteAddress(this.id);
-      await this.$router.go();
     },
   },
   computed: {

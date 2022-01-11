@@ -136,9 +136,7 @@ export default {
     },
     ...mapActions("Profile", ["deleteOrder"]),
     async delOrder(orderId) {
-      console.log(orderId);
       await this.deleteOrder(orderId);
-      await this.$router.go();
     },
     addPizzaToCart(order) {
       let pizzas = [];
