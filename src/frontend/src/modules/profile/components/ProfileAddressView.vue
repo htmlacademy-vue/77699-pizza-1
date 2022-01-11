@@ -19,6 +19,7 @@
     <ProfileNewAddress
       v-bind:newAddress="true"
       v-bind:showAddressForm="showAddressForm"
+      v-on:submit="closeForm"
     />
   </div>
 </template>
@@ -36,6 +37,11 @@ export default {
   data: () => ({
     showAddressForm: false,
   }),
+  methods: {
+    closeForm() {
+      this.showAddressForm = false;
+    },
+  },
   computed: {
     ...mapState("Profile", ["Addresses"]),
   },

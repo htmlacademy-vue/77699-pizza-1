@@ -208,6 +208,7 @@ export default {
           building: this.Addresses[objIndex].building,
           flat: this.Addresses[objIndex].flat,
           comment: this.Addresses[objIndex].comment,
+          id: this.Addresses[objIndex].id,
         };
       } else if (this.selected == 0) {
         address = {

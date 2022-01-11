@@ -71,24 +71,25 @@ export default {
     FillingsArr(state) {
       let arr = [];
       for (let value of state.Fillings) {
-        let number = "first";
+        let fillingFirst = { filling: value.filling, number: "first" };
+        let fillingSecond = { filling: value.filling, number: "second" };
+        let fillingThird = { filling: value.filling, number: "third" };
         switch (value.count) {
           case 1:
-            number = "first";
+            arr.push(fillingFirst);
             break;
           case 2:
-            number = "second";
+            arr.push(fillingFirst);
+            arr.push(fillingSecond);
             break;
           case 3:
-            number = "third";
+            arr.push(fillingFirst);
+            arr.push(fillingSecond);
+            arr.push(fillingThird);
             break;
           default:
-            number = "first";
+            arr.push(fillingFirst);
         }
-        arr.push({
-          filling: value.filling,
-          number: number,
-        });
       }
       return arr.flat();
     },

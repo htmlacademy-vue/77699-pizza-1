@@ -24,7 +24,7 @@ export default {
     closeModal() {
       this.$store.commit("Cart/RESET_CART", []);
       this.$store.commit("Builder/RESET_PIZZA", []);
-      if (this.isAuthenticated) this.$router.push("/orders");
+      if (this.isAuthenticated) this.$router.push({ name: "OrdersView" });
       else this.$router.push("/");
     },
   },
