@@ -6,7 +6,7 @@ export default {
       // Показываем уведомление об успешном выходе.
       this.$notifier.success("Вы успешно вышли");
       // Переводим пользователя на страницу логина.
-      await this.$router.push("/login");
+      await this.$router.push("/loginview");
     },
   },
 };

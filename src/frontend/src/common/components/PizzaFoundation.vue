@@ -4,12 +4,15 @@
       <AppDrop class="pizza__wrapper" v-on:drop="moveFilling">
         <transition-group name="fillings">
           <div
-            v-for="{ filling, number } in FillingsArr"
-            v-bind:key="filling"
+            v-for="filling in FillingsArr"
+            v-bind:key="FillingsArr.indexOf(filling)"
             data-test="pizzaFilling"
             class="pizza__filling"
             v-bind:class="[
-              'pizza__filling--' + filling + ' pizza__filling--' + number,
+              'pizza__filling--' +
+                filling.filling +
+                ' pizza__filling--' +
+                filling.number,
             ]"
           ></div>
         </transition-group>
