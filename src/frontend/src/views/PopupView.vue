@@ -29,15 +29,14 @@ export default {
     },
   },
   computed: {
-    ...mapState(["Auth"]),
-    isAuthenticated() {
-      return this.Auth.isAuthenticated;
-    },
+    ...mapState("Auth", ["isAuthenticated"]),
   },
 };
 </script>
 
 // Импортируем глобальные стили для приложения
 <style lang="scss">
-@import "~@/assets/scss/app";
+@import "~@/assets/scss/blocks/close.scss";
+@import "~@/assets/scss/blocks/title.scss";
+@import "~@/assets/scss/blocks/button.scss";
 </style>

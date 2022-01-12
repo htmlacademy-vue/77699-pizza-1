@@ -49,3 +49,8 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+@import "~@/assets/scss/blocks/counter.scss";
+@import "~@/assets/scss/blocks/input.scss";
+</style>

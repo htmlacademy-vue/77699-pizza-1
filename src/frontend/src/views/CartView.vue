@@ -258,6 +258,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "~@/assets/scss/blocks/input.scss";
+@import "~@/assets/scss/blocks/select.scss";
+@import "~@/assets/scss/blocks/cart-form.scss";
+@import "~@/assets/scss/blocks/cart.scss";
+@import "~@/assets/scss/blocks/footer.scss";
+@import "~@/assets/scss/blocks/button.scss";
+@import "~@/assets/scss/blocks/title.scss";
+
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.3s ease;

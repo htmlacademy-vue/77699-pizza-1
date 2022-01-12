@@ -76,3 +76,8 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+@import "~@/assets/scss/blocks/filling.scss";
+@import "~@/assets/scss/blocks/ingridients.scss";
+</style>

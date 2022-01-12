@@ -50,3 +50,8 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+@import "~@/assets/scss/blocks/dough.scss";
+@import "~@/assets/scss/blocks/title.scss";
+</style>

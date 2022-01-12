@@ -66,7 +66,7 @@ export default {
         misc: order.misc,
         address: order.address,
       });
-      await dispatch("getOrders");
+      if (order.userId != null) await dispatch("getOrders");
     },
   },
 };
