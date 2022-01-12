@@ -55,4 +55,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+@import "~@/assets/scss/blocks/address-form.scss";
+@import "~@/assets/scss/blocks/icon.scss";
+</style>

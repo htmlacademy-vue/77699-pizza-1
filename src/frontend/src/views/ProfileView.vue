@@ -48,7 +48,7 @@ export default {
 };
 </script>
 
-// Импортируем глобальные стили для приложения
 <style lang="scss">
-@import "~@/assets/scss/app";
+@import "~@/assets/scss/blocks/user.scss";
+@import "~@/assets/scss/blocks/title.scss";
 </style>

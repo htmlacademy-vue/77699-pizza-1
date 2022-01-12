@@ -66,3 +66,8 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+@import "~@/assets/scss/blocks/ingridients.scss";
+@import "~@/assets/scss/blocks/title.scss";
+</style>

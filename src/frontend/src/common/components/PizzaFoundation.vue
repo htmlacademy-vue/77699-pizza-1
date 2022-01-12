@@ -63,6 +63,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "~@/assets/scss/blocks/pizza.scss";
+
 .fillings-enter-active,
 .fillings-leave-active {
   transition: all 0.3s ease;

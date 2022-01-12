@@ -48,3 +48,10 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+@import "~@/assets/scss/blocks/radio.scss";
+@import "~@/assets/scss/blocks/dough.scss";
+@import "~@/assets/scss/blocks/diameter.scss";
+@import "~@/assets/scss/blocks/ingridients.scss";
+</style>
