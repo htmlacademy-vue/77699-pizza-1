@@ -6,9 +6,9 @@
         type="text"
         name="pizza_name"
         placeholder="Введите название пиццы"
-        v-bind:value="pizzaName"
-        v-on:input="changePizzaName($event.target.value)"
-      />
+        :value="pizzaName"
+        @input="changePizzaName($event.target.value)"
+      >
     </label>
     <PizzaFoundation />
     <BuilderPriceCounter />
@@ -26,13 +26,15 @@ export default {
   data() {
     return {};
   },
+
+  computed: {
+    ...mapState("Builder", ["pizzaName"]),
+  },
+
   methods: {
     changePizzaName(value) {
       this.$store.commit("Builder/CHANGE_PIZZA_NAME", value);
     },
-  },
-  computed: {
-    ...mapState("Builder", ["pizzaName"]),
   },
 };
 </script>

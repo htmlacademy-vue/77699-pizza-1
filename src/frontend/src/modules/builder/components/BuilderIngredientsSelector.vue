@@ -1,20 +1,22 @@
 <template>
   <div class="content__ingridients">
     <div class="sheet">
-      <h2 class="title title--small sheet__title">Выберите ингридиенты</h2>
+      <h2 class="title title--small sheet__title">
+        Выберите ингридиенты
+      </h2>
 
       <div class="sheet__content ingridients">
         <div class="ingridients__sauce">
           <p>Основной соус:</p>
           <RadioButton
             v-for="sauce in Sauces"
-            v-bind:key="sauce.id"
-            labelClass="radio ingridients__input"
-            v-bind:checked="sauceId == sauce.id"
+            :key="sauce.id"
+            label-class="radio ingridients__input"
+            :checked="sauceId == sauce.id"
             name="sauce"
-            v-bind:value="sauce.value"
-            v-bind:itemDesc="sauce.name"
-            v-on:change="changeSauce(sauce)"
+            :value="sauce.value"
+            :item-desc="sauce.name"
+            @change="changeSauce(sauce)"
           />
         </div>
 
@@ -23,11 +25,10 @@
 
           <ul class="ingridients__list">
             <BuilderIngredientsItem
-              v-for="(filling, index) in Ingredients"
-              v-bind:key="index"
-              v-bind:filling="filling"
-            >
-            </BuilderIngredientsItem>
+              v-for="filling in Ingredients"
+              :key="filling.id"
+              :filling="filling"
+            />
           </ul>
         </div>
       </div>
@@ -36,7 +37,7 @@
 </template>
 
 <script>
-import RadioButton from "@/common/components/RadioButton";
+import RadioButton from "@/common/components/AppRadioButton";
 import BuilderIngredientsItem from "@/modules/builder/components/BuilderIngredientsItem";
 import { mapState } from "vuex";
 
@@ -46,6 +47,19 @@ export default {
   data() {
     return {};
   },
+
+  computed: {
+    Ingredients() {
+      return this.$store.state.Builder.Ingredients;
+    },
+
+    Sauces() {
+      return this.$store.state.Builder.Sauces;
+    },
+
+    ...mapState("Builder", ["sauceId"]),
+  },
+
   methods: {
     changeSauce(sauce) {
       this.$store.commit("Builder/CHANGE_SAUCE", {
@@ -54,15 +68,6 @@ export default {
         Id: sauce.id,
       });
     },
-  },
-  computed: {
-    Ingredients() {
-      return this.$store.state.Builder.Ingredients;
-    },
-    Sauces() {
-      return this.$store.state.Builder.Sauces;
-    },
-    ...mapState("Builder", ["sauceId"]),
   },
 };
 </script>

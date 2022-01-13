@@ -1,15 +1,23 @@
 <template>
   <div>
     <div class="popup">
-      <a @click="closeModal" class="close">
+      <a
+        class="close"
+        @click="closeModal"
+      >
         <span class="visually-hidden">Закрыть попап</span>
       </a>
       <div class="popup__title">
-        <h2 class="title">Спасибо за заказ</h2>
+        <h2 class="title">
+          Спасибо за заказ
+        </h2>
       </div>
       <p>Мы начали готовить Ваш заказ, скоро привезём его вам ;)</p>
       <div class="popup__button">
-        <a @click="closeModal" class="button">Отлично, я жду!</a>
+        <a
+          class="button"
+          @click="closeModal"
+        >Отлично, я жду!</a>
       </div>
     </div>
   </div>
@@ -20,6 +28,10 @@ import { mapState } from "vuex";
 
 export default {
   name: "PopupView",
+  computed: {
+    ...mapState("Auth", ["isAuthenticated"]),
+  },
+
   methods: {
     closeModal() {
       this.$store.commit("Cart/RESET_CART", []);
@@ -27,9 +39,6 @@ export default {
       if (this.isAuthenticated) this.$router.push({ name: "OrdersView" });
       else this.$router.push("/");
     },
-  },
-  computed: {
-    ...mapState("Auth", ["isAuthenticated"]),
   },
 };
 </script>

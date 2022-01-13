@@ -1,12 +1,12 @@
 import { shallowMount } from "@vue/test-utils";
-import Sidebar from "@/layouts/Sidebar.vue";
+import AppSidebar from "@/layouts/AppSidebar.vue";
 
-describe("Sidebar", () => {
+describe("AppSidebar", () => {
   let wrapper;
   const stubs = ["router-link"];
 
   const createComponent = (options) => {
-    wrapper = shallowMount(Sidebar, options);
+    wrapper = shallowMount(AppSidebar, options);
   };
 
   afterEach(() => {

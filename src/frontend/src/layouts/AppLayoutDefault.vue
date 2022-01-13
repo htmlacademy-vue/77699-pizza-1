@@ -1,13 +1,13 @@
 <template>
-  <Header />
+  <AppHeader />
 </template>
 
 <script>
-import Header from "@/layouts/Header.vue";
+import AppHeader from "@/layouts/AppHeader.vue";
 
 export default {
   name: "AppLayoutDefault",
-  components: { Header },
+  components: { AppHeader },
 };
 </script>
 

@@ -4,9 +4,9 @@
     <button
       type="button"
       class="button"
-      v-bind:class="[ButtonStatus ? 'button--disabled' : '']"
-      v-bind:disabled="ButtonStatus"
-      v-on:click="addPizzaToCart"
+      :class="[ButtonStatus ? 'button--disabled' : '']"
+      :disabled="ButtonStatus"
+      @click="addPizzaToCart"
     >
       Готовьте!
     </button>
@@ -21,6 +21,19 @@ export default {
   data() {
     return {};
   },
+
+  computed: {
+    ...mapGetters("Builder", ["Price", "ButtonStatus"]),
+    ...mapState("Builder", [
+      "pizzaName",
+      "sizeId",
+      "doughId",
+      "sauceId",
+      "Fillings",
+      "pizzaIndex",
+    ]),
+  },
+
   methods: {
     addPizzaToCart() {
       this.$store.commit("Cart/CHANGE_CART_PIZZA", {
@@ -34,17 +47,6 @@ export default {
       });
       this.$router.push({ name: "CartView" });
     },
-  },
-  computed: {
-    ...mapGetters("Builder", ["Price", "ButtonStatus"]),
-    ...mapState("Builder", [
-      "pizzaName",
-      "sizeId",
-      "doughId",
-      "sauceId",
-      "Fillings",
-      "pizzaIndex",
-    ]),
   },
 };
 </script>

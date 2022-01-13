@@ -32,7 +32,6 @@ export default {
       await dispatch("getAddresses");
     },
     async deleteOrder({ dispatch }, orderId) {
-      console.log(orderId);
       await this.$api.orders.delete(orderId);
       await dispatch("getOrders");
     },

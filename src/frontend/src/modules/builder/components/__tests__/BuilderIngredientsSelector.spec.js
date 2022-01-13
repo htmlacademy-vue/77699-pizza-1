@@ -2,7 +2,7 @@ import { mount, createLocalVue } from "@vue/test-utils";
 import Vuex from "vuex";
 import { generateMockStore } from "@/store/mock";
 import BuilderIngredientsSelector from "@/modules/builder/components/BuilderIngredientsSelector";
-import RadioButton from "@/common/components/RadioButton";
+import RadioButton from "@/common/components/AppRadioButton";
 import BuilderIngredientsItem from "@/modules/builder/components/BuilderIngredientsItem";
 
 const localVue = createLocalVue();

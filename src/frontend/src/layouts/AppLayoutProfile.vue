@@ -1,7 +1,7 @@
 <template>
   <main class="layout">
-    <Header />
-    <Sidebar />
+    <AppHeader />
+    <AppSidebar />
     <div class="layout__content">
       <slot />
     </div>
@@ -9,12 +9,12 @@
 </template>
 
 <script>
-import Header from "@/layouts/Header.vue";
-import Sidebar from "@/layouts/Sidebar.vue";
+import AppHeader from "@/layouts/AppHeader.vue";
+import AppSidebar from "@/layouts/AppSidebar.vue";
 
 export default {
   name: "AppLayoutProfile",
-  components: { Header, Sidebar },
+  components: { AppHeader, AppSidebar },
 };
 </script>
 

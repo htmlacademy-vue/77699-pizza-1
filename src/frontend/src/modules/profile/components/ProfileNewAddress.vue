@@ -1,5 +1,8 @@
 <template>
-  <div class="layout__address" v-if="showAddressForm">
+  <div
+    v-if="showAddressForm"
+    class="layout__address"
+  >
     <form
       method="post"
       class="address-form address-form--opened sheet"
@@ -13,9 +16,9 @@
           <label class="input">
             <span>Название адреса*</span>
             <AppInput
+              ref="addressName"
               v-model="addressName"
               data-test="addressName"
-              ref="addressName"
               type="text"
               name="addr-name"
               class="input"
@@ -28,9 +31,9 @@
           <label class="input">
             <span>Улица*</span>
             <AppInput
+              ref="addressStreet"
               v-model="addressStreet"
               data-test="addressStreet"
-              ref="addressStreet"
               type="text"
               name="addr-street"
               class="input"
@@ -43,9 +46,9 @@
           <label class="input">
             <span>Дом*</span>
             <AppInput
+              ref="addressBuilding"
               v-model="addressBuilding"
               data-test="addressBuilding"
-              ref="addressBuilding"
               type="text"
               name="addr-house"
               class="input"
@@ -58,9 +61,9 @@
           <label class="input">
             <span>Квартира*</span>
             <AppInput
+              ref="addressFlat"
               v-model="addressFlat"
               data-test="addressFlat"
-              ref="addressFlat"
               type="text"
               name="addr-apartment"
               class="input"
@@ -73,9 +76,9 @@
           <label class="input">
             <span>Комментарий</span>
             <AppInput
+              ref="addressComment"
               v-model="addressComment"
               data-test="addressComment"
-              ref="addressComment"
               type="text"
               name="addr-comment"
               class="input"
@@ -86,15 +89,20 @@
       </div>
       <div class="address-form__buttons">
         <button
+          v-if="!newAddress"
           type="button"
           data-test="delBtn"
           class="button button--transparent"
-          v-if="!newAddress"
-          v-on:click="delAddress"
+          @click="delAddress"
         >
           Удалить
         </button>
-        <button type="submit" class="button">Сохранить</button>
+        <button
+          type="submit"
+          class="button"
+        >
+          Сохранить
+        </button>
       </div>
     </form>
   </div>
@@ -112,40 +120,48 @@ export default {
       type: Boolean,
       required: true,
     },
+
     showAddressForm: {
       type: Boolean,
       default: false,
     },
+
     name: {
       type: String,
       required: false,
       default: "",
     },
+
     street: {
       type: String,
       required: false,
       default: "",
     },
+
     building: {
       type: String,
       required: false,
       default: "",
     },
+
     flat: {
       type: String,
       required: false,
       default: "",
     },
+
     comment: {
       type: String,
       required: false,
       default: "",
     },
+
     id: {
       type: Number,
-      required: false,
+      default: 0,
     },
   },
+
   data() {
     return {
       addressName: this.name,
@@ -155,6 +171,11 @@ export default {
       addressComment: this.comment,
     };
   },
+
+  computed: {
+    ...mapState("Auth", ["user"]),
+  },
+
   methods: {
     ...mapActions("Profile", ["deleteAddress", "postAddress", "putAddress"]),
     async addAddress() {
@@ -182,12 +203,10 @@ export default {
       }
       this.$emit("submit");
     },
+
     async delAddress() {
       await this.deleteAddress(this.id);
     },
-  },
-  computed: {
-    ...mapState("Auth", ["user"]),
   },
 };
 </script>

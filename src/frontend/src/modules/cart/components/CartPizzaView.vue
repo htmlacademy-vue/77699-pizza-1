@@ -1,16 +1,21 @@
 <template>
   <div>
-    <div class="sheet cart__empty" v-if="!pizzas.length">
+    <div
+      v-if="!pizzas.length"
+      class="sheet cart__empty"
+    >
       <p>В корзине нет ни одного товара</p>
     </div>
 
-    <ul class="cart-list sheet" v-else>
+    <ul
+      v-else
+      class="cart-list sheet"
+    >
       <CartPizzaItem
-        v-for="(pizza, index) in pizzas"
-        v-bind:key="index"
-        v-bind:pizza="pizza"
-      >
-      </CartPizzaItem>
+        v-for="pizza in pizzas"
+        :key="pizza.id"
+        :pizza="pizza"
+      />
     </ul>
   </div>
 </template>
@@ -25,7 +30,7 @@ export default {
   data() {
     return {};
   },
-  methods: {},
+
   computed: {
     ...mapState("Cart", ["pizzas"]),
   },

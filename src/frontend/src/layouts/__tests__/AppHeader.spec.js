@@ -1,7 +1,7 @@
 import { mount, createLocalVue } from "@vue/test-utils";
 import Vuex from "vuex";
 import { generateMockStore } from "@/store/mock";
-import Header from "@/layouts/Header.vue";
+import AppHeader from "@/layouts/AppHeader.vue";
 
 const localVue = createLocalVue();
 localVue.use(Vuex);
@@ -18,7 +18,7 @@ const pizzas = [
   },
 ];
 
-describe("Header", () => {
+describe("AppHeader", () => {
   let wrapper;
   let store;
 
@@ -37,7 +37,7 @@ describe("Header", () => {
   };
 
   const createComponent = (options) => {
-    wrapper = mount(Header, options);
+    wrapper = mount(AppHeader, options);
   };
 
   beforeEach(() => {

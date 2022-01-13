@@ -7,9 +7,11 @@
         width="56"
         height="56"
         alt="pizza.name"
-      />
+      >
       <div class="product__text">
-        <h2 data-test="pizzaName">{{ pizza.name }}</h2>
+        <h2 data-test="pizzaName">
+          {{ pizza.name }}
+        </h2>
         <ul>
           <li data-test="dough">
             {{ getSizeById(pizza.sizeId).name }}, на
@@ -18,18 +20,24 @@
           <li data-test="sauce">
             Соус: {{ getSauceById(pizza.sauceId).name.toLowerCase() }}
           </li>
-          <li data-test="fillings">Начинка: {{ getFillings(pizza) }}</li>
+          <li data-test="fillings">
+            Начинка: {{ getFillings(pizza) }}
+          </li>
         </ul>
       </div>
     </div>
 
     <PizzaItemCounter
-      v-bind:counterValue="pizza.count"
-      v-bind:pizzaPrice="pizza.price"
-      v-on:change-count="getCounterValue"
+      :counter-value="pizza.count"
+      :pizza-price="pizza.price"
+      @change-count="getCounterValue"
     />
     <div class="cart-list__button">
-      <button type="button" class="cart-list__edit" v-on:click="changePizza">
+      <button
+        type="button"
+        class="cart-list__edit"
+        @click="changePizza"
+      >
         Изменить
       </button>
     </div>
@@ -46,12 +54,24 @@ export default {
   props: {
     pizza: {
       type: Object,
-      required: false,
+      default: null,
     },
   },
+
   data() {
     return {};
   },
+
+  computed: {
+    ...mapState("Cart", ["pizzas"]),
+    ...mapGetters("Builder", [
+      "getDoughById",
+      "getSauceById",
+      "getSizeById",
+      "getIngredientById",
+    ]),
+  },
+
   methods: {
     getCounterValue(count) {
       let indx = this.pizzas.indexOf(this.pizza);
@@ -60,6 +80,7 @@ export default {
         count: count,
       });
     },
+
     changePizza() {
       this.$router.push({ name: "IndexHome" });
       this.$store.commit("Builder/SET_PIZZA", {
@@ -67,6 +88,7 @@ export default {
         indx: this.pizzas.indexOf(this.pizza),
       });
     },
+
     doughName(dough) {
       if (dough != null) {
         let doughName;
@@ -77,6 +99,7 @@ export default {
         return doughName;
       }
     },
+
     getFillings(pizza) {
       let fillings = [];
       for (let value of pizza.ingredients) {
@@ -84,15 +107,6 @@ export default {
       }
       return fillings.toString();
     },
-  },
-  computed: {
-    ...mapState("Cart", ["pizzas"]),
-    ...mapGetters("Builder", [
-      "getDoughById",
-      "getSauceById",
-      "getSizeById",
-      "getIngredientById",
-    ]),
   },
 };
 </script>

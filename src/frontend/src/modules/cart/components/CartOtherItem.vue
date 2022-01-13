@@ -1,14 +1,19 @@
 <template>
   <li class="additional-list__item sheet">
     <p class="additional-list__description">
-      <img :src="item.image" width="39" height="60" :alt="item.name" />
+      <img
+        :src="item.image"
+        width="39"
+        height="60"
+        :alt="item.name"
+      >
       <span>{{ item.name }}</span>
     </p>
     <CartItemCounter
-      v-bind:counterValue="miscCount(item.id)"
-      v-bind:itemPrice="item.price"
-      v-bind:id="item.id"
-      v-on:change-count="counterValue = $event"
+      :id="item.id"
+      :counter-value="miscCount(item.id)"
+      :item-price="item.price"
+      @change-count="counterValue = $event"
     />
   </li>
 </template>
@@ -23,14 +28,20 @@ export default {
   props: {
     item: {
       type: Object,
-      required: false,
+      default: null,
     },
   },
+
   data() {
     return {
       counterValue: 0,
     };
   },
+
+  computed: {
+    ...mapState("Cart", ["misc"]),
+  },
+
   methods: {
     miscCount(id) {
       if (this.misc.filter((item) => item.miscId == id).length > 0) {
@@ -40,9 +51,6 @@ export default {
       } else this.counterValue = 0;
       return this.counterValue;
     },
-  },
-  computed: {
-    ...mapState("Cart", ["misc"]),
   },
 };
 </script>

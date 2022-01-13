@@ -60,6 +60,7 @@ export default {
           count: 1,
           ingredients: newPizza.pizzaFillings,
           price: newPizza.price,
+          id: state.pizzas.length + 1,
         });
       } else {
         state.pizzas[newPizza.indx].name = newPizza.name;

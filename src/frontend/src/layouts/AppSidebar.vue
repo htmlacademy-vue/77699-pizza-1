@@ -10,28 +10,28 @@
         alt="V!U!E! Pizza logo"
         width="90"
         height="40"
-      />
+      >
     </router-link>
     <router-link
       :to="{ name: 'OrdersView' }"
       class="layout__link"
       data-test="orders"
     >
-      История заказов</router-link
-    >
+      История заказов
+    </router-link>
     <router-link
       :to="{ name: 'ProfileView' }"
       class="layout__link"
       data-test="profile"
     >
-      Мои данные</router-link
-    >
+      Мои данные
+    </router-link>
   </div>
 </template>
 
 <script>
 export default {
-  name: "Sidebar",
+  name: "AppSidebar",
 };
 </script>
 

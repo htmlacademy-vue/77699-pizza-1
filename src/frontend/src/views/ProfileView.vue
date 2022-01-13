@@ -1,7 +1,9 @@
 <template>
   <div>
     <div class="layout__title">
-      <h1 class="title title--big">Мои данные</h1>
+      <h1 class="title title--big">
+        Мои данные
+      </h1>
     </div>
     <div class="user">
       <picture>
@@ -11,8 +13,13 @@
             ~@/assets/img/users/user5@2x.webp 1x,
             img/users/user5@4x.webp           2x
           "
-        />
-        <img :src="user.avatar" :alt="user.name" width="72" height="72" />
+        >
+        <img
+          :src="user.avatar"
+          :alt="user.name"
+          width="72"
+          height="72"
+        >
       </picture>
       <div class="user__name">
         <span data-test="userName">{{ user.name }}</span>
@@ -33,12 +40,13 @@ import auth from "@/middlewares/auth";
 export default {
   name: "ProfileView",
   middlewares: [auth],
-  layout: "AppLayoutProfile",
   components: { ProfileAddressView },
+  layout: "AppLayoutProfile",
   data: () => ({}),
   computed: {
     ...mapState("Auth", ["user", "isAuthenticated"]),
   },
+
   created() {
     if (this.isAuthenticated) {
       this.$store.dispatch("Profile/getAddresses");
