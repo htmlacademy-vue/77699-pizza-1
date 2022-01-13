@@ -1,25 +1,28 @@
 <template>
   <div>
-    <div class="layout__address" v-if="Addresses.length > 0">
+    <div
+      v-if="Addresses.length > 0"
+      class="layout__address"
+    >
       <ProfileAddressItem
         v-for="address in Addresses"
-        v-bind:key="address.value"
-        v-bind:address="address"
+        :key="address.value"
+        :address="address"
       />
     </div>
     <div class="layout__button">
       <button
         type="button"
         class="button button--border"
-        v-on:click="showAddressForm = !showAddressForm"
+        @click="showAddressForm = !showAddressForm"
       >
         Добавить новый адрес
       </button>
     </div>
     <ProfileNewAddress
-      v-bind:newAddress="true"
-      v-bind:showAddressForm="showAddressForm"
-      v-on:submit="closeForm"
+      :new-address="true"
+      :show-address-form="showAddressForm"
+      @submit="closeForm"
     />
   </div>
 </template>
@@ -37,13 +40,15 @@ export default {
   data: () => ({
     showAddressForm: false,
   }),
+
+  computed: {
+    ...mapState("Profile", ["Addresses"]),
+  },
+
   methods: {
     closeForm() {
       this.showAddressForm = false;
     },
-  },
-  computed: {
-    ...mapState("Profile", ["Addresses"]),
   },
 };
 </script>

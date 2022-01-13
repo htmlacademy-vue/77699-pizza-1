@@ -1,19 +1,21 @@
 <template>
   <div class="content__diameter">
     <div class="sheet">
-      <h2 class="title title--small sheet__title">Выберите размер</h2>
+      <h2 class="title title--small sheet__title">
+        Выберите размер
+      </h2>
 
       <div class="sheet__content diameter">
         <RadioButton
           v-for="size in Sizes"
-          v-bind:key="size.id"
-          v-bind:labelClass="'diameter__input diameter__input--' + size.value"
-          v-bind:checked="size.id == sizeId"
+          :key="size.id"
+          :label-class="'diameter__input diameter__input--' + size.value"
+          :checked="size.id == sizeId"
           name="diameter"
-          v-bind:value="size.value"
-          inputClass="visually-hidden"
-          v-bind:itemDesc="size.name"
-          v-on:change="changeSize(size)"
+          :value="size.value"
+          input-class="visually-hidden"
+          :item-desc="size.name"
+          @change="changeSize(size)"
         />
       </div>
     </div>
@@ -21,7 +23,7 @@
 </template>
 
 <script>
-import RadioButton from "@/common/components/RadioButton";
+import RadioButton from "@/common/components/AppRadioButton";
 import { mapState } from "vuex";
 
 export default {
@@ -32,6 +34,15 @@ export default {
       checked: true,
     };
   },
+
+  computed: {
+    Sizes() {
+      return this.$store.state.Builder.Sizes;
+    },
+
+    ...mapState("Builder", ["sizeId"]),
+  },
+
   methods: {
     changeSize(size) {
       this.$store.commit("Builder/CHANGE_SIZE", {
@@ -40,12 +51,6 @@ export default {
         Id: size.id,
       });
     },
-  },
-  computed: {
-    Sizes() {
-      return this.$store.state.Builder.Sizes;
-    },
-    ...mapState("Builder", ["sizeId"]),
   },
 };
 </script>

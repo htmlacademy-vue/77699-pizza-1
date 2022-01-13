@@ -1,9 +1,15 @@
 <template>
   <div>
     <div class="layout__title">
-      <h1 class="title title--big">История заказов</h1>
+      <h1 class="title title--big">
+        История заказов
+      </h1>
     </div>
-    <section class="sheet order" v-for="order in orders" v-bind:key="order.id">
+    <section
+      v-for="order in orders"
+      :key="order.id"
+      class="sheet order"
+    >
       <div class="order__wrapper">
         <div class="order__number">
           <b data-test="orderId">Заказ #{{ order.id }}</b>
@@ -16,7 +22,7 @@
             type="button"
             class="button button--border"
             data-test="delBtn"
-            v-on:click="delOrder(order.id)"
+            @click="delOrder(order.id)"
           >
             Удалить
           </button>
@@ -26,7 +32,7 @@
             type="button"
             class="button"
             data-test="addBtn"
-            v-on:click="addPizzaToCart(order)"
+            @click="addPizzaToCart(order)"
           >
             Повторить
           </button>
@@ -34,9 +40,9 @@
       </div>
       <ul class="order__list">
         <li
-          class="order__item"
           v-for="pizza in order.orderPizzas"
-          v-bind:key="pizza.id"
+          :key="pizza.id"
+          class="order__item"
         >
           <div class="product">
             <img
@@ -45,9 +51,11 @@
               width="56"
               height="56"
               alt="pizza.name"
-            />
+            >
             <div class="product__text">
-              <h2 data-test="pizzaName">{{ pizza.name }}</h2>
+              <h2 data-test="pizzaName">
+                {{ pizza.name }}
+              </h2>
               <ul>
                 <li data-test="pizzaDough">
                   {{ sizeName(pizza.sizeId) }} см, на
@@ -69,13 +77,16 @@
         </li>
       </ul>
       <ul class="order__additional">
-        <li v-for="misc in order.orderMisc" v-bind:key="misc.id">
+        <li
+          v-for="misc in order.orderMisc"
+          :key="misc.id"
+        >
           <img
             :src="getMiscById(misc.miscId).image"
             width="20"
             height="30"
             :alt="getMiscById(misc.miscId).name"
-          />
+          >
           <p>
             <span data-test="miscName">{{
               getMiscById(misc.miscId).name
@@ -84,7 +95,9 @@
           </p>
         </li>
       </ul>
-      <p class="order__address">{{ getAddress(order) }}</p>
+      <p class="order__address">
+        {{ getAddress(order) }}
+      </p>
     </section>
   </div>
 </template>
@@ -98,10 +111,28 @@ export default {
   middlewares: [auth],
   layout: "AppLayoutProfile",
   data: () => ({}),
+  computed: {
+    ...mapState("Profile", ["orders"]),
+    ...mapGetters("Cart", ["getMiscById"]),
+    ...mapGetters("Builder", [
+      "getDoughById",
+      "getSauceById",
+      "getSizeById",
+      "getIngredientById",
+    ]),
+  },
+
+  created() {
+    this.$store.dispatch("Profile/getOrders");
+    this.$store.dispatch("Cart/getItems");
+    this.$store.dispatch("Builder/init");
+  },
+
   methods: {
     sauceName(sauceId) {
       return this.getSauceById(sauceId)?.name.toLowerCase();
     },
+
     sizeName(sizeId) {
       return this.getSizeById(sizeId)?.name;
     },
@@ -125,6 +156,7 @@ export default {
       }
       return address;
     },
+
     getFillings(pizza) {
       let fillings = [];
       for (let value of pizza.ingredients) {
@@ -134,10 +166,13 @@ export default {
       }
       return fillings.toString();
     },
+
     ...mapActions("Profile", ["deleteOrder"]),
+
     async delOrder(orderId) {
       await this.deleteOrder(orderId);
     },
+
     addPizzaToCart(order) {
       let pizzas = [];
       if (order.orderPizzas != null && order.orderPizzas.length > 0) {
@@ -166,6 +201,7 @@ export default {
       });
       this.$router.push({ name: "CartView" });
     },
+
     doughName(dough) {
       if (dough != null) {
         let doughName;
@@ -176,6 +212,7 @@ export default {
         return doughName;
       }
     },
+
     pizzaPrice(pizza) {
       let ingridientPrice = 0;
       for (let value of pizza.ingredients) {
@@ -189,6 +226,7 @@ export default {
         this.getSizeById(pizza.sizeId)?.multiplier;
       return price;
     },
+
     totalPrice(order) {
       let price = 0;
       if (order.orderPizzas != null) {
@@ -203,21 +241,6 @@ export default {
       }
       return price;
     },
-  },
-  computed: {
-    ...mapState("Profile", ["orders"]),
-    ...mapGetters("Cart", ["getMiscById"]),
-    ...mapGetters("Builder", [
-      "getDoughById",
-      "getSauceById",
-      "getSizeById",
-      "getIngredientById",
-    ]),
-  },
-  created() {
-    this.$store.dispatch("Profile/getOrders");
-    this.$store.dispatch("Cart/getItems");
-    this.$store.dispatch("Builder/init");
   },
 };
 </script>

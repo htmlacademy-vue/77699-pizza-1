@@ -5,8 +5,8 @@
         type="button"
         class="counter__button counter__button--minus"
         data-test="button--minus"
-        v-bind:disabled="counterValue === 0"
-        v-on:click="changeCount(0)"
+        :disabled="counterValue === 0"
+        @click="changeCount(0)"
       >
         <span class="visually-hidden">Меньше</span>
       </button>
@@ -14,13 +14,13 @@
         type="text"
         name="counter"
         class="counter__input"
-        v-bind:value="counterValue"
-      />
+        :value="counterValue"
+      >
       <button
         type="button"
         class="counter__button counter__button--plus counter__button--orange"
         data-test="button--plus"
-        v-on:click="changeCount(1)"
+        @click="changeCount(1)"
       >
         <span class="visually-hidden">Больше</span>
       </button>
@@ -35,23 +35,35 @@
 <script>
 export default {
   name: "CartItemCounter",
-  data() {
-    return {};
-  },
   props: {
     counterValue: {
       type: Number,
       required: true,
     },
+
     itemPrice: {
       type: Number,
       required: true,
     },
+
     id: {
       type: Number,
-      required: false,
+      default: 0,
     },
   },
+
+  data() {
+    return {};
+  },
+
+  computed: {
+    Price() {
+      let price = 0;
+      price = this.counterValue * this.itemPrice;
+      return price;
+    },
+  },
+
   methods: {
     changeCount(event) {
       let count;
@@ -63,13 +75,6 @@ export default {
         price: this.itemPrice,
         count: count,
       });
-    },
-  },
-  computed: {
-    Price() {
-      let price = 0;
-      price = this.counterValue * this.itemPrice;
-      return price;
     },
   },
 };

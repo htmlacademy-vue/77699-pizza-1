@@ -1,13 +1,13 @@
 <template>
-  <label v-bind:class="labelClass">
+  <label :class="labelClass">
     <input
       type="radio"
-      v-bind:name="name"
-      v-bind:value="value"
-      v-bind:class="inputClass"
-      v-bind:checked="checked"
-      v-on:change="$emit('change', checked)"
-    />
+      :name="name"
+      :value="value"
+      :class="inputClass"
+      :checked="checked"
+      @change="$emit('change', checked)"
+    >
     <b v-if="itemName">{{ itemName }}</b>
     <span>{{ itemDesc }}</span>
   </label>
@@ -15,41 +15,48 @@
 
 <script>
 export default {
-  name: "RadioButton",
+  name: "AppRadioButton",
   props: {
     name: {
       type: String,
       required: true,
     },
+
     value: {
       type: String,
       required: true,
     },
+
     checked: {
       type: Boolean,
       required: true,
     },
+
     inputClass: {
       type: String,
-      required: false,
+      default: "",
     },
+
     labelClass: {
       type: String,
-      required: false,
+      default: "",
     },
+
     itemName: {
       type: String,
-      required: false,
+      default: "",
     },
+
     itemDesc: {
       type: String,
-      required: false,
+      default: "",
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
+@import "~@/assets/scss/blocks/input.scss";
 @import "~@/assets/scss/blocks/radio.scss";
 @import "~@/assets/scss/blocks/dough.scss";
 @import "~@/assets/scss/blocks/diameter.scss";

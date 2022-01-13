@@ -1,20 +1,26 @@
 <template>
   <div class="content__constructor">
-    <div data-test="pizzaContent" v-bind:class="pizzaContent">
-      <AppDrop class="pizza__wrapper" v-on:drop="moveFilling">
+    <div
+      data-test="pizzaContent"
+      :class="pizzaContent"
+    >
+      <AppDrop
+        class="pizza__wrapper"
+        @drop="moveFilling"
+      >
         <transition-group name="fillings">
           <div
             v-for="filling in FillingsArr"
-            v-bind:key="FillingsArr.indexOf(filling)"
+            :key="JSON.stringify(filling)"
             data-test="pizzaFilling"
             class="pizza__filling"
-            v-bind:class="[
+            :class="[
               'pizza__filling--' +
                 filling.filling +
                 ' pizza__filling--' +
                 filling.number,
             ]"
-          ></div>
+          />
         </transition-group>
       </AppDrop>
     </div>
@@ -32,18 +38,11 @@ export default {
   data() {
     return {};
   },
-  methods: {
-    moveFilling(value) {
-      EventBus.$emit("add-filling", {
-        value: value.value,
-        count: 1,
-        price: value.price,
-      });
-    },
-  },
+
   computed: {
     ...mapGetters("Builder", ["getDoughById", "getSauceById", "FillingsArr"]),
     ...mapState("Builder", ["doughId", "sauceId"]),
+
     pizzaContent() {
       let doughChecked = "";
       let dough = this.getDoughById(this.doughId)?.value;
@@ -57,6 +56,16 @@ export default {
         sauceChecked
       );
       return pizzaContent;
+    },
+  },
+
+  methods: {
+    moveFilling(value) {
+      EventBus.$emit("add-filling", {
+        value: value.value,
+        count: 1,
+        price: value.price,
+      });
     },
   },
 };

@@ -4,8 +4,8 @@
       type="button"
       class="counter__button counter__button--disabled counter__button--minus"
       data-test="button--minus"
-      v-bind:disabled="counterValue === 0"
-      v-on:click="changeCount(0)"
+      :disabled="counterValue === 0"
+      @click="changeCount(0)"
     >
       <span class="visually-hidden">Меньше</span>
     </button>
@@ -13,14 +13,14 @@
       type="text"
       name="counter"
       class="counter__input"
-      v-bind:value="counterValue"
-    />
+      :value="counterValue"
+    >
     <button
       type="button"
       class="counter__button counter__button--plus"
       data-test="button--plus"
-      v-bind:disabled="counterValue === 3"
-      v-on:click="changeCount(1)"
+      :disabled="counterValue === 3"
+      @click="changeCount(1)"
     >
       <span class="visually-hidden">Больше</span>
     </button>
@@ -30,15 +30,17 @@
 <script>
 export default {
   name: "ItemCounter",
-  data() {
-    return {};
-  },
   props: {
     counterValue: {
       type: Number,
       required: true,
     },
   },
+
+  data() {
+    return {};
+  },
+
   methods: {
     changeCount(event) {
       let count;

@@ -3,10 +3,9 @@
     <ul class="additional-list">
       <CartOtherItem
         v-for="item in items"
-        v-bind:key="item.id"
-        v-bind:item="item"
-      >
-      </CartOtherItem>
+        :key="item.id"
+        :item="item"
+      />
     </ul>
   </div>
 </template>
@@ -21,6 +20,7 @@ export default {
   data() {
     return {};
   },
+
   computed: {
     ...mapState("Cart", ["items"]),
   },

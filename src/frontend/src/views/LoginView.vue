@@ -1,13 +1,21 @@
 <template>
   <body>
     <div class="sign-form">
-      <router-link :to="{ name: 'IndexHome' }" class="close close--white">
+      <router-link
+        :to="{ name: 'IndexHome' }"
+        class="close close--white"
+      >
         <span class="visually-hidden">Закрыть форму авторизации</span>
       </router-link>
       <div class="sign-form__title">
-        <h1 class="title title--small">Авторизуйтесь на сайте</h1>
+        <h1 class="title title--small">
+          Авторизуйтесь на сайте
+        </h1>
       </div>
-      <form method="post" @submit.prevent="login">
+      <form
+        method="post"
+        @submit.prevent="login"
+      >
         <div class="sign-form__input">
           <label class="input">
             <span>E-mail</span>
@@ -39,7 +47,12 @@
             />
           </label>
         </div>
-        <button type="submit" class="button">Авторизоваться</button>
+        <button
+          type="submit"
+          class="button"
+        >
+          Авторизоваться
+        </button>
       </form>
     </div>
   </body>
@@ -53,8 +66,9 @@ import isLoggedIn from "@/middlewares/isLoggedIn";
 export default {
   name: "LoginView",
   middlewares: [isLoggedIn],
-  layout: "Header",
+  components: { AppInput },
   mixins: [validator],
+  layout: "AppHeader",
   data: () => ({
     email: "",
     password: "",
@@ -65,22 +79,25 @@ export default {
         error: "",
         rules: ["required", "email"],
       },
+
       password: {
         error: "",
         rules: ["required"],
       },
     },
   }),
-  components: { AppInput },
+
   // При изменении любого из полей очищаем ошибки валидации
   watch: {
     email() {
       this.$clearValidationErrors();
     },
+
     password() {
       this.$clearValidationErrors();
     },
   },
+
   methods: {
     async login() {
       // Если есть невалидное поле - не отправлять запрос на сервер.

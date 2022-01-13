@@ -1,7 +1,7 @@
 import { shallowMount } from "@vue/test-utils";
 import AppLayoutProfile from "@/layouts/AppLayoutProfile.vue";
-import Header from "@/layouts/Header.vue";
-import Sidebar from "@/layouts/Sidebar.vue";
+import AppHeader from "@/layouts/AppHeader.vue";
+import AppSidebar from "@/layouts/AppSidebar.vue";
 
 describe("AppLayoutProfile", () => {
   let wrapper;
@@ -16,11 +16,11 @@ describe("AppLayoutProfile", () => {
 
   it("renders Header", () => {
     createComponent();
-    expect(wrapper.findComponent(Header).exists()).toBeTruthy();
+    expect(wrapper.findComponent(AppHeader).exists()).toBeTruthy();
   });
 
-  it("renders Sidebar", () => {
+  it("renders AppSidebar", () => {
     createComponent();
-    expect(wrapper.findComponent(Sidebar).exists()).toBeTruthy();
+    expect(wrapper.findComponent(AppSidebar).exists()).toBeTruthy();
   });
 });

@@ -1,10 +1,16 @@
 <template>
   <body>
-    <form method="post" class="layout-form" @submit.prevent="showModal = true">
+    <form
+      method="post"
+      class="layout-form"
+      @submit.prevent="showModal = true"
+    >
       <main class="content cart">
         <div class="container">
           <div class="cart__title">
-            <h1 class="title title--big">Корзина</h1>
+            <h1 class="title title--big">
+              Корзина
+            </h1>
           </div>
           <CartPizzaView />
           <CartOtherView />
@@ -15,17 +21,17 @@
                 <span class="cart-form__label">Получение заказа:</span>
 
                 <select
+                  v-model="selected"
                   name="test"
                   class="select"
-                  v-model="selected"
                   @change="onChange($event)"
                 >
                   <option value="-1">Заберу сам</option>
                   <option value="0">Новый адрес</option>
                   <option
                     v-for="address in Addresses"
-                    v-bind:value="address.id"
-                    v-bind:key="address.id"
+                    :key="address.id"
+                    :value="address.id"
                   >
                     Адрес: {{ address.name }}
                   </option>
@@ -34,19 +40,26 @@
 
               <label class="input input--big-label">
                 <span>Контактный телефон:</span>
-                <input type="text" name="tel" placeholder="+7 999-999-99-99" />
+                <input
+                  type="text"
+                  name="tel"
+                  placeholder="+7 999-999-99-99"
+                >
               </label>
 
-              <div class="cart-form__address" v-if="selected >= 0">
+              <div
+                v-if="selected >= 0"
+                class="cart-form__address"
+              >
                 <span class="cart-form__label">Новый адрес:</span>
 
                 <div class="cart-form__input">
                   <label class="input">
                     <span>Улица*</span>
                     <AppInput
+                      ref="street"
                       v-model="street"
                       data-test="street"
-                      ref="street"
                       type="text"
                       name="street"
                       class="input"
@@ -59,9 +72,9 @@
                   <label class="input">
                     <span>Дом*</span>
                     <AppInput
+                      ref="building"
                       v-model="building"
                       data-test="building"
-                      ref="building"
                       type="text"
                       name="house"
                       class="input"
@@ -74,9 +87,9 @@
                   <label class="input">
                     <span>Квартира</span>
                     <AppInput
+                      ref="flat"
                       v-model="flat"
                       data-test="flat"
-                      ref="flat"
                       type="text"
                       name="apartment"
                       class="input"
@@ -92,16 +105,16 @@
         <div class="footer__more">
           <router-link :to="{ name: 'IndexHome' }">
             <a
-              @click="resetPizza"
               data-test="reset"
               class="button button--border button--arrow"
+              @click="resetPizza"
             >
               Хочу еще одну
             </a>
           </router-link>
         </div>
         <p class="footer__text">
-          Перейти к конструктору<br />чтоб собрать ещё одну пиццу
+          Перейти к конструктору<br>чтоб собрать ещё одну пиццу
         </p>
         <div class="footer__price">
           <b data-test="price">Итого: {{ CartPrice }} ₽</b>
@@ -112,19 +125,25 @@
             type="submit"
             class="button"
             data-test="addOrder"
-            v-on:click="addOrder"
-            v-bind:disabled="pizzas.length == 0 && misc.length == 0"
-            v-bind:class="[
+            :disabled="pizzas.length == 0 && misc.length == 0"
+            :class="[
               pizzas.length == 0 && misc.length == 0 ? 'button--disabled' : '',
             ]"
+            @click="addOrder"
           >
             Оформить заказ
           </button>
         </div>
       </section>
     </form>
-    <transition name="fade" mode="out-in">
-      <PopupView v-if="showModal" v-on:close="showModal = false" />
+    <transition
+      name="fade"
+      mode="out-in"
+    >
+      <PopupView
+        v-if="showModal"
+        @close="showModal = false"
+      />
     </transition>
   </body>
 </template>
@@ -139,7 +158,7 @@ import AppInput from "@/common/components/AppInput";
 export default {
   name: "CartView",
   components: { PopupView, CartPizzaView, CartOtherView, AppInput },
-  layout: "Header",
+  layout: "AppHeader",
   data() {
     return {
       isShow: false,
@@ -151,16 +170,49 @@ export default {
       building: "",
     };
   },
+
+  computed: {
+    ...mapState("Profile", ["Addresses"]),
+    ...mapGetters("Cart", ["CartPrice"]),
+    ...mapState("Cart", ["pizzas", "misc", "addressId"]),
+    ...mapState(["Auth"]),
+    ...mapState("Auth", ["user", "isAuthenticated"]),
+  },
+
+  created() {
+    this.$store.dispatch("Cart/getItems");
+
+    if (this.isAuthenticated) {
+      this.$store.dispatch("Profile/getAddresses");
+    }
+
+    this.selected = this.addressId;
+
+    if (this.selected > 0) {
+      let addr = this.Addresses.find((item) => item.id == this.selected);
+      this.flat = addr.flat;
+      this.street = addr.street;
+      this.building = addr.building;
+    } else if (this.selected == 0) {
+      this.flat = "";
+      this.street = "";
+      this.building = "";
+    }
+  },
+
   methods: {
     showModals() {
       this.isShow = true;
     },
+
     closeModals() {
       this.isShow = false;
     },
+
     resetPizza() {
       this.$store.commit("Builder/RESET_PIZZA", []);
     },
+
     onChange(event) {
       this.selected = event.target.value;
       if (event.target.value > 0) {
@@ -174,7 +226,9 @@ export default {
         this.building = "";
       }
     },
+
     ...mapActions("Profile", ["postOrder"]),
+
     async addOrder() {
       const userId = this.isAuthenticated ? this.user.id : null;
       let pizzaObj = [];
@@ -226,33 +280,6 @@ export default {
         address: address,
       });
     },
-  },
-  computed: {
-    ...mapState("Profile", ["Addresses"]),
-    ...mapGetters("Cart", ["CartPrice"]),
-    ...mapState("Cart", ["pizzas", "misc", "addressId"]),
-    ...mapState(["Auth"]),
-    ...mapState("Auth", ["user"]),
-    isAuthenticated() {
-      return this.Auth.isAuthenticated;
-    },
-  },
-  created() {
-    this.$store.dispatch("Cart/getItems");
-    if (this.isAuthenticated) {
-      this.$store.dispatch("Profile/getAddresses");
-    }
-    this.selected = this.addressId;
-    if (this.selected > 0) {
-      let addr = this.Addresses.find((item) => item.id == this.selected);
-      this.flat = addr.flat;
-      this.street = addr.street;
-      this.building = addr.building;
-    } else if (this.selected == 0) {
-      this.flat = "";
-      this.street = "";
-      this.building = "";
-    }
   },
 };
 </script>

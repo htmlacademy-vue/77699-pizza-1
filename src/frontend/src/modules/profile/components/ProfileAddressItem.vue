@@ -4,7 +4,11 @@
       <div class="address-form__header">
         <b data-test="addressName">{{ address.name }}</b>
         <div class="address-form__edit">
-          <button type="button" class="icon" v-on:click="addressForm">
+          <button
+            type="button"
+            class="icon"
+            @click="addressForm"
+          >
             <span class="visually-hidden">Изменить адрес</span>
           </button>
         </div>
@@ -15,15 +19,15 @@
       <small data-test="addressComment">{{ address.comment }}</small>
     </div>
     <ProfileNewAddress
-      v-bind:newAddress="false"
-      v-bind:showAddressForm="showAddressForm"
-      v-bind:street="address.street"
-      v-bind:name="address.name"
-      v-bind:building="address.building"
-      v-bind:flat="address.flat"
-      v-bind:comment="address.comment"
-      v-bind:id="address.id"
-      v-on:submit="closeForm"
+      :id="address.id"
+      :new-address="false"
+      :show-address-form="showAddressForm"
+      :street="address.street"
+      :name="address.name"
+      :building="address.building"
+      :flat="address.flat"
+      :comment="address.comment"
+      @submit="closeForm"
     />
   </div>
 </template>
@@ -40,14 +44,17 @@ export default {
       required: true,
     },
   },
+
   data: () => ({
     showAddressForm: false,
   }),
+
   methods: {
     addressForm() {
       this.showAddressForm = !this.showAddressForm;
       this.newAddress = false;
     },
+
     closeForm() {
       this.showAddressForm = false;
     },

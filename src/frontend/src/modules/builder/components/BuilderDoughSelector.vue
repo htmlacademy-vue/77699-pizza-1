@@ -1,20 +1,22 @@
 <template>
   <div class="content__dough">
     <div class="sheet">
-      <h2 class="title title--small sheet__title">Выберите тесто</h2>
+      <h2 class="title title--small sheet__title">
+        Выберите тесто
+      </h2>
 
       <div class="sheet__content dough">
         <RadioButton
           v-for="dough in Doughs"
-          v-bind:key="dough.id"
-          v-bind:labelClass="'dough__input dough__input--' + dough.value"
-          v-bind:checked="dough.id == doughId"
+          :key="dough.id"
+          :label-class="'dough__input dough__input--' + dough.value"
+          :checked="dough.id == doughId"
           name="dought"
-          v-bind:value="dough.value"
-          inputClass="visually-hidden"
-          v-bind:itemName="dough.name"
-          v-bind:itemDesc="dough.description"
-          v-on:change="changeDough(dough)"
+          :value="dough.value"
+          input-class="visually-hidden"
+          :item-name="dough.name"
+          :item-desc="dough.description"
+          @change="changeDough(dough)"
         />
       </div>
     </div>
@@ -22,7 +24,7 @@
 </template>
 
 <script>
-import RadioButton from "@/common/components/RadioButton";
+import RadioButton from "@/common/components/AppRadioButton";
 import { mapState } from "vuex";
 
 export default {
@@ -31,6 +33,11 @@ export default {
   data() {
     return {};
   },
+
+  computed: {
+    ...mapState("Builder", ["Doughs", "doughId"]),
+  },
+
   methods: {
     changeDough(dough) {
       this.$store.commit("Builder/CHANGE_DOUGH", {
@@ -39,14 +46,12 @@ export default {
         Id: dough.id,
       });
     },
+
     getFoundation(value) {
       if (value === "light") {
         return "small";
       } else return "big";
     },
-  },
-  computed: {
-    ...mapState("Builder", ["Doughs", "doughId"]),
   },
 };
 </script>
