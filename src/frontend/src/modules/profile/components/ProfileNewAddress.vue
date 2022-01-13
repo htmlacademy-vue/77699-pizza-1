@@ -206,6 +206,7 @@ export default {
 
     async delAddress() {
       await this.deleteAddress(this.id);
+      this.$emit("submit");
     },
   },
 };
